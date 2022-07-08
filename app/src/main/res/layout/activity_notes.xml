@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/homeNote"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f1f6"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/myScrollViewAllNote"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbarSize="3dp"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_36sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/font"
+                android:maxLines="1"
+                android:text="@string/app_name2"
+                android:textColor="#000000"
+                android:textSize="@dimen/_23ssp" />
+
+            <RelativeLayout
+                android:id="@+id/search_ree"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_search_light">
+
+                <ImageView
+                    android:id="@+id/close_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="-28dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_close"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/edit_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_toStartOf="@+id/close_search"
+                    android:layout_toEndOf="@+id/ic"
+                    android:background="@null"
+                    android:fontFamily="@font/font"
+                    android:gravity="center_vertical"
+                    android:hint="@string/searchs"
+                    android:inputType="textNoSuggestions"
+                    android:textColor="#000000"
+                    android:textColorHint="#969799"
+                    android:textSize="@dimen/_13ssp" />
+
+                <ImageView
+                    android:id="@+id/ic"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    app:srcCompat="@drawable/ic_search2" />
+            </RelativeLayout>
+
+            <com.github.florent37.expansionpanel.ExpansionHeader
+                android:id="@+id/pinHeader"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="gone"
+                app:expansion_headerIndicator="@+id/headerIndicator"
+                app:expansion_headerIndicatorRotationCollapsed="0"
+                app:expansion_headerIndicatorRotationExpanded="90"
+                app:expansion_layout="@+id/pinExpansion"
+                app:expansion_toggleOnClick="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvPinHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:fontFamily="@font/font"
+                        android:text="@string/pinned"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/_16ssp" />
+
+                    <ImageView
+                        android:id="@+id/headerIndicator"
+                        android:layout_width="8dp"
+                        android:layout_height="14dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_28sdp"
+                        android:adjustViewBounds="true"
+                        android:padding="0.2dp"
+                        app:srcCompat="@drawable/ic_next"
+                        app:tint="@color/main_color" />
+                </RelativeLayout>
+            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+            <LinearLayout
+                android:id="@+id/ln_pin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_white_radius">
+
+                <com.github.florent37.expansionpanel.ExpansionLayout
+                    android:id="@+id/pinExpansion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:expansion_expanded="true">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_note_pin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never" />
+                </com.github.florent37.expansionpanel.ExpansionLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/app_name"
+                android:textColor="#000000"
+                android:textSize="@dimen/_16ssp" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:indeterminateTint="@color/main_color"
+                android:padding="@dimen/_5sdp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/ll_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/background_white_radius"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvEmptyNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:fontFamily="@font/font"
+                    android:gravity="center"
+                    android:text="@string/no_notes"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_14ssp"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp"
+        android:background="@drawable/background_header_home"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tvNoteShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/font"
+            android:text="@string/app_name"
+            android:textColor="#000000"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/img_back"
+            android:fontFamily="@font/font"
+            android:gravity="center_vertical"
+            android:text="@string/foldersxl"
+            android:textColor="@color/main_color"
+            android:textSize="@dimen/_14sdp" />
+
+        <LinearLayout
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@drawable/circle_bg"
+            android:gravity="center"
+            android:padding="@dimen/_3sdp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_moree" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/ivMoreHome"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_alignParentBottom="true"
+        android:background="#fcf6f6f6"
+        android:clickable="true"
+        android:focusable="true">
+
+        <View
+            android:id="@+id/viewX"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#cfcccc" />
+
+        <TextView
+            android:id="@+id/tvNoteSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/font"
+            android:text="@string/get_data"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="@dimen/_11ssp" />
+
+        <ImageView
+            android:id="@+id/ivCreateNote"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:padding="8.5dp"
+            android:src="@drawable/ic_write"
+            app:tint="@color/main_color" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/viewBackgroundHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b0000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    <include layout="@layout/layout_home_chooser" />
+</RelativeLayout>
