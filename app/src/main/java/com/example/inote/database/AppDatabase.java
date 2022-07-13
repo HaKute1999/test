@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.inote.R;
 import com.example.inote.dao.FolderDao;
 import com.example.inote.dao.NotesDao;
 import com.example.inote.models.Folder;
@@ -24,6 +25,7 @@ import java.io.File;
         if (null == noteDB) {
            noteDB = Room.databaseBuilder(context, AppDatabase.class, dbName)
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build();
             noteDB.getOpenHelper().getWritableDatabase();
         }

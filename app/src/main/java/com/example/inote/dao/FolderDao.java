@@ -21,4 +21,6 @@ public interface FolderDao {
     public void delete(Folder item);
     @Query("SELECT * FROM folder")
     public List<Folder> getAllFolder();
+    @Query("SELECT COUNT(id) FROM folder")
+    int getRowCount();
 }

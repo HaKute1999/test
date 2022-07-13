@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootFolder"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_45sdp"
+    android:background="@drawable/button_selector_light"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/size_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_toStartOf="@+id/img8"
+        android:text="0"
+        android:textColor="#878789"
+        android:textSize="@dimen/_12ssp" />
+
+    <ImageView
+        android:id="@+id/img8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:src="@drawable/ic_next" />
+
+    <View
+        android:id="@+id/viewFolder"
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_47sdp"
+        android:background="#c8c8c8" />
+
+    <TextView
+        android:id="@+id/tvNameFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_toStartOf="@+id/size_folder"
+        android:layout_toEndOf="@+id/img2"
+        android:ellipsize="end"
+        android:fontFamily="@font/font"
+        android:maxLines="1"
+        android:text="@string/pinned"
+        android:textColor="#000000"
+        android:textSize="@dimen/_14ssp" />
+
+    <ImageView
+        android:id="@+id/img2"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:padding="@dimen/_1sdp"
+        app:tint="@color/main_color"
+        android:src="@drawable/ic_folder"/>
+</RelativeLayout>

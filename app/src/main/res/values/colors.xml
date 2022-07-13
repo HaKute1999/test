@@ -513,4 +513,6 @@
     <color name="white">#ffffff</color>
     <color name="yellow">#ffc90c</color>
     <color name="yellowOpa70">#b3ffc90c</color>
+    <color name="color_main">#f2f1f6</color>
+
 </resources>

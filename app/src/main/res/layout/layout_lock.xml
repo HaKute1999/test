@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutLock"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <View
+        android:id="@+id/viewLock"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <View
+        android:id="@+id/viewLock2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/_36sdp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_above="@+id/tvNoti"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_lock"
+        app:tint="#88878c" />
+
+    <TextView
+        android:id="@+id/tvNoti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/font"
+        android:text="@string/this_note_is_locked"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvViewNote"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_below="@+id/tvNoti"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/font"
+        android:gravity="center_vertical"
+        android:text="@string/view_note"
+        android:textColor="@color/main_color"
+        android:textSize="@dimen/_14ssp" />
+
+    <TextView
+        android:id="@+id/tvForgotPass"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:fontFamily="@font/font"
+        android:gravity="center_vertical"
+        android:text="@string/forgot_pass"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp" />
+</RelativeLayout>

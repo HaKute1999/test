@@ -40,4 +40,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation 'com.github.florent37:expansionpanel:1.2.4'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
 }

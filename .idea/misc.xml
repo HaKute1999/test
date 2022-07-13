@@ -10,9 +10,17 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/button_selector_light_top.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_button_passcode_click.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_number_passcode.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_add_note.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_notes.xml" value="0.25" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_create_folder.xml" value="0.33" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_folder.xml" value="0.18541666666666667" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_home_chooser.xml" value="0.18541666666666667" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_image_chooser.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_lock.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_option.xml" value="0.5253399258343634" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/search_layout.xml" value="0.3625" />
       </map>
     </option>
   </component>
