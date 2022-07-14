@@ -16,7 +16,7 @@ import java.io.File;
 
 @Database(entities = {Note.class, Folder.class}, version = 2)
     public abstract class AppDatabase extends RoomDatabase {
-    private static AppDatabase noteDB;
+    public static AppDatabase noteDB;
     private static final String DB_NAME = "notes.db";
 
     public abstract NotesDao getNoteDAO();

@@ -15,10 +15,10 @@ import java.util.List;
 public interface FolderDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public void insert(Folder... items);
-    @Update
-    public void update(Folder... items);
-    @Delete
-    public void delete(Folder item);
+    @Query("UPDATE folder SET title=:name WHERE id = :id")
+    public void update(int id,String name);
+    @Query("DELETE FROM folder WHERE id = :id")
+    public void delete(int id);
     @Query("SELECT * FROM folder")
     public List<Folder> getAllFolder();
     @Query("SELECT COUNT(id) FROM folder")
