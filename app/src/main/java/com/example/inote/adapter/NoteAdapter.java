@@ -1,9 +1,16 @@
 package com.example.inote.adapter;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,11 +68,51 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             this.tvValueNote = view.findViewById(R.id.tvValueNote);
             this.tvNoteSmall = view.findViewById(R.id.tvNoteSmall);
             this.image_note2 = view.findViewById(R.id.image_note2);
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    showDialogChoose();
+                    return false;
+                }
+            });
         }
 
         @Override
         public void onClick(View view) {
+            showDialogChoose();
+
+        }
+
+        private void showDialogChoose(){
+
+            final Dialog dialog = new Dialog(itemView.getContext(), androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog_longclick);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            RelativeLayout rlPin = dialog.findViewById(R.id.rlPin);
+
+            rlPin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            RelativeLayout rlLock = dialog.findViewById(R.id.rlLock);
+            rlLock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+
+                }
+            });
+
+            dialog.show();
 
         }
     }
+
+
 }

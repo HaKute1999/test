@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/viewBot"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_alignParentBottom="true" />
+
+    <View
+        android:id="@+id/viewtop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dialog2" />
+
+    <RelativeLayout
+        android:id="@+id/dialog2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_above="@+id/rl_bottom"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/background_white_radius">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivNote"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:riv_border_color="#d5d5d5"
+            app:riv_border_width="0.6dp"
+            app:riv_corner_radius="@dimen/_4sdp" />
+
+        <TextView
+            android:id="@+id/tvNameX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_toEndOf="@+id/ivNote"
+            android:ellipsize="end"
+            android:fontFamily="@font/font"
+            android:maxLines="1"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/font"
+            android:maxLines="1"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/viewBot"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:background="@drawable/background_white_radius"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rlPin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_selector_light_top"
+            android:clickable="true"
+            android:focusable="true">
+
+           
+
+            <TextView
+                android:id="@+id/tvPinDl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/pins"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/ivMess"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:src="@drawable/ic_pin"
+                app:tint="@color/black" />
+            <View
+                android:id="@+id/viewM"
+                android:layout_width="match_parent"
+                android:layout_height="0.45dp"
+                android:layout_alignParentBottom="true"
+                android:background="#c7c7c7" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlLock"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:id="@+id/viewM3"
+                android:layout_width="match_parent"
+                android:layout_height="0.45dp"
+                android:layout_alignParentBottom="true"
+                android:background="#c7c7c7" />
+
+            <ImageView
+                android:id="@+id/ivFavorites"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:padding="@dimen/_1sdp"
+                android:src="@drawable/ic_lock"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/locks"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlEdit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/ic_baseline_edit_24"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/edit"
+                android:textColor="@color/black" />
+
+            <View
+                android:id="@+id/viewM4"
+                android:layout_width="match_parent"
+                android:layout_height="0.45dp"
+                android:layout_alignParentBottom="true"
+                android:background="#c7c7c7" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlFolder"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivFolder"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/ic_baseline_folder_24"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/tvFolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/move_to"
+                android:textColor="@color/black" />
+
+            <View
+                android:id="@+id/viewM2"
+                android:layout_width="match_parent"
+                android:layout_height="0.45dp"
+                android:layout_alignParentBottom="true"
+                android:background="#c7c7c7" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlDelete"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_selector_light_bottom"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivCall"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:padding="@dimen/_1sdp"
+                android:src="@drawable/ic_delete_dl"
+                app:tint="#ec4e45" />
+
+            <TextView
+                android:id="@+id/tvDl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/deletes"
+                android:textColor="#ec4e45" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
