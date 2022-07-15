@@ -22,7 +22,11 @@ public interface NotesDao {
     @Query("SELECT * FROM note")
     public List<Note> getAllNotes();
 
-    @Query("SELECT * FROM note WHERE id = :id")
-    public Note getItemNoteById(Long id);
+//    @Query("SELECT * FROM note WHERE idFolder = :idFolder")
+//    public Note getItemNoteById(int idFolder);
 
+    @Query("SELECT * FROM note WHERE idFolder = :idFolder")
+    public List<Note> getAllNoteFolder(int idFolder);
+    @Query("DELETE FROM note WHERE idFolder = :idFolder")
+    public void deleteAllNoteByFolder(int idFolder);
 }

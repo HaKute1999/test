@@ -151,53 +151,7 @@
                     android:src="@drawable/ic_pin" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:visibility="gone"
-                android:id="@+id/rl_rate_pro"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
-                android:background="@drawable/button_selector_light"
-                android:clickable="true"
-                android:focusable="true">
 
-                <ImageView
-                    android:id="@+id/imgRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:src="@drawable/ic_next" />
-
-                <View
-                    android:id="@+id/viewExitRate"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.4dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="@dimen/_47sdp"
-                    android:background="#c8c8c8" />
-
-                <TextView
-                    android:id="@+id/tv_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    android:layout_toEndOf="@+id/imgrate"
-                    android:fontFamily="@font/font"
-                    android:text="Rate 5 ⭐️⭐️⭐️⭐️⭐️"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_14ssp" />
-
-                <ImageView
-                    android:id="@+id/imgrate"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:src="@drawable/star_checked"
-                    app:tint="@color/main_color" />
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rlDeleteNote"

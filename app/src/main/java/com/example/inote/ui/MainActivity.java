@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsets;
@@ -28,12 +29,13 @@ import com.example.inote.adapter.FolderAdapter;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.view.IUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    RelativeLayout rl_gomain;
+public class MainActivity extends BaseActivity implements View.OnClickListener, IUpdate {
+    RelativeLayout rl_gomain,rlDeleteNote,rl_gosetting;
     ImageView ivAddFolder;
     ImageView ivAddNote;
     TextView size_list1;
@@ -47,22 +49,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
         setContentView(R.layout.activity_main);
         initView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            if (window != null) {
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.TRANSPARENT);
-            }
-        }
+
         noteDb = AppDatabase.getInstance(this,DB_NAME);
         setupListFolder();
 
     }
     private void initView(){
         rl_gomain = findViewById(R.id.rl_gomain);
+        rlDeleteNote = findViewById(R.id.rlDeleteNote);
+        rl_gosetting = findViewById(R.id.rl_go_st);
         ivAddFolder = findViewById(R.id.ivAddFolder);
         ivAddNote = findViewById(R.id.ivAddNote);
         size_list1 = findViewById(R.id.size_list1);
@@ -70,20 +68,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sizeDelete = findViewById(R.id.sizeDelete);
         listFolder = findViewById(R.id.listFolder);
         rl_gomain.setOnClickListener(this);
+        rl_gosetting.setOnClickListener(this);
+        rlDeleteNote.setOnClickListener(this);
         ivAddFolder.setOnClickListener(this);
         ivAddNote.setOnClickListener(this);
     }
     private void setupListFolder(){
+        size_list1.setText(noteDb.getNoteDAO().getAllNotes().size()+"");
         listData  =new ArrayList<>();
         listData = noteDb.getFolderDAO().getAllFolder();
         listFolder.setLayoutManager(new LinearLayoutManager(this));
-        folderAdapter = new FolderAdapter(listData);
+        folderAdapter = new FolderAdapter(listData,this);
         listFolder.setAdapter(folderAdapter);
     }
 
     @Override
     protected void onResume() {
         AppDatabase.doesDatabaseExist(this,DB_NAME);
+        setupListFolder();
         super.onResume();
     }
 
@@ -99,6 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (id == R.id.ivAddNote){
             Intent i = new Intent(MainActivity.this,AddNoteActivity.class);
+            startActivity(i);
+        } if (id == R.id.rlDeleteNote){
+            Intent i = new Intent(MainActivity.this,DeleteActivity.class);
+            startActivity(i);
+        } if (id == R.id.rl_go_st){
+            Intent i = new Intent(MainActivity.this,SettingActivity.class);
             startActivity(i);
         }
     }
@@ -128,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else {
                     noteDb.getFolderDAO().insert(new Folder("",edtFolder.getText().toString()));
                     setupListFolder();
+
                 }
                 dialog.dismiss();
 
@@ -137,4 +146,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
 
     }
+
+    @Override
+    public void onFinish() {
+        setupListFolder();
+    }
+
 }

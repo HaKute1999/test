@@ -4,7 +4,7 @@
     android:id="@+id/homeNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_main"
+    android:background="#f2f1f6"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -30,7 +30,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/font"
                 android:maxLines="1"
-                android:text="@string/app_name2"
+                android:text="@string/rcent_deleted"
                 android:textColor="#000000"
                 android:textSize="@dimen/_23ssp" />
 
@@ -38,7 +38,6 @@
                 android:id="@+id/search_ree"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginRight="@dimen/_15sdp"
@@ -82,97 +81,24 @@
                     app:srcCompat="@drawable/ic_search2" />
             </RelativeLayout>
 
-            <com.github.florent37.expansionpanel.ExpansionHeader
-                android:id="@+id/pinHeader"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:visibility="gone"
-                app:expansion_headerIndicator="@+id/headerIndicator"
-                app:expansion_headerIndicatorRotationCollapsed="0"
-                app:expansion_headerIndicatorRotationExpanded="90"
-                app:expansion_layout="@+id/pinExpansion"
-                app:expansion_toggleOnClick="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tvPinHome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_25sdp"
-                        android:fontFamily="@font/font"
-                        android:text="@string/pinned"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/_16ssp" />
-
-                    <ImageView
-                        android:id="@+id/headerIndicator"
-                        android:layout_width="8dp"
-                        android:layout_height="14dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/_28sdp"
-                        android:adjustViewBounds="true"
-                        android:padding="0.2dp"
-                        app:srcCompat="@drawable/ic_next"
-                        app:tint="@color/main_color" />
-                </RelativeLayout>
-            </com.github.florent37.expansionpanel.ExpansionHeader>
-
-            <LinearLayout
-                android:id="@+id/ln_pin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:background="@drawable/background_white_radius">
-
-                <com.github.florent37.expansionpanel.ExpansionLayout
-                    android:id="@+id/pinExpansion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:expansion_expanded="true">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_note_pin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never" />
-                </com.github.florent37.expansionpanel.ExpansionLayout>
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/tvNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_25sdp"
                 android:fontFamily="@font/font"
-                android:text="@string/notes"
-                android:textColor="#000000"
-                android:textSize="@dimen/_16ssp" />
-
-            <ProgressBar
-                android:id="@+id/progress"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
-                android:indeterminateTint="@color/main_color"
-                android:padding="@dimen/_5sdp"
-                android:visibility="gone" />
+                android:text="@string/n_30_dayi"
+                android:textColor="#969799"
+                android:textSize="@dimen/_10ssp" />
 
             <LinearLayout
                 android:id="@+id/ll_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:background="@drawable/background_white_radius"
@@ -192,7 +118,7 @@
                     android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_note"
+                    android:id="@+id/rv_note_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:overScrollMode="never" />
@@ -241,28 +167,6 @@
             android:text="@string/foldersxl"
             android:textColor="@color/main_color"
             android:textSize="@dimen/_14sdp" />
-
-        <LinearLayout
-            android:layout_width="@dimen/_16sdp"
-            android:layout_height="@dimen/_16sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:background="@drawable/circle_bg"
-            android:gravity="center"
-            android:padding="@dimen/_3sdp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_moree" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/ivMoreHome"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -291,26 +195,16 @@
             android:textColor="#000000"
             android:textSize="@dimen/_11ssp" />
 
-        <ImageView
-            android:id="@+id/ivCreateNote"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:padding="8.5dp"
-            android:src="@drawable/ic_write"
-            app:tint="@color/main_color" />
+        <TextView
+            android:id="@+id/tvDeleteAll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/font"
+            android:gravity="center_vertical"
+            android:text="@string/delete_all"
+            android:textColor="@color/main_color"
+            android:textSize="@dimen/_11ssp"
+            android:visibility="gone" />
     </RelativeLayout>
-
-    <View
-        android:id="@+id/viewBackgroundHome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#b0000000"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone" />
-
-    <include layout="@layout/layout_home_chooser" />
 </RelativeLayout>

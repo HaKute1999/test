@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.inote.models.Folder;
+import com.example.inote.models.Note;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface FolderDao {
     public List<Folder> getAllFolder();
     @Query("SELECT COUNT(id) FROM folder")
     int getRowCount();
+    @Query("SELECT * FROM folder WHERE id = :id")
+    public Folder getItemFolder(int id);
+
 }

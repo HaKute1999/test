@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.inote.R;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.ui.AddNoteActivity;
+import com.example.inote.ui.MainActivity;
 import com.makeramen.roundedimageview.RoundedDrawable;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -30,7 +33,7 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private List<Note> data;
-    private Context mContext;
+    private static Context mContext;
     public NoteAdapter (Context context,List<Note> data){
         this.data = data;
         this.mContext = context;
@@ -81,7 +84,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            showDialogChoose();
+            Intent i = new Intent(itemView.getContext(), AddNoteActivity.class);
+            itemView.getContext().startActivity(i);
 
         }
 

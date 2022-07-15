@@ -17,7 +17,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.inote.R;
 import com.example.inote.view.ConfigUtils;
 
-public class AddNoteActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
+public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener {
     RelativeLayout ivMore;
     RelativeLayout menuChooserContainer;
     View viewBackground;
@@ -29,6 +29,7 @@ public class AddNoteActivity extends AppCompatActivity implements TextWatcher, V
         ivMore = findViewById(R.id.ivMore);
         menuChooserContainer = findViewById(R.id.menuChooserContainer);
         viewBackground = findViewById(R.id.viewBackground);
+        onBack();
         ivMore.setOnClickListener(new View.OnClickListener() {
 
             @Override

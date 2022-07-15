@@ -10,9 +10,12 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/button_selector_light_top.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_button_passcode_click.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_number_passcode.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/yesno_delete.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_add_note.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_delete.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_notes.xml" value="0.25" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_setting.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_create_folder.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_delete.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_info.xml" value="0.18541666666666667" />
