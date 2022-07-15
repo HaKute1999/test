@@ -29,4 +29,10 @@ public interface NotesDao {
     public List<Note> getAllNoteFolder(int idFolder);
     @Query("DELETE FROM note WHERE idFolder = :idFolder")
     public void deleteAllNoteByFolder(int idFolder);
+    @Query("SELECT * FROM note WHERE id = :id")
+    public Note getItemNote(int id);
+
+    @Query("UPDATE note SET title=:title, value =:value WHERE id = :id")
+    void updateItem(String title,String value, int id);
+
 }

@@ -33,7 +33,7 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private List<Note> data;
-    private static Context mContext;
+    private  Context mContext;
     public NoteAdapter (Context context,List<Note> data){
         this.data = data;
         this.mContext = context;
@@ -60,7 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         return this.data.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvTitle;
         private TextView tvValueNote;
         private TextView tvNoteSmall;
@@ -85,6 +85,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             Intent i = new Intent(itemView.getContext(), AddNoteActivity.class);
+            i.putExtra("idNote",data.get(getAdapterPosition()).getId());
             itemView.getContext().startActivity(i);
 
         }
