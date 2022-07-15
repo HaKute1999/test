@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/root_dl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_30sdp"
+        android:background="@drawable/background_dialog">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitleFolder2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="@string/view_note"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTitleFolder22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="@string/enter_passcode"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11ssp" />
+
+            <EditText
+                android:id="@+id/edtFolder2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_edt_dialog"
+                android:hint="@string/passcode_6_numbers"
+                android:inputType="number"
+                android:maxLength="6"
+                android:padding="@dimen/_8sdp"
+                android:textColor="#000000"
+                android:textColorHint="#959595"
+                android:textCursorDrawable="@drawable/cursor_drawble"
+                android:textSize="@dimen/_10ssp"
+                android:theme="@style/Edittext" />
+
+            <View
+                android:id="@+id/view1_dl2"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="#b2b2b2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/view2_dl2"
+                    android:layout_width="0.6dp"
+                    android:layout_height="@dimen/_38sdp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#b0b0b0" />
+
+                <TextView
+                    android:id="@+id/tvCancelFolder2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:layout_toStartOf="@+id/view2_dl2"
+                    android:fontFamily="@font/font"
+                    android:gravity="center"
+                    android:text="@string/cancel2"
+                    android:textColor="@color/main_color"
+                    android:textSize="@dimen/_13ssp" />
+
+                <TextView
+                    android:id="@+id/tvOkFolder2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:layout_toEndOf="@+id/view2_dl2"
+                    android:fontFamily="@font/font"
+                    android:gravity="center"
+                    android:text="@string/save"
+                    android:textColor="@color/main_color"
+                    android:textSize="@dimen/_13ssp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

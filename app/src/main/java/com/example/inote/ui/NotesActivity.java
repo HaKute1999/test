@@ -18,13 +18,11 @@ import com.example.inote.models.Note;
 import java.util.List;
 
 public class NotesActivity extends BaseActivity {
-    private static final String DB_NAME = "notes.db";
     NoteAdapter noteAdapter;
     List<Note> noteList;
     RecyclerView rlNote;
-    AppDatabase noteDb;
     ImageView ivCreateNote ;
-    TextView tvMain,tvNoteSize ;
+    TextView tvMain,tvNoteSize,tvEmptyNote ;
     int idFolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +32,20 @@ public class NotesActivity extends BaseActivity {
         tvMain = findViewById(R.id.tvMain);
         tvNoteSize = findViewById(R.id.tvNoteSize);
         ivCreateNote = findViewById(R.id.ivCreateNote);
+        tvEmptyNote = findViewById(R.id.tvEmptyNote);
         onBack();
         Intent intent = getIntent();
          idFolder = intent.getIntExtra("idFolder",0);
 
-        noteDb = AppDatabase.getInstance(this,DB_NAME);
         if (idFolder !=0){
-            tvMain.setText(noteDb.getFolderDAO().getItemFolder(idFolder).getTitle()+"");
+            tvMain.setText(AppDatabase.noteDB.getFolderDAO().getItemFolder(idFolder).getTitle()+"");
+            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNoteFolder(idFolder).size()+ " "+getString(R.string.notes));
+
+        }else {
+            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotes().size()+ " "+getString(R.string.notes));
+
         }
-        tvNoteSize.setText(noteDb.getNoteDAO().getAllNotes().size()+ " "+getString(R.string.notes));
-        if (noteDb.getNoteDAO().getAllNotes().size() == 0){
-            String string = getResources().getString(R.string.thank_you);
-            Note note = new Note(0, true, null, null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
-            noteDb.getNoteDAO().insert(note);
-        }
+
         ivCreateNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,11 +57,11 @@ public class NotesActivity extends BaseActivity {
 
     private void initListNote() {
         if (idFolder != 0){
-            noteList = noteDb.getNoteDAO().getAllNoteFolder(idFolder);
+            noteList = AppDatabase.noteDB.getNoteDAO().getAllNoteFolder(idFolder);
         }else {
-            noteList = noteDb.getNoteDAO().getAllNotes();
-
+            noteList = AppDatabase.noteDB.getNoteDAO().getAllNotes();
         }
+        tvEmptyNote.setVisibility(noteList.size() ==0 ?View.VISIBLE  : View.GONE);
         noteAdapter = new NoteAdapter(getApplicationContext(),noteList);
         rlNote.setLayoutManager(new LinearLayoutManager(this));
 
@@ -71,5 +69,11 @@ public class NotesActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        initListNote();
 
+        super.onResume();
+
+    }
 }

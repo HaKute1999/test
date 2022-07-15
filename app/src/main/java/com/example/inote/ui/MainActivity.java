@@ -54,6 +54,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initView();
 
         noteDb = AppDatabase.getInstance(this,DB_NAME);
+        if (noteDb.getNoteDAO().getAllNotes().size() == 0){
+            String string = getResources().getString(R.string.thank_you);
+            Note note = new Note(0, true, null, null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
+            noteDb.getNoteDAO().insert(note);
+        }
         setupListFolder();
 
     }

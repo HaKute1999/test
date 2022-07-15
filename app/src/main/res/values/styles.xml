@@ -17,4 +17,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="Edittext" parent="@style/Theme.AppCompat.Light">
+        <item name="colorAccent">@color/main_color</item>
+        <item name="colorControlHighlight">#99e4b645</item>
+        <item name="colorPrimary">#ed2727</item>
+        <item name="colorPrimaryDark">#ed2727</item>
+    </style>
 </resources>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/root_dl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_30sdp"
+        android:background="@drawable/background_dialog">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/font"
+                android:gravity="center"
+                android:text="@string/create_passcode"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp" />
+
+            <EditText
+                android:id="@+id/edtPasscode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_edt_dialog"
+                android:fontFamily="@font/font"
+                android:hint="@string/passcode_6_characters"
+                android:inputType="number"
+                android:maxLength="6"
+                android:padding="@dimen/_8sdp"
+                android:textColor="#000000"
+                android:textColorHint="#959595"
+                android:textCursorDrawable="@drawable/cursor_drawble"
+                android:textSize="@dimen/_10ssp"
+                android:theme="@style/Edittext" />
+
+            <EditText
+                android:id="@+id/edtRePasscode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_edt_dialog"
+                android:fontFamily="@font/font"
+                android:hint="@string/confirm_passcode"
+                android:inputType="number"
+                android:maxLength="6"
+                android:padding="@dimen/_8sdp"
+                android:textColor="#000000"
+                android:textColorHint="#959595"
+                android:textCursorDrawable="@drawable/cursor_drawble"
+                android:textSize="@dimen/_10ssp"
+                android:theme="@style/Edittext" />
+
+            <EditText
+                android:id="@+id/edtQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_edt_dialog"
+                android:fontFamily="@font/font"
+                android:hint="@string/who_is_your_idol"
+                android:maxLength="30"
+                android:padding="@dimen/_8sdp"
+                android:textColor="#000000"
+                android:textColorHint="#959595"
+                android:textCursorDrawable="@drawable/cursor_drawble"
+                android:textSize="@dimen/_10ssp"
+                android:theme="@style/Edittext" />
+
+            <EditText
+                android:id="@+id/edtQuestion2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_34sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/background_edt_dialog"
+                android:hint="@string/who_is_your_idol"
+                android:inputType="number"
+                android:maxLength="6"
+                android:padding="@dimen/_8sdp"
+                android:textColor="#000000"
+                android:textColorHint="#959595"
+                android:textCursorDrawable="@drawable/cursor_drawble"
+                android:textSize="@dimen/_10ssp"
+                android:theme="@style/Edittext"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/view1_dl"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:background="#b2b2b2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/view2_dl"
+                    android:layout_width="0.6dp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#b0b0b0" />
+
+                <TextView
+                    android:id="@+id/tvCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_toStartOf="@+id/view2_dl"
+                    android:fontFamily="@font/font"
+                    android:gravity="center"
+                    android:text="@string/cancel2"
+                    android:textColor="@color/main_color"
+                    android:textSize="@dimen/_13ssp" />
+
+                <TextView
+                    android:id="@+id/tvOk"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_toEndOf="@+id/view2_dl"
+                    android:fontFamily="@font/font"
+                    android:gravity="center"
+                    android:text="@string/ok"
+                    android:textColor="@color/main_color"
+                    android:textSize="@dimen/_13ssp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
