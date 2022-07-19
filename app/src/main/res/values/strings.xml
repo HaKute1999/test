@@ -904,4 +904,5 @@
     <string name="you_are_not_in_sync">You are not in sync</string>
     <string name="you_sync">You synced notes at:</string>
     <string name="your_sounds">Your sounds</string>
+    <string name="pass_not_connect">Password is not correct</string>
 </resources>

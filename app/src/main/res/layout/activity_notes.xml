@@ -70,6 +70,7 @@
                     android:hint="@string/searchs"
                     android:inputType="textNoSuggestions"
                     android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/cursor_drawble"
                     android:textColorHint="#969799"
                     android:textSize="@dimen/_13ssp" />
 
@@ -111,8 +112,8 @@
 
                     <ImageView
                         android:id="@+id/headerIndicator"
-                        android:layout_width="8dp"
-                        android:layout_height="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/_28sdp"

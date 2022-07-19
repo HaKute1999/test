@@ -34,5 +34,17 @@ public interface NotesDao {
 
     @Query("UPDATE note SET title=:title, value =:value WHERE id = :id")
     void updateItem(String title,String value, int id);
+    @Query("UPDATE note SET protectionType=:protectionType WHERE id = :id")
+    void updateprotectionType(int protectionType, int id);
+    @Query("UPDATE note SET isPinned=:pin WHERE id = :id")
+    void updatePinned(boolean pin, int id);
+    @Query("DELETE FROM note WHERE id = :id")
+    public void deleteItemNote(int id);
 
+    @Query("SELECT * FROM note WHERE isPinned = :ispin AND idFolder = :idFolder")
+    public List<Note> getNotePin(boolean ispin,int idFolder);
+    @Query("SELECT * FROM note WHERE isPinned = :ispin")
+    public List<Note> getAllNotePin(boolean ispin);
+    @Query("UPDATE note SET idFolder=:idFolder WHERE id = :id")
+    void updateFolder(int idFolder, int id);
 }

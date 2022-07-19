@@ -59,7 +59,7 @@
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:src="@drawable/ic_folder"
-        />
+        android:tint="@color/hint_black"/>
 
     <TextView
         android:id="@+id/tvNoteSmall"

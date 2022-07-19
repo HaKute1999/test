@@ -30,6 +30,7 @@ import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
 import com.example.inote.view.IUpdate;
+import com.example.inote.view.ShareUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +53,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setFullScreen();
         setContentView(R.layout.activity_main);
         initView();
-
+        new ShareUtils(this);
         noteDb = AppDatabase.getInstance(this,DB_NAME);
         if (noteDb.getNoteDAO().getAllNotes().size() == 0){
             String string = getResources().getString(R.string.thank_you);
-            Note note = new Note(0, true, null, null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
+            Note note = new Note(0, false, null, null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
             noteDb.getNoteDAO().insert(note);
         }
         setupListFolder();

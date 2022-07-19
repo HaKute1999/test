@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
         <activity
+            android:name=".ui.DrawNoteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.SettingActivity"
             android:exported="false" />
         <activity

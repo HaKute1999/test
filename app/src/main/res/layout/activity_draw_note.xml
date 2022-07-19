@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainDraw"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.nhstudio.inote.ui.customview.DrawingView
+        android:id="@+id/drawView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorErase"
+        app:layout_constraintBottom_toTopOf="@+id/bottomView"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/colorErase"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintTop_toTopOf="0">
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorErase">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:paddingLeft="@dimen/_6sdp"
+                android:paddingTop="@dimen/_6sdp"
+                android:paddingRight="@dimen/_6sdp"
+                android:paddingBottom="@dimen/_6sdp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="0"
+                app:layout_constraintLeft_toLeftOf="0"
+                app:layout_constraintTop_toTopOf="0" />
+
+            <TextView
+                android:id="@+id/tvBackPaint"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-6dp"
+                android:layout_toEndOf="@+id/ivBack"
+                android:fontFamily="@font/font"
+                android:gravity="center_vertical"
+                android:text="@string/back"
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/tvDone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/space_screen_small"
+                android:fontFamily="@font/font"
+                android:gravity="center_vertical"
+                android:text="@string/save"
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/_14ssp" />
+
+            <LinearLayout
+                android:id="@+id/llUndoRedo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="0"
+                app:layout_constraintRight_toRightOf="0">
+
+                <ImageView
+                    android:id="@+id/ivUndo"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:alpha="0.4"
+                    android:background="@drawable/circle_bg"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/ic_undo_arrow"
+                    app:layout_constraintLeft_toLeftOf="0" />
+
+                <ImageView
+                    android:id="@+id/ivRedo"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:alpha="0.4"
+                    android:background="@drawable/circle_bg"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/ic_redo_arrow"
+                    app:layout_constraintLeft_toLeftOf="0" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_bottom_view"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintHeight_percent="0.1" />
+
+    <ImageView
+        android:id="@+id/ivPencil"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/pen1"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintRight_toLeftOf="@+id/ivMarker" />
+
+    <ImageView
+        android:id="@+id/ivMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/pen2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintRight_toLeftOf="@+id/ivErase" />
+
+    <ImageView
+        android:id="@+id/ivErase"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/pen5"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintRight_toRightOf="0" />
+
+    <FrameLayout
+        android:id="@+id/color_picker"
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:background="@drawable/roll2"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintRight_toRightOf="0">
+
+        <ImageView
+            android:id="@+id/ivChooseColor"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/circle_bg3"
+            app:tint="@color/main_color" />
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/boxPencil"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/space_screen_normal"
+        android:background="@drawable/bg_draw_selecting"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/arrowPencil"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintWidth_percent="0.62">
+
+        <FrameLayout
+            android:id="@+id/fr_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            app:layout_constraintHeight_percent="0.58"
+            app:layout_constraintTop_toTopOf="0">
+
+            <com.nhstudio.inote.ui.customview.LinePreview
+                android:id="@+id/pencilPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBarPencil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_line"
+            android:layout_marginRight="@dimen/space_line"
+            android:progressDrawable="@drawable/seekbar_progress_drawable"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintLeft_toLeftOf="0"
+            app:layout_constraintRight_toRightOf="0"
+            app:layout_constraintTop_toBottomOf="@+id/fr_1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/arrowPencil"
+        android:layout_width="@dimen/img_size_small"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_arrow_down_gray"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toTopOf="@+id/ivPencil"
+        app:layout_constraintLeft_toLeftOf="@+id/ivPencil"
+        app:layout_constraintRight_toRightOf="@+id/ivPencil" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/boxMarker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:background="@drawable/bg_draw_selecting"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/arrowMarker"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintWidth_percent="0.62">
+
+        <FrameLayout
+            android:id="@+id/fr_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            app:layout_constraintHeight_percent="0.58"
+            app:layout_constraintTop_toTopOf="0">
+
+            <com.nhstudio.inote.ui.customview.LinePreview
+                android:id="@+id/markerPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBarMarker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_line"
+            android:layout_marginRight="@dimen/space_line"
+            android:progressDrawable="@drawable/seekbar_progress_drawable"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintLeft_toLeftOf="0"
+            app:layout_constraintRight_toRightOf="0"
+            app:layout_constraintTop_toBottomOf="@+id/fr_2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/arrowMarker"
+        android:layout_width="@dimen/img_size_small"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_arrow_down_gray"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toTopOf="@+id/ivMarker"
+        app:layout_constraintLeft_toLeftOf="@+id/ivMarker"
+        app:layout_constraintRight_toRightOf="@+id/ivMarker" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/boxErase"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_screen_normal"
+        android:background="@drawable/bg_draw_selecting"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/arrowErase"
+        app:layout_constraintHeight_percent="0.17"
+        app:layout_constraintRight_toRightOf="0"
+        app:layout_constraintWidth_percent="0.62">
+
+        <FrameLayout
+            android:id="@+id/fr_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            app:layout_constraintHeight_percent="0.58"
+            app:layout_constraintTop_toTopOf="0">
+
+            <com.nhstudio.inote.ui.customview.LinePreview
+                android:id="@+id/erasePreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBarErase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_line"
+            android:layout_marginRight="@dimen/space_line"
+            android:progressDrawable="@drawable/seekbar_progress_drawable"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintBottom_toBottomOf="0"
+            app:layout_constraintLeft_toLeftOf="0"
+            app:layout_constraintRight_toRightOf="0"
+            app:layout_constraintTop_toBottomOf="@+id/fr_3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/arrowErase"
+        android:layout_width="@dimen/img_size_small"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_arrow_down_gray"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/ivErase"
+        app:layout_constraintLeft_toLeftOf="@+id/ivErase"
+        app:layout_constraintRight_toRightOf="@+id/ivErase" />
+
+    <ImageView
+        android:id="@+id/arrowColor"
+        android:layout_width="@dimen/img_size_small"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_arrow_down_gray"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/ivMarker"
+        app:layout_constraintLeft_toLeftOf="@+id/color_picker"
+        app:layout_constraintRight_toRightOf="@+id/color_picker" />
+</androidx.constraintlayout.widget.ConstraintLayout>

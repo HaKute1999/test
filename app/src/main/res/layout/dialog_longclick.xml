@@ -87,7 +87,6 @@
             android:clickable="true"
             android:focusable="true">
 
-           
 
             <TextView
                 android:id="@+id/tvPinDl"
