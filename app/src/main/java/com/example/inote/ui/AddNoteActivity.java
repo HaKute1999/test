@@ -1,5 +1,6 @@
 package com.example.inote.ui;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -29,26 +30,36 @@ import com.example.inote.models.Note;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.ShareUtils;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class AddNoteActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
     RelativeLayout ivMore;
-    RelativeLayout menuChooserContainer,layoutLock;
+    RelativeLayout menuChooserContainer,layoutLock,imageChooserContainer;
     View viewBackground;
     EditText edtTitle,text_note_view;
-    TextView tvTime,tvViewNote;
+    TextView tvTime,tvViewNote,tvChoosePhoto,tvTakePhoto;
     int idNote;
     int idFolder;
+    ImageView ivDraw,ivPhoto,ivCreate,ivChecklist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         ivMore = findViewById(R.id.ivMore);
+        ivPhoto = findViewById(R.id.ivPhoto);
+        ivCreate = findViewById(R.id.ivCreate);
+        ivChecklist = findViewById(R.id.ivChecklist);
         menuChooserContainer = findViewById(R.id.menuChooserContainer);
+        imageChooserContainer = findViewById(R.id.imageChooserContainer);
         layoutLock = findViewById(R.id.layoutLock);
         viewBackground = findViewById(R.id.viewBackground);
         edtTitle = findViewById(R.id.edtTitle);
         text_note_view = findViewById(R.id.text_note_view);
         tvViewNote = findViewById(R.id.tvViewNote);
         tvTime = findViewById(R.id.tvTime);
+        ivDraw = findViewById(R.id.ivDraw);
+        tvChoosePhoto = findViewById(R.id.tvChoosePhoto);
         Intent intent = getIntent();
         idNote = intent.getIntExtra("idNote",0);
         idFolder = intent.getIntExtra("idFolder",0);
@@ -79,23 +90,70 @@ public class AddNoteActivity extends AppCompatActivity implements TextWatcher, V
         viewBackground.setOnClickListener(view -> {
             ConfigUtils.hideKeyboard(AddNoteActivity.this);
             viewBackground.setVisibility(View.GONE);
+            imageChooserContainer.setVisibility(View.GONE);
 
-            YoYo.with(Techniques.SlideOutDown).duration(500L).onEnd(new YoYo.AnimatorCallback() {
+            YoYo.with(Techniques.SlideOutDown).duration(300L).onEnd(new YoYo.AnimatorCallback() {
                 @Override
                 public final void call(Animator animator) {
                     menuChooserContainer.setVisibility(View.GONE);
                 }
             }).playOn(findViewById(R.id.menuChooserContainer));
 
+
         });
         tvViewNote.setOnClickListener(view -> {
             showDialogConfirmDialog();
         });
+        ivDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(AddNoteActivity.this,DrawNoteActivity.class);
+                startActivity(intent1);
+            }
+        });
+        ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                viewBackground.setVisibility(View.VISIBLE);
+//                YoYo.with(Techniques.SlideInUp).duration(100L).playOn(viewBackground);
+                YoYo.with(Techniques.SlideInDown).duration(200L).onEnd(new YoYo.AnimatorCallback() {
+                    @Override
+                    public final void call(Animator animator) {
+                        imageChooserContainer.setVisibility(View.VISIBLE);
+                    }
+                }).playOn(findViewById(R.id.imageChooserContainer));
+            }
+        });
+        tvChoosePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewBackground.setVisibility(View.GONE);
+                imageChooserContainer.setVisibility(View.GONE);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
+
+    }
+    public static final int PICK_IMAGE = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE) {
+            try {
+                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onBackPressed() {
-        Log.d("cdjcncd",edtTitle.getText().toString());
         if (idNote !=0){
             AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(),text_note_view.getText().toString(),idNote);
         }else if(edtTitle.getText().toString().length() != 0|| text_note_view.getText().toString().length() !=0){

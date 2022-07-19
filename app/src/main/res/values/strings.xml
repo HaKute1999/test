@@ -905,4 +905,19 @@
     <string name="you_sync">You synced notes at:</string>
     <string name="your_sounds">Your sounds</string>
     <string name="pass_not_connect">Password is not correct</string>
+    <string name="pencil">Pencil</string>
+    <string name="airbrush">AirBrush</string>
+    <string name="calligraphy">Calligraphy</string>
+    <string name="pen">Pen</string>
+    <string name="eraser">Eraser</string>
+
+    <string name="clear">clear()</string>
+    <string name="reset_zoom">resetZoom()</string>
+    <string name="enterzoommode">enterZoomMode()</string>
+    <string name="exitzoommode">exitZoomMode()</string>
+    <string name="import_bitmap">setDrawingBitmap()</string>
+    <string name="export">export()</string>
+    <string name="export_without_bg">exportWithoutBackground()</string>
+    <string name="confirm">Confirm</string>
 </resources>
+

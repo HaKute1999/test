@@ -53,23 +53,23 @@
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
 
-            <View
-                android:id="@+id/viewCam2"
-                android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:background="#c6c6c6" />
+<!--            <View-->
+<!--                android:id="@+id/viewCam2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0.3dp"-->
+<!--                android:background="#c6c6c6" />-->
 
-            <TextView
-                android:id="@+id/tvVoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
-                android:gravity="center"
-                android:padding="@dimen/_14sdp"
-                android:text="@string/voice_memos"
-                android:textColor="#000000"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/tvVoice"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/font"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="@dimen/_14sdp"-->
+<!--                android:text="@string/voice_memos"-->
+<!--                android:textColor="#000000"-->
+<!--                android:textSize="@dimen/_14ssp"-->
+<!--                android:textStyle="bold" />-->
         </LinearLayout>
 
         <TextView

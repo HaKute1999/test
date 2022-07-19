@@ -6,13 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <com.nhstudio.inote.ui.customview.DrawingView
-        android:id="@+id/drawView"
+    <com.example.inote.view.drawingview.DrawingView
+        android:id="@+id/drawing_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorErase"
         app:layout_constraintBottom_toTopOf="@+id/bottomView"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:brush="pen"
+        app:brush_size="1"
+        app:brush_color="#2187bb"
+       />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,7 +31,7 @@
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp"
-        app:layout_constraintTop_toTopOf="0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:id="@+id/rl"
@@ -44,9 +48,9 @@
                 android:paddingRight="@dimen/_6sdp"
                 android:paddingBottom="@dimen/_6sdp"
                 android:src="@drawable/ic_back"
-                app:layout_constraintBottom_toBottomOf="0"
-                app:layout_constraintLeft_toLeftOf="0"
-                app:layout_constraintTop_toTopOf="0" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvBackPaint"
@@ -79,29 +83,29 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="0"
-                app:layout_constraintRight_toRightOf="0">
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <ImageView
                     android:id="@+id/ivUndo"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    android:alpha="0.4"
+                    android:alpha="0.8"
                     android:background="@drawable/circle_bg"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_undo_arrow"
-                    app:layout_constraintLeft_toLeftOf="0" />
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView
                     android:id="@+id/ivRedo"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
-                    android:alpha="0.4"
+                    android:alpha="0.8"
                     android:background="@drawable/circle_bg"
                     android:padding="@dimen/_4sdp"
                     android:src="@drawable/ic_redo_arrow"
-                    app:layout_constraintLeft_toLeftOf="0" />
+                    app:layout_constraintLeft_toLeftOf="parent" />
             </LinearLayout>
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -111,7 +115,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/bg_bottom_view"
-        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.1" />
 
     <ImageView
@@ -122,7 +126,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/pen1"
-        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintRight_toLeftOf="@+id/ivMarker" />
 
@@ -134,8 +138,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/pen2"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintRight_toLeftOf="@+id/ivErase" />
 
@@ -147,11 +150,11 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/pen5"
-        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintHorizontal_bias="0.55"
-        app:layout_constraintLeft_toLeftOf="0"
-        app:layout_constraintRight_toRightOf="0" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <FrameLayout
         android:id="@+id/color_picker"
@@ -162,11 +165,11 @@
         android:layout_marginEnd="@dimen/_25sdp"
         android:layout_marginBottom="@dimen/_15sdp"
         android:background="@drawable/roll2"
-        app:layout_constraintBottom_toBottomOf="0"
-        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintLeft_toLeftOf="0"
-        app:layout_constraintRight_toRightOf="0">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
             android:id="@+id/ivChooseColor"
@@ -186,7 +189,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/arrowPencil"
         app:layout_constraintHeight_percent="0.17"
-        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintWidth_percent="0.62">
 
         <FrameLayout
@@ -195,25 +198,25 @@
             android:layout_height="0dp"
             android:layout_margin="4dp"
             app:layout_constraintHeight_percent="0.58"
-            app:layout_constraintTop_toTopOf="0">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.nhstudio.inote.ui.customview.LinePreview
-                android:id="@+id/pencilPreview"
+            <com.example.inote.view.drawingview.BrushView
+                android:id="@+id/brush_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/seekBarPencil"
+            android:id="@+id/size_seek_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_line"
             android:layout_marginRight="@dimen/space_line"
             android:progressDrawable="@drawable/seekbar_progress_drawable"
             android:thumb="@drawable/seekbar_thumb"
-            app:layout_constraintBottom_toBottomOf="0"
-            app:layout_constraintLeft_toLeftOf="0"
-            app:layout_constraintRight_toRightOf="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fr_1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -225,7 +228,7 @@
         android:adjustViewBounds="true"
         android:src="@drawable/ic_arrow_down_gray"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/ivPencil"
         app:layout_constraintLeft_toLeftOf="@+id/ivPencil"
         app:layout_constraintRight_toRightOf="@+id/ivPencil" />
@@ -239,7 +242,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/arrowMarker"
         app:layout_constraintHeight_percent="0.17"
-        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintWidth_percent="0.62">
 
         <FrameLayout
@@ -248,9 +251,9 @@
             android:layout_height="0dp"
             android:layout_margin="4dp"
             app:layout_constraintHeight_percent="0.58"
-            app:layout_constraintTop_toTopOf="0">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.nhstudio.inote.ui.customview.LinePreview
+            <com.example.inote.view.drawingview.BrushView
                 android:id="@+id/markerPreview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -264,9 +267,9 @@
             android:layout_marginRight="@dimen/space_line"
             android:progressDrawable="@drawable/seekbar_progress_drawable"
             android:thumb="@drawable/seekbar_thumb"
-            app:layout_constraintBottom_toBottomOf="0"
-            app:layout_constraintLeft_toLeftOf="0"
-            app:layout_constraintRight_toRightOf="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fr_2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -278,7 +281,7 @@
         android:adjustViewBounds="true"
         android:src="@drawable/ic_arrow_down_gray"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/ivMarker"
         app:layout_constraintLeft_toLeftOf="@+id/ivMarker"
         app:layout_constraintRight_toRightOf="@+id/ivMarker" />
@@ -292,7 +295,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/arrowErase"
         app:layout_constraintHeight_percent="0.17"
-        app:layout_constraintRight_toRightOf="0"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintWidth_percent="0.62">
 
         <FrameLayout
@@ -301,9 +304,9 @@
             android:layout_height="0dp"
             android:layout_margin="4dp"
             app:layout_constraintHeight_percent="0.58"
-            app:layout_constraintTop_toTopOf="0">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.nhstudio.inote.ui.customview.LinePreview
+            <com.example.inote.view.drawingview.BrushView
                 android:id="@+id/erasePreview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -317,9 +320,9 @@
             android:layout_marginRight="@dimen/space_line"
             android:progressDrawable="@drawable/seekbar_progress_drawable"
             android:thumb="@drawable/seekbar_thumb"
-            app:layout_constraintBottom_toBottomOf="0"
-            app:layout_constraintLeft_toLeftOf="0"
-            app:layout_constraintRight_toRightOf="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fr_3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
