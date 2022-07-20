@@ -5,16 +5,19 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.example.inote.R;
 import com.example.inote.dao.FolderDao;
 import com.example.inote.dao.NotesDao;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.view.Converters;
 
 import java.io.File;
 
 @Database(entities = {Note.class, Folder.class}, version = 2)
+@TypeConverters({Converters.class})
     public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase noteDB;
     private static final String DB_NAME = "notes.db";

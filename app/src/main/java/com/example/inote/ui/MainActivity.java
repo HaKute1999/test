@@ -9,11 +9,13 @@ import androidx.room.Room;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsets;
@@ -57,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         noteDb = AppDatabase.getInstance(this,DB_NAME);
         if (noteDb.getNoteDAO().getAllNotes().size() == 0){
             String string = getResources().getString(R.string.thank_you);
-            Note note = new Note(0, false, null, null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
+            Note note = new Note(0, false, new ArrayList<>(), null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
             noteDb.getNoteDAO().insert(note);
         }
         setupListFolder();
@@ -92,9 +94,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         AppDatabase.doesDatabaseExist(this,DB_NAME);
         setupListFolder();
+//        permission(MainActivity.this);
         super.onResume();
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 102:
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                    Intent intent = new Intent(MainActivity.this, MyProjectActivity.class);
+////                    startActivity(intent);
+//                    Log.e("value", "Permission Granted, .");
+//                } else {
+//                    Log.e("value", "Permission Denied, .");
+//                }
+                break;
+        }
+    }
     @Override
     public void onClick(View view) {
         int id = view.getId();

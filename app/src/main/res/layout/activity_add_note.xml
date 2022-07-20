@@ -139,15 +139,15 @@
                         android:layout_marginRight="@dimen/_8sdp"
                         android:overScrollMode="never" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_record"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/rv_record"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_8sdp"-->
+<!--                        android:layout_marginTop="@dimen/_10sdp"-->
+<!--                        android:layout_marginRight="@dimen/_8sdp"-->
+<!--                        android:overScrollMode="never"-->
+<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
@@ -165,9 +165,9 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
-                android:textColorHint="#a3a2a2"
-                android:textCursorDrawable="@drawable/cursor_drawble"
-                android:visibility="gone" />
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:textCursorDrawable="@drawable/cursor_drawble" />
 
             <View
                 android:id="@+id/viewClickBottom"

@@ -1,5 +1,8 @@
 package com.example.inote.ui;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,10 +12,17 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.inote.R;
+import com.example.inote.database.AppDatabase;
+
+import java.util.List;
 
 public class BaseActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 102;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +45,31 @@ public class BaseActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+    private void requestStoragePermission(Activity activity , int requestcode) {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+        }
+        ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestcode);
+    }
+
+    public boolean checkReadExternalStoragePermission(Activity activity,int requestcode) {
+        ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((activity),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    requestcode);
+            return false;
+        }else return true;
+    }
+    public boolean  permission(Activity activity){
+        requestStoragePermission(activity,REQUEST_CODE);
+      return   checkReadExternalStoragePermission(activity, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

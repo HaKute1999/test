@@ -31,15 +31,18 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_group_folder.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_info.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_longclick.xml" value="0.25" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_new_checklist_item.xml" value="0.22" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_pass.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_rename.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_folder.xml" value="0.18541666666666667" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_image.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_home_chooser.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_image_chooser.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_lock.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_option.xml" value="0.5253399258343634" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/search_layout.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/xml/file_paths.xml" value="0.18177083333333333" />
       </map>
     </option>
   </component>

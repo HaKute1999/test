@@ -1,27 +1,46 @@
 package com.example.inote.ui;
 
+import static java.util.UUID.randomUUID;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.inote.R;
+import com.example.inote.database.AppDatabase;
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.drawingview.BrushView;
 import com.example.inote.view.drawingview.DrawingView;
 import com.example.inote.view.drawingview.brushes.BrushSettings;
 import com.example.inote.view.drawingview.brushes.Brushes;
 import com.panshen.gridcolorpicker.OnColorSelectListener;
 import com.panshen.gridcolorpicker.builder.ColorPickerDialogBuilder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class DrawNoteActivity extends BaseActivity {
 
@@ -34,11 +53,16 @@ public class DrawNoteActivity extends BaseActivity {
     private ImageView mRedoButton;
     int color  = Color.YELLOW;
     BrushView brushView,markerPreview,erasePreview;
+    TextView tvDone,tvBackPain;
+    int idNote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw_note);
         initVIew();
+        onBack();
+        Intent intent = getIntent();
+        idNote = intent.getIntExtra("idNote",0);
         mDrawingView.setUndoAndRedoEnable(true);
 //        mDrawingView.enterZoomMode();
         brushView.setDrawingView(mDrawingView);
@@ -212,6 +236,18 @@ public class DrawNoteActivity extends BaseActivity {
                 mRedoButton.setEnabled(false);
             }
         });
+        tvDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(DrawNoteActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(DrawNoteActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);//ignoring the request code
+                    return;
+                }
+                Bitmap bitmap = mDrawingView.exportDrawing();
+                exportImage(bitmap);
+                onBackPressed();
+            }
+        });
     }
     private void initVIew(){
         boxPencil = findViewById(R.id.boxPencil);
@@ -231,7 +267,35 @@ public class DrawNoteActivity extends BaseActivity {
         arrowErase = findViewById(R.id.arrowErase);
         arrowMarker = findViewById(R.id.arrowMarker);
         arrowPencil = findViewById(R.id.arrowPencil);
+        tvDone = findViewById(R.id.tvDone);
 
         mDrawingView = findViewById(R.id.drawing_view);
     }
+    private void exportImage(Bitmap bitmap) {
+        String path = getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+"/" +UUID.randomUUID() + ".png";
+        File imageFile = new File(path);
+        try {
+            imageFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ConfigUtils.storeBitmap(imageFile, bitmap);
+            if (idNote != 0){
+                List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
+                listImage.add(path);
+                AppDatabase.noteDB.getNoteDAO().updateListImage(listImage,idNote);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        MediaScannerConnection.scanFile(
+//                this,
+//                new String[]{},
+//                new String[]{"image/png"},
+//                null);
+//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
+    }
+
 }

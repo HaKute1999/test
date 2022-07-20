@@ -4,7 +4,11 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import androidx.annotation.NonNull;
+import androidx.room.TypeConverters;
 
+import com.example.inote.view.Converters;
+
+import java.util.ArrayList;
 import java.util.List;
 @Entity(tableName = "note")
 public class Note {
@@ -12,7 +16,7 @@ public class Note {
     @NonNull private int id;
     private int idFolder;
     private boolean isPinned;
-    private String listImage;
+    private List<String> listImage;
     private String noteStyle;
     private String passNote;
     private String path;
@@ -24,7 +28,7 @@ public class Note {
     private String value;
     private String valueChecklist;
 
-    public Note( int idFolder, boolean isPinned, String listImage, String noteStyle, String passNote, String path, String protectionHash, int protectionType, long timeEdit, String title, int type, String value, String valueChecklist) {
+    public Note( int idFolder, boolean isPinned, List<String> listImage, String noteStyle, String passNote, String path, String protectionHash, int protectionType, long timeEdit, String title, int type, String value, String valueChecklist) {
 
         this.idFolder = idFolder;
         this.isPinned = isPinned;
@@ -65,11 +69,11 @@ public class Note {
         isPinned = pinned;
     }
 
-    public String getListImage() {
+    public List<String> getListImage() {
         return listImage;
     }
 
-    public void setListImage(String listImage) {
+    public void setListImage(List<String> listImage) {
         this.listImage = listImage;
     }
 

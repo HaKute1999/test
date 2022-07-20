@@ -22,9 +22,6 @@ public interface NotesDao {
     @Query("SELECT * FROM note")
     public List<Note> getAllNotes();
 
-//    @Query("SELECT * FROM note WHERE idFolder = :idFolder")
-//    public Note getItemNoteById(int idFolder);
-
     @Query("SELECT * FROM note WHERE idFolder = :idFolder")
     public List<Note> getAllNoteFolder(int idFolder);
     @Query("DELETE FROM note WHERE idFolder = :idFolder")
@@ -47,4 +44,9 @@ public interface NotesDao {
     public List<Note> getAllNotePin(boolean ispin);
     @Query("UPDATE note SET idFolder=:idFolder WHERE id = :id")
     void updateFolder(int idFolder, int id);
+
+    @Query("UPDATE note SET listImage=:listPath WHERE id = :id")
+    void updateListImage(List<String> listPath, int id);
+
+
 }
