@@ -53,7 +53,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     RelativeLayout menuChooserContainer,layoutLock,imageChooserContainer;
     View viewBackground;
     EditText edtTitle,text_note_view,text_note_view2,text_note_view3;
-    TextView tvTime,tvViewNote,tvChoosePhoto,tvTakePhoto;
+    TextView tvTime,tvViewNote,tvChoosePhoto,tvTakePhoto,tvDone;
     int idNote;
     int idFolder;
     ImageView ivDraw,ivPhoto,ivCreate,ivChecklist;
@@ -165,6 +165,12 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
             }
         });
+        tvDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
     static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -192,6 +198,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             }
         });
 
+
         dialog.show();
     }
     private void initView() {
@@ -214,6 +221,9 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         tvTakePhoto = findViewById(R.id.tvTakePhoto);
         checklist_list = findViewById(R.id.checklist_list);
         rv_image = findViewById(R.id.rv_image);
+        tvDone = findViewById(R.id.tvDone);
+        listImage  =new ArrayList<>();
+
     }
 
     public static final int PICK_IMAGE = 1;
@@ -268,8 +278,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         return uri.getPath();
     }
 
-    private void setupListImage(){
-        listImage  =new ArrayList<>();
+    private void setupListImage(List<String> listImage){
         listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
         if (listImage.size() ==0){
             text_note_view3.setVisibility(View.GONE);
@@ -285,25 +294,40 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     protected void onResume() {
         super.onResume();
         if (idNote !=0){
-            setupListImage();
+            setupListImage(listImage);
+        }else {
+            rv_image.setLayoutManager(new GridLayoutManager(this,2));
+            imageNoteAdapter = new ImageNoteAdapter(this,ConfigUtils.listImageCache,this);
+            rv_image.setAdapter(imageNoteAdapter);
 
         }
     }
 
     @Override
     public void onFinish(List<String> data) {
-        AppDatabase.noteDB.getNoteDAO().updateListImage(data,idNote);
         if (idNote !=0){
-            setupListImage();
+            AppDatabase.noteDB.getNoteDAO().updateListImage(data,idNote);
+            setupListImage(listImage);
+        }else {
+            ConfigUtils.listImageCache.clear();
+            ConfigUtils.listImageCache.addAll(data);
+            rv_image.setLayoutManager(new GridLayoutManager(this,2));
+            imageNoteAdapter = new ImageNoteAdapter(this,ConfigUtils.listImageCache,this);
+            rv_image.setAdapter(imageNoteAdapter);
 
         }
     }
 
     @Override
     public void onProgress(String path) {
-        List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
-        listImage.add(path);
-        AppDatabase.noteDB.getNoteDAO().updateListImage(listImage,idNote);
+        if (idNote != 0){
+            List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
+            listImage.add(path);
+            AppDatabase.noteDB.getNoteDAO().updateListImage(listImage,idNote);
+        }else {
+            ConfigUtils.listImageCache.add(path);
+        }
+
     }
 
     @Override
@@ -311,8 +335,11 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         if (idNote !=0){
             AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(),text_note_view.getText().toString(),idNote);
         }else if(edtTitle.getText().toString().length() != 0|| text_note_view.getText().toString().length() !=0){
-            AppDatabase.noteDB.getNoteDAO().insert(new Note(idFolder,false,new ArrayList<String>(),null,null,null,null,0,System.currentTimeMillis(),
+            AppDatabase.noteDB.getNoteDAO().insert(new Note(idFolder,false,ConfigUtils.listImageCache,null,null,null,null,0,System.currentTimeMillis(),
                     edtTitle.getText().toString(),0,text_note_view.getText().toString(),""));
+            ConfigUtils.listImageCache.clear();
+        }else {
+            ConfigUtils.listImageCache.clear();
         }
 
         super.onBackPressed();

@@ -286,6 +286,8 @@ public class DrawNoteActivity extends BaseActivity {
                 List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
                 listImage.add(path);
                 AppDatabase.noteDB.getNoteDAO().updateListImage(listImage,idNote);
+            }else {
+                ConfigUtils.listImageCache.add(path);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -297,5 +299,12 @@ public class DrawNoteActivity extends BaseActivity {
 //                null);
 //        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
     }
+
+
+
+
+
+
+
 
 }

@@ -16,10 +16,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class ConfigUtils {
+    public final static List<String> listImageCache = new ArrayList<>();
     public static void hideKeyboard(Activity activity) {
 
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);

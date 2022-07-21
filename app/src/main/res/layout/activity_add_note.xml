@@ -283,7 +283,7 @@
             android:fontFamily="@font/font"
             android:gravity="center"
             android:paddingLeft="@dimen/_2sdp"
-            android:paddingRight="@dimen/_2sdp"
+            android:paddingRight="@dimen/_10sdp"
             android:text="@string/done"
             android:textColor="@color/main_color"
             android:textSize="@dimen/_13sdp"

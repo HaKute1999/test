@@ -31,6 +31,7 @@ import com.example.inote.adapter.FolderAdapter;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.IUpdate;
 import com.example.inote.view.ShareUtils;
 
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, IUpdate {
-    RelativeLayout rl_gomain,rlDeleteNote,rl_gosetting;
+    RelativeLayout rl_gomain,rlDeleteNote,rl_gosetting,rl_go_pin;
     ImageView ivAddFolder;
     ImageView ivAddNote;
     TextView size_list1;
@@ -55,6 +56,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setFullScreen();
         setContentView(R.layout.activity_main);
         initView();
+        ConfigUtils.listImageCache.clear();
+
         new ShareUtils(this);
         noteDb = AppDatabase.getInstance(this,DB_NAME);
         if (noteDb.getNoteDAO().getAllNotes().size() == 0){
@@ -67,6 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
     private void initView(){
         rl_gomain = findViewById(R.id.rl_gomain);
+        rl_go_pin = findViewById(R.id.rl_go_pin);
         rlDeleteNote = findViewById(R.id.rlDeleteNote);
         rl_gosetting = findViewById(R.id.rl_go_st);
         ivAddFolder = findViewById(R.id.ivAddFolder);
@@ -76,12 +80,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         sizeDelete = findViewById(R.id.sizeDelete);
         listFolder = findViewById(R.id.listFolder);
         rl_gomain.setOnClickListener(this);
+        rl_go_pin.setOnClickListener(this);
         rl_gosetting.setOnClickListener(this);
         rlDeleteNote.setOnClickListener(this);
         ivAddFolder.setOnClickListener(this);
         ivAddNote.setOnClickListener(this);
+        ConfigUtils.listImageCache.clear();
+
     }
     private void setupListFolder(){
+        size_list2.setText(noteDb.getNoteDAO().getAllNotePin(true).size()+"");
         size_list1.setText(noteDb.getNoteDAO().getAllNotes().size()+"");
         listData  =new ArrayList<>();
         listData = noteDb.getFolderDAO().getAllFolder();
@@ -117,6 +125,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int id = view.getId();
         if (id == R.id.rl_gomain){
             Intent i = new Intent(MainActivity.this,NotesActivity.class);
+            startActivity(i);
+        } if (id == R.id.rl_go_pin){
+            Intent i = new Intent(MainActivity.this,NotesActivity.class);
+            i.putExtra("rl_go_pin","pin");
             startActivity(i);
         }
         if (id == R.id.ivAddFolder){

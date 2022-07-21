@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.inote.R;
@@ -30,16 +31,20 @@ public class NotesActivity extends BaseActivity  implements IUpdate {
     List<Note> noteList,noteListPin;
     RecyclerView rlNote,rv_note_pin;
     ImageView ivCreateNote,close_search ;
-    TextView tvMain,tvNoteSize,tvEmptyNote ;
+    TextView tvMain,tvNoteSize,tvEmptyNote,tv_note ;
     ExpansionHeader pinHeader;
     ExpansionLayout expansionLayout;
     EditText edit_result;
     int idFolder;
+    String type;
+    LinearLayout ll_note;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         rlNote = findViewById(R.id.rv_note);
+        tv_note = findViewById(R.id.tvNote);
+        ll_note = findViewById(R.id.ll_note);
         pinHeader = findViewById(R.id.pinHeader);
         expansionLayout = findViewById(R.id.pinExpansion);
         rv_note_pin = findViewById(R.id.rv_note_pin);
@@ -52,13 +57,23 @@ public class NotesActivity extends BaseActivity  implements IUpdate {
         onBack();
         Intent intent = getIntent();
          idFolder = intent.getIntExtra("idFolder",0);
+         type = intent.getStringExtra("rl_go_pin");
+         if (type != null && type.contains("pin")){
+             tv_note.setVisibility(View.GONE);
+             ll_note.setVisibility(View.GONE);
+             pinHeader.setVisibility(View.VISIBLE);
+             expansionLayout.setVisibility(View.VISIBLE);
+             tvMain.setText(getString(R.string.pinned));
+//             tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotePin(true).size()+ " "+getString(R.string.notes));
 
+         }
         ivCreateNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(NotesActivity.this,AddNoteActivity.class);
                 intent1.putExtra("idFolder",idFolder);
                 startActivity(intent1);
+
             }
         });
         edit_result.addTextChangedListener(new TextWatcher() {
