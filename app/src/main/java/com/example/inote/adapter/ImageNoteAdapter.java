@@ -51,7 +51,6 @@ public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.View
 
     @Override
     public void onBindViewHolder(ImageNoteAdapter.ViewHolder holder, int position) {
-//        if (data.get(position).contains("storage/emulated/0/Android/data/com.example.inote")){
             File file = new File(data.get(position));
             Uri uri = Uri.fromFile(file);
             Glide.with(context)

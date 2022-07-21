@@ -101,6 +101,7 @@
                 android:clipToPadding="false"
                 android:overScrollMode="never" />
 
+
             <EditText
                 android:id="@+id/text_note_view2"
                 android:layout_width="match_parent"

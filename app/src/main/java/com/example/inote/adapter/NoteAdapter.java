@@ -265,7 +265,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     if (edtPasscode.getText().toString().length() < 6 && edtRePasscode.getText().toString().length() < 6) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.must_6), Toast.LENGTH_LONG).show();
 
-                    } else if (edtPasscode.getText().toString() == edtRePasscode.getText().toString()) {
+                    } else if (!edtPasscode.getText().toString().contains( edtRePasscode.getText().toString())) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.no_match), Toast.LENGTH_LONG).show();
                     } else if (edtQuestion.getText().toString().length() == 0) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.must_empty), Toast.LENGTH_LONG).show();

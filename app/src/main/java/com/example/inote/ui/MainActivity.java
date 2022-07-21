@@ -102,7 +102,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         AppDatabase.doesDatabaseExist(this,DB_NAME);
         setupListFolder();
-//        permission(MainActivity.this);
         super.onResume();
     }
     @Override
