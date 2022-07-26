@@ -41,7 +41,7 @@ public class BrushView extends View {
                 h - getPaddingTop() - getPaddingBottom(),
                 squareDimension
         );
-        mBrushPreviewPerformer = new BrushPreviewPerformer(getContext(), mBrushes,mBackground.getWidth(), mBackground.getHeight());
+        mBrushPreviewPerformer = new BrushPreviewPerformer(getContext(), mBrushes, mBackground.getWidth(), mBackground.getHeight());
         mBrushPreviewPerformer.setPreviewCallbacks(new BrushPreviewPerformer.PreviewCallbacks() {
             @Override
             public void onPreviewReadyToBeDrawn() {
@@ -55,7 +55,7 @@ public class BrushView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.translate(getPaddingStart(), getPaddingTop());
-        canvas.drawBitmap(mBackground, 0,0,null);
+        canvas.drawBitmap(mBackground, 0, 0, null);
         mBrushPreviewPerformer.drawPreview(canvas);
     }
 
@@ -72,7 +72,7 @@ public class BrushView extends View {
     }
 
     @Override
-    public void invalidate(){
+    public void invalidate() {
         if (mBrushPreviewPerformer != null)
             mBrushPreviewPerformer.preparePreview();
     }

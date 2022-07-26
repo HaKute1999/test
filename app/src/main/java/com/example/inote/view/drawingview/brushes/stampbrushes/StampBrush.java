@@ -11,13 +11,14 @@ public abstract class StampBrush extends Brush {
 
     float mStep;
 
-    StampBrush(int minSizePx, int maxSizePx, int frequency){
+    StampBrush(int minSizePx, int maxSizePx, int frequency) {
         super(minSizePx, maxSizePx);
         mFrequency = frequency;
         updateStep();
     }
 
     public abstract void drawFromTo(Canvas canvas, float lastDrawnPoint[], float x1, float y1);
+
     public abstract void drawPoint(Canvas canvas, float x, float y);
 
     @Override

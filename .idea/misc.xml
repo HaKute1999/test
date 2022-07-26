@@ -10,13 +10,16 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/button_selector_light_top.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/cell_shape.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/circle_bg.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/circle_bg_note.xml" value="0.27" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/cursor_drawble.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_button_passcode_click.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_number_passcode.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_checked_true2.xml" value="0.27" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_redo_arrow.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_undo_arrow.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/seekbar_progress_drawable.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/seekbar_thumb.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/selector.xml" value="0.151" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/yesno_delete.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_add_note.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_delete.xml" value="0.18541666666666667" />
@@ -35,6 +38,8 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_new_checklist_item.xml" value="0.22" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_pass.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_rename.xml" value="0.18541666666666667" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_add_checklist.xml" value="0.18541666666666667" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_checklist.xml" value="0.5" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_folder.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_image.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note.xml" value="0.3625" />

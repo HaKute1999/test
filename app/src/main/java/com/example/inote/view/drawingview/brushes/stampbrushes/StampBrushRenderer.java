@@ -24,7 +24,7 @@ public class StampBrushRenderer implements BrushRenderer {
         }
 
         int size = drawingEvent.size();
-        for (int i = 0; i + 1 < size - 2; i+=2)
+        for (int i = 0; i + 1 < size - 2; i += 2)
             drawTo(drawingEvent.mPoints[i], drawingEvent.mPoints[i + 1]);
 
         if (size != 0) {
@@ -70,6 +70,6 @@ public class StampBrushRenderer implements BrushRenderer {
         float tempY = mLastPoint[1];
         mStampBrush.drawFromTo(mCanvas, mLastPoint, x, y);
         if (tempX == mLastPoint[0] && tempY == mLastPoint[1])
-            mStampBrush.drawPoint(mCanvas, x,y);
+            mStampBrush.drawPoint(mCanvas, x, y);
     }
 }

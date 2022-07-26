@@ -516,5 +516,6 @@
     <color name="color_main">#f2f1f6</color>
     <color name="focused_color">#b3ffc90c</color>
     <color name="hint_color">#b3ffc90c</color>
+    <color name="activated_item_foreground">#44888888</color>
 
 </resources>

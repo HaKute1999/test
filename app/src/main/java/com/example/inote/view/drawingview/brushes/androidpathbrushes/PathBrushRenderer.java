@@ -25,16 +25,16 @@ public class PathBrushRenderer implements BrushRenderer {
         int pointsLength = drawingEvent.size();
 
         int action = drawingEvent.getAction();
-        switch (action){
+        switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mPath.reset();
                 mPath.moveTo(drawingEvent.mPoints[0], drawingEvent.mPoints[1]);
-                for (int i = 2 ; i + 1 < pointsLength ; i += 2)
+                for (int i = 2; i + 1 < pointsLength; i += 2)
                     mPath.lineTo(drawingEvent.mPoints[i], drawingEvent.mPoints[i + 1]);
                 break;
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
-                for (int i = 0 ; i + 1 < pointsLength ; i+=2)
+                for (int i = 0; i + 1 < pointsLength; i += 2)
                     mPath.lineTo(drawingEvent.mPoints[i], drawingEvent.mPoints[i + 1]);
                 break;
         }

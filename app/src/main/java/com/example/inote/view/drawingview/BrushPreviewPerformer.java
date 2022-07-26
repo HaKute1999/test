@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class BrushPreviewPerformer {
 
 
@@ -44,7 +43,7 @@ public class BrushPreviewPerformer {
     private Brush mBrush;//the currently selected brush
     private StampBrush mStampBrush;//the currently selected stamp brush if any
 
-    public interface PreviewCallbacks{
+    public interface PreviewCallbacks {
         void onPreviewReadyToBeDrawn();
     }
 
@@ -55,7 +54,7 @@ public class BrushPreviewPerformer {
         initializeCurvePoints(curvePoints);
         mCurvePath = new Path();
         mCurvePath.moveTo(curvePoints.get(0)[0], curvePoints.get(0)[1]);
-        for (int i = 1 ; i < curvePoints.size() ; i++) {
+        for (int i = 1; i < curvePoints.size(); i++) {
             float[] point = curvePoints.get(i);
             mCurvePath.lineTo(point[0], point[1]);
         }
@@ -63,7 +62,7 @@ public class BrushPreviewPerformer {
         mPreviewBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mPreviewCanvas = new Canvas(mPreviewBitmap);
 
-        mEraserPaint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG);
+        mEraserPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mEraserPaint.setStyle(Paint.Style.STROKE);
         mEraserPaint.setStrokeCap(Paint.Cap.ROUND);
         mEraserPaint.setColor(-1);
@@ -81,8 +80,7 @@ public class BrushPreviewPerformer {
         if (pathBrush instanceof Eraser) {
             mEraserPaint.setStrokeWidth(pathBrush.getPaint().getStrokeWidth());
             canvas.drawPath(mCurvePath, mEraserPaint);//drawFromTo it as a white stroke
-        }
-        else
+        } else
             canvas.drawPath(mCurvePath, pathBrush.getPaint());
     }
 
@@ -126,54 +124,54 @@ public class BrushPreviewPerformer {
         float tempY = mLastPoint[1];
         mStampBrush.drawFromTo(mPreviewCanvas, mLastPoint, x, y);
         if (tempX == mLastPoint[0] && tempY == mLastPoint[1])
-            mStampBrush.drawPoint(mPreviewCanvas, x,y);
+            mStampBrush.drawPoint(mPreviewCanvas, x, y);
     }
 
-    private void initializeCurvePoints(List<float[]> curvePoints){
+    private void initializeCurvePoints(List<float[]> curvePoints) {
 
         int pointListSize = curvePoints.size();
-        mPoints0 = new float[2 * (pointListSize/4)];
-        mPoints1 = new float[2 * (pointListSize/4)];
-        mPoints2 = new float[2 * (pointListSize/4)];
-        mPoints3 = new float[2 * (pointListSize - 3 * (pointListSize/4))];
+        mPoints0 = new float[2 * (pointListSize / 4)];
+        mPoints1 = new float[2 * (pointListSize / 4)];
+        mPoints2 = new float[2 * (pointListSize / 4)];
+        mPoints3 = new float[2 * (pointListSize - 3 * (pointListSize / 4))];
 
-        for (int i = 0 ; i < mPoints0.length ; i++)
-            mPoints0[i] = curvePoints.get(i/2)[i%2];
+        for (int i = 0; i < mPoints0.length; i++)
+            mPoints0[i] = curvePoints.get(i / 2)[i % 2];
 
         int startFrom = mPoints0.length;
-        for (int i = 0 ; i < mPoints1.length ; i++)
-            mPoints1[i] = curvePoints.get( (startFrom + i) / 2 )[i % 2];
+        for (int i = 0; i < mPoints1.length; i++)
+            mPoints1[i] = curvePoints.get((startFrom + i) / 2)[i % 2];
 
         startFrom = mPoints0.length + mPoints1.length;
-        for (int i = 0 ; i < mPoints2.length ; i++)
-            mPoints2[i] = curvePoints.get((startFrom + i)/2)[i % 2];
+        for (int i = 0; i < mPoints2.length; i++)
+            mPoints2[i] = curvePoints.get((startFrom + i) / 2)[i % 2];
 
         startFrom = mPoints0.length + mPoints1.length + mPoints2.length;
-        for (int i = 0 ; i < mPoints3.length ; i++)
-            mPoints3[i] = curvePoints.get((startFrom + i)/2)[i % 2];
+        for (int i = 0; i < mPoints3.length; i++)
+            mPoints3[i] = curvePoints.get((startFrom + i) / 2)[i % 2];
 
     }
 
-    private List<float[]> initializeCurve(Context context, int w, int h){
+    private List<float[]> initializeCurve(Context context, int w, int h) {
         if (w == 0 || h == 0)
             throw new IllegalArgumentException("width & height must be > 0");
         float curvePoints[][] = new float[4][2];
-        curvePoints[0][0] = w/10f;
+        curvePoints[0][0] = w / 10f;
         curvePoints[1][0] = 0.35f * w;
         curvePoints[2][0] = 0.65f * w;
         curvePoints[3][0] = 0.9f * w;
-        curvePoints[0][1] = h/2f;
+        curvePoints[0][1] = h / 2f;
         curvePoints[1][1] = 0;
         curvePoints[2][1] = h;
-        curvePoints[3][1] = h/2f;
+        curvePoints[3][1] = h / 2f;
 
         List<float[]> pointList = new ArrayList<>();
         float approximatedArcLength =
-                Utilities.dist(curvePoints[0][0],curvePoints[0][1], curvePoints[1][0],curvePoints[1][1]) +
-                        Utilities.dist(curvePoints[1][0],curvePoints[1][1],curvePoints[2][0],curvePoints[2][1]) +
-                        Utilities.dist(curvePoints[2][0],curvePoints[2][1],curvePoints[3][0],curvePoints[3][1]);
+                Utilities.dist(curvePoints[0][0], curvePoints[0][1], curvePoints[1][0], curvePoints[1][1]) +
+                        Utilities.dist(curvePoints[1][0], curvePoints[1][1], curvePoints[2][0], curvePoints[2][1]) +
+                        Utilities.dist(curvePoints[2][0], curvePoints[2][1], curvePoints[3][0], curvePoints[3][1]);
         float step = context.getResources().getDisplayMetrics().density;// 1dp
-        int size = (int) (approximatedArcLength/step);
+        int size = (int) (approximatedArcLength / step);
         int i = 0;
         for (; i < size; i++) {
             float[] point = new float[2];
@@ -195,7 +193,7 @@ public class BrushPreviewPerformer {
             if (mStampBrush == null)
                 return true;
 
-            if (message.what == 0){
+            if (message.what == 0) {
                 mLastPoint = null;
                 mPreviewCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
             }
@@ -212,15 +210,14 @@ public class BrushPreviewPerformer {
             else
                 throw new IllegalArgumentException("Undefiled message");
 
-            for (int i = 0 ; i + 1 < points.length - 2; i+=2)
+            for (int i = 0; i + 1 < points.length - 2; i += 2)
                 drawTo(points[i], points[i + 1]);
 
             int pointsLength = points.length;
             if (message.what == 3) {
                 drawAndStop(points[pointsLength - 2], points[pointsLength - 1]);
                 mPreviewCallbacks.onPreviewReadyToBeDrawn();
-            }
-            else
+            } else
                 drawTo(points[pointsLength - 2], points[pointsLength - 1]);
 
             return true;

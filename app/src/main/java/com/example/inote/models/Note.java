@@ -6,14 +6,14 @@ import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 import androidx.room.TypeConverters;
 
-import com.example.inote.view.Converters;
-
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity(tableName = "note")
 public class Note {
     @PrimaryKey(autoGenerate = true)
-    @NonNull private int id;
+    @NonNull
+    private int id;
     private int idFolder;
     private boolean isPinned;
     private List<String> listImage;
@@ -26,9 +26,9 @@ public class Note {
     private String title;
     private int type;
     private String value;
-    private String valueChecklist;
+    private List<CheckItem> valueChecklist;
 
-    public Note( int idFolder, boolean isPinned, List<String> listImage, String noteStyle, String passNote, String path, String protectionHash, int protectionType, long timeEdit, String title, int type, String value, String valueChecklist) {
+    public Note(int idFolder, boolean isPinned, List<String> listImage, String noteStyle, String passNote, String path, String protectionHash, int protectionType, long timeEdit, String title, int type, String value, List<CheckItem> valueChecklist) {
 
         this.idFolder = idFolder;
         this.isPinned = isPinned;
@@ -149,11 +149,11 @@ public class Note {
         this.value = value;
     }
 
-    public String getValueChecklist() {
+    public List<CheckItem> getValueChecklist() {
         return valueChecklist;
     }
 
-    public void setValueChecklist(String valueChecklist) {
+    public void setValueChecklist(List<CheckItem> valueChecklist) {
         this.valueChecklist = valueChecklist;
     }
 }

@@ -20,11 +20,13 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +34,14 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.inote.R;
+import com.example.inote.adapter.CheckListAdapter;
 import com.example.inote.adapter.FolderAdapter;
 import com.example.inote.adapter.ImageNoteAdapter;
 import com.example.inote.database.AppDatabase;
+import com.example.inote.models.CheckItem;
 import com.example.inote.models.Note;
 import com.example.inote.view.ConfigUtils;
+import com.example.inote.view.ICheckList;
 import com.example.inote.view.IUpdate;
 import com.example.inote.view.ShareUtils;
 import com.example.inote.view.drawingview.ICopy;
@@ -48,35 +53,37 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy {
+public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
     RelativeLayout ivMore;
-    RelativeLayout menuChooserContainer,layoutLock,imageChooserContainer;
+    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer;
     View viewBackground;
-    EditText edtTitle,text_note_view,text_note_view2,text_note_view3;
-    TextView tvTime,tvViewNote,tvChoosePhoto,tvTakePhoto,tvDone;
+    EditText edtTitle, text_note_view, text_note_view2, text_note_view3;
+    TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone;
     int idNote;
     int idFolder;
-    ImageView ivDraw,ivPhoto,ivCreate,ivChecklist;
-    RecyclerView rv_image,checklist_list;
+    ImageView ivDraw, ivPhoto, ivCreate, ivChecklist;
+    RecyclerView rv_image, checklist_list;
     ImageNoteAdapter imageNoteAdapter;
-    List<String> listImage ;
+    CheckListAdapter checkListAdapter;
+    List<String> listImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         initView();
         Intent intent = getIntent();
-        idNote = intent.getIntExtra("idNote",0);
-        idFolder = intent.getIntExtra("idFolder",0);
+        idNote = intent.getIntExtra("idNote", 0);
+        idFolder = intent.getIntExtra("idFolder", 0);
 
-        if (idNote !=0){
-            if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getProtectionType() == 1){
+        if (idNote != 0) {
+            if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getProtectionType() == 1) {
                 layoutLock.setVisibility(View.VISIBLE);
             }
             edtTitle.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getTitle());
             text_note_view.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue());
             tvTime.setText(ConfigUtils.formatDateTIme(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getTimeEdit()));
-        }else {
+        } else {
             tvTime.setVisibility(View.GONE);
         }
         findViewById(R.id.tvBack).setOnClickListener(view -> onBackPressed());
@@ -112,8 +119,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ivDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(AddNoteActivity.this,DrawNoteActivity.class);
-                intent1.putExtra("idNote",idNote);
+                Intent intent1 = new Intent(AddNoteActivity.this, DrawNoteActivity.class);
+                intent1.putExtra("idNote", idNote);
                 startActivity(intent1);
             }
         });
@@ -140,21 +147,22 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         tvChoosePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if (permission(AddNoteActivity.this)){
-                   viewBackground.setVisibility(View.GONE);
-                   imageChooserContainer.setVisibility(View.GONE);
-                   Intent intent = new Intent(Intent.ACTION_PICK,
-                           android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                   startActivityForResult(Intent.createChooser(intent, "select Image"),
-                           PICK_IMAGE);
-               };
+                if (permission(AddNoteActivity.this)) {
+                    viewBackground.setVisibility(View.GONE);
+                    imageChooserContainer.setVisibility(View.GONE);
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(Intent.createChooser(intent, "select Image"),
+                            PICK_IMAGE);
+                }
+                ;
 
             }
         });
         tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (permission(AddNoteActivity.this)){
+                if (permission(AddNoteActivity.this)) {
                     viewBackground.setVisibility(View.GONE);
                     imageChooserContainer.setVisibility(View.GONE);
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -173,15 +181,20 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         });
 
     }
+
     static final int REQUEST_IMAGE_CAPTURE = 2;
 
     private void dialogChecklist() {
+        List<EditText> lisChild = new ArrayList<>();
         final Dialog dialog = new Dialog(AddNoteActivity.this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.dialog_new_checklist_item);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView tvA_cancel = dialog.findViewById(R.id.tvA_cancel);
+        LinearLayout checklist_holder = dialog.findViewById(R.id.checklist_holder);
+        ImageView add_item = dialog.findViewById(R.id.add_item);
+        createViewCheckList(lisChild, checklist_holder);
         tvA_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,17 +203,37 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         });
 
         TextView tv_ok = dialog.findViewById(R.id.tv_ok);
+        List<CheckItem> checkItems = new ArrayList<>();
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                for (int i = 0; i < lisChild.size(); i++) {
+                    if (lisChild.get(i).getText().toString().length() != 0) {
+                        checkItems.add(new CheckItem(i, false, lisChild.get(i).getText().toString()));
+                    }
+                }
+                if (idNote != 0) {
+                    checkItems.addAll(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValueChecklist());
+                    AppDatabase.noteDB.getNoteDAO().updateListCheckList(checkItems, idNote);
+                } else {
+                    ConfigUtils.listCheckList.clear();
+                    ConfigUtils.listCheckList.addAll(checkItems);
+
+                }
+                updateCheckList(checkItems);
+
                 dialog.dismiss();
 
             }
         });
+        add_item.setOnClickListener(view -> {
+            createViewCheckList(lisChild, checklist_holder);
 
-
+        });
         dialog.show();
     }
+
     private void initView() {
         ivMore = findViewById(R.id.ivMore);
         ivPhoto = findViewById(R.id.ivPhoto);
@@ -222,7 +255,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         checklist_list = findViewById(R.id.checklist_list);
         rv_image = findViewById(R.id.rv_image);
         tvDone = findViewById(R.id.tvDone);
-        listImage  =new ArrayList<>();
+        listImage = new ArrayList<>();
 
     }
 
@@ -232,33 +265,29 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Uri selectedImageUri = null;
-        if (requestCode == PICK_IMAGE  ) {
-             if (data != null){
-                 selectedImageUri = data.getData();
+        if (requestCode == PICK_IMAGE) {
+            if (data != null) {
+                selectedImageUri = data.getData();
 
-                 String selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
-                 File imageFile = new File(selectedImagePath);
-
-                 String des = ConfigUtils.copyFile(getApplicationContext(),imageFile,this);
-             }
-
-        }
-        else if (requestCode == REQUEST_IMAGE_CAPTURE){
-            if (data.getExtras() != null){
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                selectedImageUri =  ConfigUtils.getImageUri(getApplicationContext(),imageBitmap);
                 String selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
                 File imageFile = new File(selectedImagePath);
-                String des = ConfigUtils.copyFile(getApplicationContext(),imageFile,this);
+
+                String des = ConfigUtils.copyFile(getApplicationContext(), imageFile, this);
+            }
+
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            if (data.getExtras() != null) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                selectedImageUri = ConfigUtils.getImageUri(getApplicationContext(), imageBitmap);
+                String selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
+                File imageFile = new File(selectedImagePath);
+                String des = ConfigUtils.copyFile(getApplicationContext(), imageFile, this);
             }
 
         }
 
     }
-
-
-
 
     public String getRealPathFromURIForGallery(Uri uri) {
         if (uri == null) {
@@ -278,41 +307,57 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         return uri.getPath();
     }
 
-    private void setupListImage(List<String> listImage){
-        listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
-        if (listImage.size() ==0){
+    private void setupListImage() {
+        List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
+        if (listImage.size() == 0) {
             text_note_view3.setVisibility(View.GONE);
-        }else {
+        } else {
             text_note_view3.setVisibility(View.VISIBLE);
         }
-        rv_image.setLayoutManager(new GridLayoutManager(this,2));
-        imageNoteAdapter = new ImageNoteAdapter(this,listImage,this);
+        rv_image.setLayoutManager(new GridLayoutManager(this, 2));
+        imageNoteAdapter = new ImageNoteAdapter(this, listImage, this);
         rv_image.setAdapter(imageNoteAdapter);
+    }
+
+    private void setUpListCheckList() {
+        List<CheckItem> checkItems = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValueChecklist();
+        if (checkItems == null || checkItems.size() == 0) {
+            text_note_view2.setVisibility(View.GONE);
+        } else {
+            text_note_view2.setVisibility(View.VISIBLE);
+        }
+        checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
+        checkListAdapter = new CheckListAdapter(this, checkItems, this);
+        checklist_list.setAdapter(checkListAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (idNote !=0){
-            setupListImage(listImage);
-        }else {
-            rv_image.setLayoutManager(new GridLayoutManager(this,2));
-            imageNoteAdapter = new ImageNoteAdapter(this,ConfigUtils.listImageCache,this);
+        if (idNote != 0) {
+            setupListImage();
+            setUpListCheckList();
+        } else {
+            rv_image.setLayoutManager(new GridLayoutManager(this, 2));
+            imageNoteAdapter = new ImageNoteAdapter(this, ConfigUtils.listImageCache, this);
             rv_image.setAdapter(imageNoteAdapter);
+            checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
+            checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
+            checklist_list.setAdapter(checkListAdapter);
 
         }
     }
 
     @Override
     public void onFinish(List<String> data) {
-        if (idNote !=0){
-            AppDatabase.noteDB.getNoteDAO().updateListImage(data,idNote);
-            setupListImage(listImage);
-        }else {
+        if (idNote != 0) {
+            AppDatabase.noteDB.getNoteDAO().updateListImage(data, idNote);
+            setupListImage();
+        } else {
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listImageCache.addAll(data);
-            rv_image.setLayoutManager(new GridLayoutManager(this,2));
-            imageNoteAdapter = new ImageNoteAdapter(this,ConfigUtils.listImageCache,this);
+            rv_image.setLayoutManager(new GridLayoutManager(this, 2));
+            imageNoteAdapter = new ImageNoteAdapter(this, ConfigUtils.listImageCache, this);
             rv_image.setAdapter(imageNoteAdapter);
 
         }
@@ -320,11 +365,11 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
     @Override
     public void onProgress(String path) {
-        if (idNote != 0){
+        if (idNote != 0) {
             List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
             listImage.add(path);
-            AppDatabase.noteDB.getNoteDAO().updateListImage(listImage,idNote);
-        }else {
+            AppDatabase.noteDB.getNoteDAO().updateListImage(listImage, idNote);
+        } else {
             ConfigUtils.listImageCache.add(path);
         }
 
@@ -332,14 +377,20 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
     @Override
     public void onBackPressed() {
-        if (idNote !=0){
-            AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(),text_note_view.getText().toString(),idNote);
-        }else if(edtTitle.getText().toString().length() != 0|| text_note_view.getText().toString().length() !=0){
-            AppDatabase.noteDB.getNoteDAO().insert(new Note(idFolder,false,ConfigUtils.listImageCache,null,null,null,null,0,System.currentTimeMillis(),
-                    edtTitle.getText().toString(),0,text_note_view.getText().toString(),""));
+        if (idNote != 0) {
+            AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(), text_note_view.getText().toString(), idNote);
+        } else if (edtTitle.getText().toString().length() != 0
+                || text_note_view.getText().toString().length() != 0
+                || ConfigUtils.listCheckList.size() > 0
+                || ConfigUtils.listImageCache.size() > 0) {
+            AppDatabase.noteDB.getNoteDAO().insert(
+                    new Note(idFolder, false, ConfigUtils.listImageCache, null, null, null, null, 0, System.currentTimeMillis(),
+                            edtTitle.getText().toString(), 0, text_note_view.getText().toString(), ConfigUtils.listCheckList));
             ConfigUtils.listImageCache.clear();
-        }else {
+            ConfigUtils.listCheckList.clear();
+        } else {
             ConfigUtils.listImageCache.clear();
+            ConfigUtils.listCheckList.clear();
         }
 
         super.onBackPressed();
@@ -359,6 +410,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     public void afterTextChanged(Editable editable) {
 
     }
+
     private void showDialogConfirmDialog() {
 
         final Dialog dialog = new Dialog(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
@@ -380,11 +432,11 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         tv_delete_note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tv_rename.getText().toString().contains(ShareUtils.getStr(ShareUtils.PASSCODE,""))){
+                if (tv_rename.getText().toString().contains(ShareUtils.getStr(ShareUtils.PASSCODE, ""))) {
                     layoutLock.setVisibility(View.GONE);
                     dialog.dismiss();
 
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.pass_not_connect), Toast.LENGTH_LONG).show();
 
                 }
@@ -394,8 +446,47 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         dialog.show();
 
     }
+
     @Override
     public void onClick(View view) {
 
+    }
+
+    private void createViewCheckList(List<EditText> lisChild, LinearLayout checklist_holder) {
+        View inflate = AddNoteActivity.this.getLayoutInflater().inflate(R.layout.item_add_checklist, null);
+        EditText title = inflate.findViewById(R.id.title_edit_text);
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+        lisChild.add(title);
+        checklist_holder.addView(inflate);
+        title.requestFocus();
+        title.setCursorVisible(true);
+
+    }
+
+    @Override
+    public void updateCheckList(List<CheckItem> data) {
+        if (idNote != 0) {
+            AppDatabase.noteDB.getNoteDAO().updateListCheckList(data, idNote);
+            setUpListCheckList();
+        } else {
+            ConfigUtils.listCheckList.clear();
+            ConfigUtils.listCheckList.addAll(data);
+            checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
+            checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
+            checklist_list.setAdapter(checkListAdapter);
+
+        }
     }
 }

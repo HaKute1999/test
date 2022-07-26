@@ -80,10 +80,14 @@ public class CustomActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 BrushSettings brushSettings = mDrawingView.getBrushSettings();
-                brushSettings.setSelectedBrushSize(i/100f);
+                brushSettings.setSelectedBrushSize(i / 100f);
             }
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
@@ -130,7 +134,7 @@ public class CustomActivity extends AppCompatActivity {
         findViewById(R.id.export).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(CustomActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.checkSelfPermission(CustomActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(CustomActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);//ignoring the request code
                     return;
                 }
@@ -142,7 +146,7 @@ public class CustomActivity extends AppCompatActivity {
         findViewById(R.id.export_without_bg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(CustomActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.checkSelfPermission(CustomActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(CustomActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);//ignoring the request code
                     return;
                 }
@@ -155,6 +159,7 @@ public class CustomActivity extends AppCompatActivity {
         setupBrushes();
         setupColorViews();
     }
+
     private void exportImage(Bitmap bitmap) {
         File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         folder.mkdirs();
@@ -175,7 +180,7 @@ public class CustomActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_IMPORT_IMAGE){
+        if (requestCode == REQUEST_CODE_IMPORT_IMAGE) {
             if (AppCompatActivity.RESULT_OK != resultCode)
                 return;
             try {
@@ -187,7 +192,7 @@ public class CustomActivity extends AppCompatActivity {
         }
     }
 
-    private void setBrushSelected(int brushID){
+    private void setBrushSelected(int brushID) {
         BrushSettings settings = mDrawingView.getBrushSettings();
         settings.setSelectedBrush(brushID);
         int sizeInPercentage = (int) (settings.getSelectedBrushSize() * 100);
@@ -228,7 +233,7 @@ public class CustomActivity extends AppCompatActivity {
         View.OnClickListener colorClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int color = ((ColorDrawable)view.getBackground()).getColor();
+                int color = ((ColorDrawable) view.getBackground()).getColor();
                 BrushSettings brushSettings = mDrawingView.getBrushSettings();
                 brushSettings.setColor(color);
             }
@@ -240,7 +245,7 @@ public class CustomActivity extends AppCompatActivity {
         View.OnClickListener bgClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int color = ((ColorDrawable)view.getBackground()).getColor();
+                int color = ((ColorDrawable) view.getBackground()).getColor();
                 mDrawingView.setDrawingBackground(color);
             }
         };

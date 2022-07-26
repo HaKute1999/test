@@ -20,6 +20,7 @@ public class Calligraphy extends StampBrush {
     }
 
     private RectF mTempRectF = new RectF();
+
     @Override
     public void drawFromTo(Canvas canvas, float lastDrawnPoint[], float x1, float y1) {
         float xTerm = x1 - lastDrawnPoint[0];
@@ -37,13 +38,13 @@ public class Calligraphy extends StampBrush {
             float yCenter = lastDrawnPoint[1] + i * dy;
             //We can extract a method to drawFromTo a point but since this method is invoked very frequently
             // lets do a small optimization by minimizing function calls
-            canvas.rotate(-45, xCenter, yCenter );
+            canvas.rotate(-45, xCenter, yCenter);
             mTempRectF.left = xCenter - mHalfWidth;
             mTempRectF.top = yCenter - mHalfHeight;
             mTempRectF.right = xCenter + mHalfWidth;
             mTempRectF.bottom = yCenter + mHalfHeight;
             canvas.drawOval(mTempRectF, mPaint);
-            canvas.rotate(45, xCenter, yCenter );//restore old rotation
+            canvas.rotate(45, xCenter, yCenter);//restore old rotation
         }
 
         //update the last drawn point
@@ -53,7 +54,7 @@ public class Calligraphy extends StampBrush {
 
     @Override
     public void drawPoint(Canvas canvas, float left, float top) {
-        canvas.rotate(-45, left, top );
+        canvas.rotate(-45, left, top);
 
         mTempRectF.left = left - mHalfWidth;
         mTempRectF.top = top - mHalfHeight;
@@ -61,7 +62,7 @@ public class Calligraphy extends StampBrush {
         mTempRectF.bottom = top + mHalfHeight;
         canvas.drawOval(mTempRectF, mPaint);
 
-        canvas.rotate(45, left, top );
+        canvas.rotate(45, left, top);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class Calligraphy extends StampBrush {
     @Override
     public void setSizeInPercentage(float sizePercentage) {
         super.setSizeInPercentage(sizePercentage);
-        mHalfHeight = mSizeInPixel /8;
-        mHalfWidth = mSizeInPixel /2;
+        mHalfHeight = mSizeInPixel / 8;
+        mHalfWidth = mSizeInPixel / 2;
     }
 }

@@ -9,7 +9,7 @@ class DrawingAction {
     Bitmap mBitmap;
     Rect mRect;
 
-    DrawingAction(Bitmap bitmap, Rect rect){
+    DrawingAction(Bitmap bitmap, Rect rect) {
         mBitmap = bitmap;
         mRect = new Rect(rect);
     }

@@ -37,12 +37,15 @@ import java.util.List;
 public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.ViewHolder> {
     private List<String> data;
     Context context;
-    public ImageNoteAdapter (Context context,List<String> data, ICopy iUpdate){
+
+    public ImageNoteAdapter(Context context, List<String> data, ICopy iUpdate) {
         this.iUpdate = iUpdate;
         this.data = data;
         this.context = context;
     }
+
     ICopy iUpdate;
+
     @Override
     public ImageNoteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
@@ -51,13 +54,13 @@ public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.View
 
     @Override
     public void onBindViewHolder(ImageNoteAdapter.ViewHolder holder, int position) {
-            File file = new File(data.get(position));
-            Uri uri = Uri.fromFile(file);
-            Glide.with(context)
-                    .load(uri)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .into(holder.image);
-            holder.image.setBorderColor(Color.GRAY);
+        File file = new File(data.get(position));
+        Uri uri = Uri.fromFile(file);
+        Glide.with(context)
+                .load(uri)
+                .placeholder(R.mipmap.ic_launcher)
+                .into(holder.image);
+        holder.image.setBorderColor(Color.GRAY);
 
 
     }

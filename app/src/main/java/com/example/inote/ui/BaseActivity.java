@@ -28,7 +28,8 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
     }
-    public void setFullScreen(){
+
+    public void setFullScreen() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             if (window != null) {
@@ -38,7 +39,8 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
     }
-    public void onBack(){
+
+    public void onBack() {
         findViewById(R.id.tvBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +48,8 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
     }
-    private void requestStoragePermission(Activity activity , int requestcode) {
+
+    private void requestStoragePermission(Activity activity, int requestcode) {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
@@ -54,18 +57,19 @@ public class BaseActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestcode);
     }
 
-    public boolean checkReadExternalStoragePermission(Activity activity,int requestcode) {
+    public boolean checkReadExternalStoragePermission(Activity activity, int requestcode) {
         ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((activity),
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     requestcode);
             return false;
-        }else return true;
+        } else return true;
     }
-    public boolean  permission(Activity activity){
-        requestStoragePermission(activity,REQUEST_CODE);
-      return   checkReadExternalStoragePermission(activity, REQUEST_CODE);
+
+    public boolean permission(Activity activity) {
+        requestStoragePermission(activity, REQUEST_CODE);
+        return checkReadExternalStoragePermission(activity, REQUEST_CODE);
     }
 
     @Override

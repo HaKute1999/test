@@ -59,7 +59,8 @@ public class DrawingView extends View {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SCREEN));
     }
 
-    @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -68,7 +69,8 @@ public class DrawingView extends View {
         canvas.drawColor(Color.TRANSPARENT);
     }
 
-    @Override protected void onDraw(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
         canvas.drawPath(path, paint);
@@ -104,7 +106,8 @@ public class DrawingView extends View {
         }
     }
 
-    @Override public boolean onTouchEvent(MotionEvent event) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
         switch (event.getAction()) {
@@ -161,7 +164,8 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    @Override public void setBackgroundColor(int color) {
+    @Override
+    public void setBackgroundColor(int color) {
         if (canvas == null) {
             canvas = new Canvas();
         }
@@ -191,7 +195,8 @@ public class DrawingView extends View {
         paint.setColor(color);
     }
 
-    public @ColorInt int getPenColor() {
+    public @ColorInt
+    int getPenColor() {
         return paint.getColor();
     }
 

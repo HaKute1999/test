@@ -50,14 +50,14 @@ public class BitmapBrush extends StampBrush {
     public void setSizeInPercentage(float sizePercentage) {
         super.setSizeInPercentage(sizePercentage);
 
-        mResizedBrush = Bitmap.createBitmap(mSizeInPixel, (int) (mSizeInPixel /(float)mOriginalBrush.getWidth() * mOriginalBrush.getHeight()), Bitmap.Config.ARGB_8888);
+        mResizedBrush = Bitmap.createBitmap(mSizeInPixel, (int) (mSizeInPixel / (float) mOriginalBrush.getWidth() * mOriginalBrush.getHeight()), Bitmap.Config.ARGB_8888);
 
         mResizedBrushCanvas.setBitmap(mResizedBrush);
 
         updateResizeBrush();
 
-        mHalfResizedBrushWidth = mResizedBrush.getWidth()/2;
-        mHalfResizedBrushHeight = mResizedBrush.getHeight()/2;
+        mHalfResizedBrushWidth = mResizedBrush.getWidth() / 2;
+        mHalfResizedBrushHeight = mResizedBrush.getHeight() / 2;
     }
 
     @Override
@@ -67,12 +67,12 @@ public class BitmapBrush extends StampBrush {
         updateResizeBrush();
     }
 
-    private void updateResizeBrush(){
+    private void updateResizeBrush() {
         mResizedBrushCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        float xScale = mResizedBrush.getWidth()/(float)mOriginalBrush.getWidth();
-        float yScale = mResizedBrush.getHeight()/(float)mOriginalBrush.getHeight();
+        float xScale = mResizedBrush.getWidth() / (float) mOriginalBrush.getWidth();
+        float yScale = mResizedBrush.getHeight() / (float) mOriginalBrush.getHeight();
         mResizedBrushCanvas.scale(xScale, yScale);
         mResizedBrushCanvas.drawBitmap(mOriginalBrush, 0, 0, mPaint);
-        mResizedBrushCanvas.scale(1/xScale, 1/yScale);
+        mResizedBrushCanvas.scale(1 / xScale, 1 / yScale);
     }
 }

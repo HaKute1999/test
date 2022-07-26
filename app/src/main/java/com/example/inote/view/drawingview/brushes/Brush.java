@@ -42,11 +42,11 @@ public abstract class Brush {
         return mSizeInPercentage;
     }
 
-    public int getSizeForSafeCrop(){
+    public int getSizeForSafeCrop() {
         return getSizeInPixel();
     }
 
-    public void setMinAndMaxSizeInPixel(int minSizeInPixel, int maxSizeInPixel){
+    public void setMinAndMaxSizeInPixel(int minSizeInPixel, int maxSizeInPixel) {
         if (maxSizeInPixel < minSizeInPixel)
             throw new IllegalArgumentException("maxSizeInPixel must be >= minSizeInPixel");
         if (mMinSizeInPixel < 1 || mMaxSizeInPixel < 1)
@@ -63,8 +63,8 @@ public abstract class Brush {
         return mMaxSizeInPixel;
     }
 
-    public float getStep(){
-        float step = mSizeInPixel/5f;
+    public float getStep() {
+        float step = mSizeInPixel / 5f;
         return step > 1f ? step : 1f;
     }
 

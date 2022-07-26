@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.example.inote.view.ShareUtils;
 import com.makeramen.roundedimageview.RoundedDrawable;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +44,10 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private List<Note> data;
-    private  Context mContext;
+    private Context mContext;
     IUpdate iUpdate;
-    public NoteAdapter (Context context, List<Note> data, IUpdate iUpdate){
+
+    public NoteAdapter(Context context, List<Note> data, IUpdate iUpdate) {
         this.data = data;
         this.mContext = context;
         this.iUpdate = iUpdate;
@@ -55,37 +58,43 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
         return new ViewHolder(rowItem);
     }
-    public void setFilter(List<Note> newList){
+
+    public void setFilter(List<Note> newList) {
         data = newList;
         notifyDataSetChanged();
     }
+
     @Override
     public void onBindViewHolder(NoteAdapter.ViewHolder holder, int position) {
-        Note note =  data.get(position);
+        Note note = data.get(position);
         Date date = new Date(note.getTimeEdit());
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 
-        holder.tvTitle.setText(note.getTitle()+"");
-        if (this.data.get(position).getIdFolder() == 0){
+        holder.tvTitle.setText(note.getTitle() + "");
+        if (this.data.get(position).getIdFolder() == 0) {
             holder.tvNoteSmall.setText(mContext.getResources().getString(R.string.notes));
-        }else {
+        } else {
             holder.tvNoteSmall.setText(AppDatabase.noteDB.getFolderDAO().getItemFolder(note.getIdFolder()).getTitle());
 
         }
-        if (note.getValue().length() !=0){
-            holder.tvValueNote.setText(dateFormat.format(date)+", " + note.getValue()+"");
+        if (note.getValue().length() != 0) {
+            holder.tvValueNote.setText(dateFormat.format(date) + ", " + note.getValue() + "");
 
-        }else {
-            holder.tvValueNote.setText(dateFormat.format(date)+", " + mContext.getResources().getString(R.string.no_content));
+        } else {
+            holder.tvValueNote.setText(dateFormat.format(date) + ", " + mContext.getResources().getString(R.string.no_content));
 
         }
-        if (note.getProtectionType() ==1){
+        if (note.getProtectionType() == 1) {
             holder.ivLockHome.setVisibility(View.VISIBLE);
             holder.tvValueNote.setText(mContext.getResources().getString(R.string.locked_string));
 
-        }else {
+        } else {
             holder.ivLockHome.setVisibility(View.GONE);
 
+        }
+
+        if (data.get(position).getListImage().size() > 0) {
+            holder.image_note2.setImageURI(Uri.fromFile(new File(data.get(position).getListImage().get(data.get(position).getListImage().size() - 1))));
         }
     }
 
@@ -139,16 +148,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             TextView tvName = dialog.findViewById(R.id.tvName);
             TextView tvPinDl = dialog.findViewById(R.id.tvPinDl);
             tvName.setText(data.get(getAdapterPosition()).getTitle());
-            if (data.get(getAdapterPosition()).isPinned()){
+            if (data.get(getAdapterPosition()).isPinned()) {
                 tvPinDl.setText(mContext.getResources().getString(R.string.unpin));
             }
             rlPin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (data.get(getAdapterPosition()).isPinned()){
-                        AppDatabase.noteDB.getNoteDAO().updatePinned(false,data.get(getAdapterPosition()).getId());
-                    }else {
-                        AppDatabase.noteDB.getNoteDAO().updatePinned(true,data.get(getAdapterPosition()).getId());
+                    if (data.get(getAdapterPosition()).isPinned()) {
+                        AppDatabase.noteDB.getNoteDAO().updatePinned(false, data.get(getAdapterPosition()).getId());
+                    } else {
+                        AppDatabase.noteDB.getNoteDAO().updatePinned(true, data.get(getAdapterPosition()).getId());
                     }
                     iUpdate.onFinish();
 
@@ -197,7 +206,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                 public void onClick(View view) {
                     if (data.get(getAdapterPosition()).getProtectionType() == 1) {
                         showDialogConfirmDialog(true);
-                    }else {
+                    } else {
                         dialogDeleteNote();
                     }
                     dialog.dismiss();
@@ -248,6 +257,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
             dialog.show();
         }
+
         private void showDialogCreatePassCode() {
             final Dialog dialog = new Dialog(itemView.getContext(), androidx.appcompat.R.style.Theme_AppCompat_Dialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -265,7 +275,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     if (edtPasscode.getText().toString().length() < 6 && edtRePasscode.getText().toString().length() < 6) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.must_6), Toast.LENGTH_LONG).show();
 
-                    } else if (!edtPasscode.getText().toString().contains( edtRePasscode.getText().toString())) {
+                    } else if (!edtPasscode.getText().toString().contains(edtRePasscode.getText().toString())) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.no_match), Toast.LENGTH_LONG).show();
                     } else if (edtQuestion.getText().toString().length() == 0) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.must_empty), Toast.LENGTH_LONG).show();
@@ -314,13 +324,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
 
-                    if (tv_rename.getText().toString().contains(ShareUtils.getStr(ShareUtils.PASSCODE,""))){
-                        if (checkdelete){
+                    if (tv_rename.getText().toString().contains(ShareUtils.getStr(ShareUtils.PASSCODE, ""))) {
+                        if (checkdelete) {
                             dialogDeleteNote();
-                        }else {
-                            if (data.get(getAdapterPosition()).getProtectionType()  ==1){
+                        } else {
+                            if (data.get(getAdapterPosition()).getProtectionType() == 1) {
                                 AppDatabase.noteDB.getNoteDAO().updateprotectionType(0, data.get(getAdapterPosition()).getId());
-                            }else {
+                            } else {
                                 AppDatabase.noteDB.getNoteDAO().updateprotectionType(1, data.get(getAdapterPosition()).getId());
                             }
                             iUpdate.onFinish();
@@ -328,7 +338,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                         dialog.dismiss();
 
 
-                    }else {
+                    } else {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.pass_not_connect), Toast.LENGTH_LONG).show();
 
                     }
@@ -339,6 +349,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             dialog.show();
 
         }
+
         private void showRadioButtonDialog() {
 
             // custom dialog
@@ -350,13 +361,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
             RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.dialog_radio_group);
 
-            for(int i=0;i<AppDatabase.noteDB.getFolderDAO().getAllFolder().size();i++){
-                RadioButton rb=new RadioButton(itemView.getContext()); // dynamically creating RadioButton and adding to RadioGroup.
+            for (int i = 0; i < AppDatabase.noteDB.getFolderDAO().getAllFolder().size(); i++) {
+                RadioButton rb = new RadioButton(itemView.getContext()); // dynamically creating RadioButton and adding to RadioGroup.
                 rb.setText(AppDatabase.noteDB.getFolderDAO().getAllFolder().get(i).getTitle());
                 rb.setId(AppDatabase.noteDB.getFolderDAO().getAllFolder().get(i).getId());
                 rb.setWidth(400);
                 rb.setTextSize(17);
-                rb.setPadding(20,0,0,0);
+                rb.setPadding(20, 0, 0, 0);
                 rb.setTextColor(Color.BLACK);
                 ColorStateList colorStateList = new ColorStateList(
                         new int[][]

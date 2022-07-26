@@ -23,9 +23,9 @@ public class Brushes {
     private BrushSettings mBrushSettings;
     private Brush[] mBrushes;
 
-    public Brushes(Resources resources){
+    public Brushes(Resources resources) {
         mBrushes = new Brush[5];
-        
+
         mBrushes[PEN] = new Pen(
                 resources.getDimensionPixelSize(R.dimen.pen_min_stroke_size),
                 resources.getDimensionPixelSize(R.dimen.pen_max_stroke_size));
@@ -42,7 +42,7 @@ public class Brushes {
                 resources.getDimensionPixelSize(R.dimen.eraser_max_stroke_size));
 
         BitmapBrush airBrush = new BitmapBrush(
-                BitmapFactory.decodeResource(resources,R.drawable.brush_0),
+                BitmapFactory.decodeResource(resources, R.drawable.brush_0),
                 resources.getDimensionPixelSize(R.dimen.brush0_min_stroke_size),
                 resources.getDimensionPixelSize(R.dimen.brush0_max_stroke_size),
                 6);
@@ -62,7 +62,7 @@ public class Brushes {
         mBrushSettings = new BrushSettings(this);
     }
 
-    public Brush getBrush(int brushID){
+    public Brush getBrush(int brushID) {
         if (brushID >= mBrushes.length || brushID < 0)
             throw new IllegalArgumentException("There is no brush with id = " + brushID + " in " + getClass());
         return mBrushes[brushID];

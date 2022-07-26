@@ -1,7 +1,7 @@
 package com.example.inote.view.drawingview.brushes.androidpathbrushes;
 
 
-public class Pen extends PathBrush{
+public class Pen extends PathBrush {
 
     public Pen(int minSizePx, int maxSizePx) {
         super(minSizePx, maxSizePx);

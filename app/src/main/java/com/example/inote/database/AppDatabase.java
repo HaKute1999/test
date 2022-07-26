@@ -18,15 +18,17 @@ import java.io.File;
 
 @Database(entities = {Note.class, Folder.class}, version = 2)
 @TypeConverters({Converters.class})
-    public abstract class AppDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase noteDB;
     private static final String DB_NAME = "notes.db";
 
     public abstract NotesDao getNoteDAO();
+
     public abstract FolderDao getFolderDAO();
+
     public static AppDatabase getInstance(Context context, String dbName) {
         if (null == noteDB) {
-           noteDB = Room.databaseBuilder(context, AppDatabase.class, dbName)
+            noteDB = Room.databaseBuilder(context, AppDatabase.class, dbName)
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();
@@ -34,14 +36,15 @@ import java.io.File;
         }
         return noteDB;
     }
-        public static boolean doesDatabaseExist(Context context, String dbName) {
-            File dbFile = context.getDatabasePath(dbName);
-            String path = dbFile.getAbsolutePath();
-            if (dbFile.getAbsoluteFile().exists()){
-                return true;
-            }else return false;
-        }
 
-        /* Will close DB if it is open */
+    public static boolean doesDatabaseExist(Context context, String dbName) {
+        File dbFile = context.getDatabasePath(dbName);
+        String path = dbFile.getAbsolutePath();
+        if (dbFile.getAbsoluteFile().exists()) {
+            return true;
+        } else return false;
+    }
+
+    /* Will close DB if it is open */
 
 }

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.inote.models.CheckItem;
 import com.example.inote.view.drawingview.ICopy;
 
 import java.io.ByteArrayOutputStream;
@@ -23,12 +24,18 @@ import java.util.UUID;
 
 public class ConfigUtils {
     public final static List<String> listImageCache = new ArrayList<>();
+    public final static List<CheckItem> listCheckList = new ArrayList<>();
     public static void hideKeyboard(Activity activity) {
 
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager != null) {
             manager.hideSoftInputFromWindow(activity.findViewById(android.R.id.content).getWindowToken(), 0);
         }
+
+    }
+    public static void displashKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
     }
     public static String formatDateTIme(long time){

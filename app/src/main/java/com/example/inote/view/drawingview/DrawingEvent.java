@@ -7,7 +7,7 @@ public class DrawingEvent {
     private int mSize;
     public float[] mPoints = new float[20000];
 
-    void add(float x, float y){
+    void add(float x, float y) {
         mPoints[mSize] = x;
         mPoints[mSize + 1] = y;
         mSize += 2;

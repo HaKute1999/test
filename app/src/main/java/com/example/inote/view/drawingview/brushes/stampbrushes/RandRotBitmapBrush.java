@@ -38,9 +38,9 @@ public class RandRotBitmapBrush extends BitmapBrush {
             float xCenter = lastDrawnPoint[0] + i * dx;
             float yCenter = lastDrawnPoint[1] + i * dy;
 
-            canvas.rotate(sRandomAnglesArray[sRandomAnglesIndex], xCenter, yCenter );
-            canvas.drawBitmap(mResizedBrush,  xCenter - mHalfResizedBrushWidth, yCenter - mHalfResizedBrushHeight, null);
-            canvas.rotate(-sRandomAnglesArray[sRandomAnglesIndex], xCenter, yCenter );
+            canvas.rotate(sRandomAnglesArray[sRandomAnglesIndex], xCenter, yCenter);
+            canvas.drawBitmap(mResizedBrush, xCenter - mHalfResizedBrushWidth, yCenter - mHalfResizedBrushHeight, null);
+            canvas.rotate(-sRandomAnglesArray[sRandomAnglesIndex], xCenter, yCenter);
 
             sRandomAnglesIndex++;
             sRandomAnglesIndex %= RANDOM_ANGLES_NUMBER;
@@ -52,9 +52,9 @@ public class RandRotBitmapBrush extends BitmapBrush {
 
     public void drawPoint(Canvas canvas, float left, float top) {
         float rotation = (float) (Math.random() * 360);
-        canvas.rotate(rotation, left, top );
-        canvas.drawBitmap(mResizedBrush,  left - mHalfResizedBrushWidth, top - mHalfResizedBrushHeight, null);
-        canvas.rotate(-rotation, left, top );
+        canvas.rotate(rotation, left, top);
+        canvas.drawBitmap(mResizedBrush, left - mHalfResizedBrushWidth, top - mHalfResizedBrushHeight, null);
+        canvas.rotate(-rotation, left, top);
     }
 
     @Override

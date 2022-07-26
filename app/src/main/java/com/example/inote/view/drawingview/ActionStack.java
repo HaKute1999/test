@@ -1,6 +1,7 @@
 package com.example.inote.view.drawingview;
 
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,20 +18,20 @@ public class ActionStack {
 
     void addAction(DrawingAction action) {
         Log.d(TAG, "Add getAction: " + action);
-        if (mRedoStack.size() > 0){ //Clear the redo stack
-            for (DrawingAction s:mRedoStack)
+        if (mRedoStack.size() > 0) { //Clear the redo stack
+            for (DrawingAction s : mRedoStack)
                 mCurrentSize -= s.getSize();
             mRedoStack.clear();
         }
         addActionToStack(mUndoStack, action);
     }
 
-    void addActionToRedoStack(DrawingAction action){
+    void addActionToRedoStack(DrawingAction action) {
         Log.d(TAG, "Add getAction to redo stack: " + action);
         addActionToStack(mRedoStack, action);
     }
 
-    void addActionToUndoStack(DrawingAction action){
+    void addActionToUndoStack(DrawingAction action) {
         Log.d(TAG, "Add getAction to undo stack: " + action);
         addActionToStack(mUndoStack, action);
     }
@@ -43,15 +44,15 @@ public class ActionStack {
         return freeLastItem(mRedoStack);
     }
 
-    boolean isRedoStackEmpty(){
+    boolean isRedoStackEmpty() {
         return mRedoStack.size() == 0;
     }
 
-    boolean isUndoStackEmpty(){
+    boolean isUndoStackEmpty() {
         return mUndoStack.size() == 0;
     }
 
-    private void freeItem(){
+    private void freeItem() {
         //I do not know weather it is necessary to do this or not, but please do not change it.
         if (mUndoStack.size() >= mRedoStack.size())
             mCurrentSize -= mUndoStack.remove(0).getSize();
@@ -59,10 +60,10 @@ public class ActionStack {
             mCurrentSize -= mRedoStack.remove(0).getSize();
     }
 
-    private void addActionToStack(List<DrawingAction> stack, DrawingAction action){
-        Log.d(TAG,"MaxSize = " + mMaxSize);
-        Log.d(TAG,"Before:CurSize = " + mCurrentSize);
-        Log.d(TAG,"Dr+mCSi = " + (mCurrentSize + action.getSize()));
+    private void addActionToStack(List<DrawingAction> stack, DrawingAction action) {
+        Log.d(TAG, "MaxSize = " + mMaxSize);
+        Log.d(TAG, "Before:CurSize = " + mCurrentSize);
+        Log.d(TAG, "Dr+mCSi = " + (mCurrentSize + action.getSize()));
         if (action.getSize() > mMaxSize) {
             //I hope this won't happen :)
             mUndoStack.clear();
@@ -75,10 +76,10 @@ public class ActionStack {
         }
         stack.add(action);
         mCurrentSize += action.getSize();
-        Log.d(TAG,"After:CurSize = " + mCurrentSize);
+        Log.d(TAG, "After:CurSize = " + mCurrentSize);
     }
 
-    private DrawingAction freeLastItem(List<DrawingAction> list){
+    private DrawingAction freeLastItem(List<DrawingAction> list) {
         mCurrentSize -= list.get(list.size() - 1).getSize();
         return list.remove(list.size() - 1);
     }

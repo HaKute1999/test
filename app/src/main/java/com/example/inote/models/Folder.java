@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 @Entity(tableName = "folder")
 public class Folder {
     @PrimaryKey(autoGenerate = true)
-    @NonNull private int id;
+    @NonNull
+    private int id;
     @ColumnInfo
     private String color;
     @ColumnInfo
     private String title;
 
-    public Folder( String color, String title) {
+    public Folder(String color, String title) {
         this.color = color;
         this.title = title;
     }

@@ -38,7 +38,6 @@
             android:fillViewport="true"
             android:overScrollMode="never"
             android:paddingStart="@dimen/activity_margin"
-            android:paddingTop="@dimen/activity_margin"
             android:paddingEnd="@dimen/activity_margin"
             android:scrollbarSize="3dp"
             android:scrollbars="vertical">

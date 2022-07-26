@@ -22,8 +22,9 @@ public class DrawingPerformer {
     private static final String TAG = "DrawingPerformer";
     private BrushRenderer mCurrentBrushRenderer;
 
-    interface DrawingPerformerListener{
+    interface DrawingPerformerListener {
         void onDrawingPerformed(Path path, Paint paint, Rect rect);
+
         void onDrawingPerformed(Bitmap bitmap, Rect rect);
     }
 
@@ -43,7 +44,7 @@ public class DrawingPerformer {
 
     private Brushes mBrushes;
 
-    public DrawingPerformer(Brushes brushes){
+    public DrawingPerformer(Brushes brushes) {
 
         mStampBrushRenderer = new StampBrushRenderer();
         mPathBrushRenderer = new PathBrushRenderer();
@@ -51,11 +52,11 @@ public class DrawingPerformer {
         mBrushes = brushes;
 
         mDrawingBoundsRect = new DrawingBoundsRect();
-        
+
     }
 
-    void draw(Canvas canvas,  Bitmap bitmap) {
-        if (mSelectedBrush.getClass().equals(Eraser.class)){
+    void draw(Canvas canvas, Bitmap bitmap) {
+        if (mSelectedBrush.getClass().equals(Eraser.class)) {
             mCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
             mCanvas.drawBitmap(bitmap, 0, 0, null);
             mCurrentBrushRenderer.draw(mCanvas);
@@ -67,6 +68,7 @@ public class DrawingPerformer {
     }
 
     private DrawingEvent mTemDrawingEvent = new DrawingEvent();
+
     void onTouch(MotionEvent event) {
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_CANCEL)
@@ -85,15 +87,15 @@ public class DrawingPerformer {
 
         mTemDrawingEvent.clear();
         mDrawingFilter.filter(x, y, mTemDrawingEvent);
-        
+
         mTemDrawingEvent.setAction(action);
-        
-        if (action == MotionEvent.ACTION_DOWN){
+
+        if (action == MotionEvent.ACTION_DOWN) {
             mDrawingBoundsRect.reset(x, y);
-        }else {
+        } else {
             mDrawingBoundsRect.update(mTemDrawingEvent);
         }
-        
+
         mCurrentBrushRenderer.onTouch(mTemDrawingEvent);
 
         if (action == MotionEvent.ACTION_UP) {
@@ -110,7 +112,7 @@ public class DrawingPerformer {
         return mDrawing;
     }
 
-    void setWidthAndHeight(int width, int height){
+    void setWidthAndHeight(int width, int height) {
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
 
@@ -122,9 +124,9 @@ public class DrawingPerformer {
         int size = mSelectedBrush.getSizeForSafeCrop();
         Log.d(TAG, "getDrawingBoundsRect: " + size);
         int left = (int) (mDrawingBoundsRect.mMinX - size / 2);
-        left = ( left > 0) ?  left : 0;
+        left = (left > 0) ? left : 0;
         int top = (int) (mDrawingBoundsRect.mMinY - size / 2);
-        top = ( top > 0) ?  top : 0;
+        top = (top > 0) ? top : 0;
         int width = (int) (mDrawingBoundsRect.mMaxX - mDrawingBoundsRect.mMinX + size);
         width = width > (mBitmap.getWidth() - left) ? mBitmap.getWidth() - left : width;
         int height = (int) (mDrawingBoundsRect.mMaxY - mDrawingBoundsRect.mMinY + size);
@@ -147,7 +149,7 @@ public class DrawingPerformer {
         Rect rect = getDrawingBoundsRect();
         if (rect.right - rect.left <= 0 || rect.bottom - rect.top <= 0)
             return;
-        if (mSelectedBrush instanceof StampBrush){
+        if (mSelectedBrush instanceof StampBrush) {
             //uncomment for testing
             //Canvas canvas = new Canvas(mBitmap);
             //canvas.drawColor(Color.argb(150,150,150,150));
@@ -174,8 +176,8 @@ public class DrawingPerformer {
 
         void update(DrawingEvent drawingEvent) {
             int size = drawingEvent.size();
-            for (int i = 0; i + 1 < size; i+=2) {
-                
+            for (int i = 0; i + 1 < size; i += 2) {
+
                 if (drawingEvent.mPoints[i] < mMinX)
                     mMinX = drawingEvent.mPoints[i];
                 else if (drawingEvent.mPoints[i] > mMaxX)
@@ -188,7 +190,7 @@ public class DrawingPerformer {
             }
         }
 
-        void reset(float x, float y){
+        void reset(float x, float y) {
             mMinX = mMaxX = x;
             mMinY = mMaxY = y;
         }

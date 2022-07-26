@@ -19,7 +19,7 @@ public class Eraser extends PathBrush {
 
     @Override
     public void setColor(int color) {
-        Log.w(TAG,"Eraser does not has a color");
+        Log.w(TAG, "Eraser does not has a color");
         //Erasers do not have a color
     }
 

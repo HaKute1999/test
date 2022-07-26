@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, IUpdate {
-    RelativeLayout rl_gomain,rlDeleteNote,rl_gosetting,rl_go_pin;
+    RelativeLayout rl_gomain, rlDeleteNote, rl_gosetting, rl_go_pin;
     ImageView ivAddFolder;
     ImageView ivAddNote;
     TextView size_list1;
@@ -48,8 +48,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     RecyclerView listFolder;
     List<Folder> listData;
     FolderAdapter folderAdapter;
- private static final String DB_NAME = "notes.db";
+    private static final String DB_NAME = "notes.db";
     AppDatabase noteDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,16 +60,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ConfigUtils.listImageCache.clear();
 
         new ShareUtils(this);
-        noteDb = AppDatabase.getInstance(this,DB_NAME);
-        if (noteDb.getNoteDAO().getAllNotes().size() == 0){
+        noteDb = AppDatabase.getInstance(this, DB_NAME);
+        if (noteDb.getNoteDAO().getAllNotes().size() == 0) {
             String string = getResources().getString(R.string.thank_you);
-            Note note = new Note(0, false, new ArrayList<>(), null, null, null, "yuyty", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" +getString(R.string.find_all_app) + " \n\nDefault Note", null);
+            Note note = new Note(0, false, new ArrayList<>(), null, null, null, "", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" + getString(R.string.find_all_app) + " \n\nDefault Note", new ArrayList<>());
             noteDb.getNoteDAO().insert(note);
         }
         setupListFolder();
 
     }
-    private void initView(){
+
+    private void initView() {
         rl_gomain = findViewById(R.id.rl_gomain);
         rl_go_pin = findViewById(R.id.rl_go_pin);
         rlDeleteNote = findViewById(R.id.rlDeleteNote);
@@ -88,22 +90,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ConfigUtils.listImageCache.clear();
 
     }
-    private void setupListFolder(){
-        size_list2.setText(noteDb.getNoteDAO().getAllNotePin(true).size()+"");
-        size_list1.setText(noteDb.getNoteDAO().getAllNotes().size()+"");
-        listData  =new ArrayList<>();
+
+    private void setupListFolder() {
+        size_list2.setText(noteDb.getNoteDAO().getAllNotePin(true).size() + "");
+        size_list1.setText(noteDb.getNoteDAO().getAllNotes().size() + "");
+        listData = new ArrayList<>();
         listData = noteDb.getFolderDAO().getAllFolder();
         listFolder.setLayoutManager(new LinearLayoutManager(this));
-        folderAdapter = new FolderAdapter(listData,this);
+        folderAdapter = new FolderAdapter(listData, this);
         listFolder.setAdapter(folderAdapter);
     }
 
     @Override
     protected void onResume() {
-        AppDatabase.doesDatabaseExist(this,DB_NAME);
+        AppDatabase.doesDatabaseExist(this, DB_NAME);
         setupListFolder();
         super.onResume();
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -119,32 +123,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
     }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.rl_gomain){
-            Intent i = new Intent(MainActivity.this,NotesActivity.class);
-            startActivity(i);
-        } if (id == R.id.rl_go_pin){
-            Intent i = new Intent(MainActivity.this,NotesActivity.class);
-            i.putExtra("rl_go_pin","pin");
+        if (id == R.id.rl_gomain) {
+            Intent i = new Intent(MainActivity.this, NotesActivity.class);
             startActivity(i);
         }
-        if (id == R.id.ivAddFolder){
+        if (id == R.id.rl_go_pin) {
+            Intent i = new Intent(MainActivity.this, NotesActivity.class);
+            i.putExtra("rl_go_pin", "pin");
+            startActivity(i);
+        }
+        if (id == R.id.ivAddFolder) {
             showDialog(MainActivity.this);
         }
-        if (id == R.id.ivAddNote){
-            Intent i = new Intent(MainActivity.this,AddNoteActivity.class);
+        if (id == R.id.ivAddNote) {
+            Intent i = new Intent(MainActivity.this, AddNoteActivity.class);
             startActivity(i);
-        } if (id == R.id.rlDeleteNote){
-            Intent i = new Intent(MainActivity.this,DeleteActivity.class);
+        }
+        if (id == R.id.rlDeleteNote) {
+            Intent i = new Intent(MainActivity.this, DeleteActivity.class);
             startActivity(i);
-        } if (id == R.id.rl_go_st){
-            Intent i = new Intent(MainActivity.this,SettingActivity.class);
+        }
+        if (id == R.id.rl_go_st) {
+            Intent i = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(i);
         }
     }
-    public void showDialog(Activity activity){
+
+    public void showDialog(Activity activity) {
         final Dialog dialog = new Dialog(activity, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -167,8 +176,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if (edtFolder.getText() == null || edtFolder.getText().toString() == "") {
                     dialog.dismiss();
                     return;
-                }else {
-                    noteDb.getFolderDAO().insert(new Folder("",edtFolder.getText().toString()));
+                } else {
+                    noteDb.getFolderDAO().insert(new Folder("", edtFolder.getText().toString()));
                     setupListFolder();
 
                 }

@@ -44,17 +44,18 @@ import java.util.UUID;
 
 public class DrawNoteActivity extends BaseActivity {
 
-    ConstraintLayout boxPencil,mainDraw,boxMarker,boxErase;
-    AppCompatSeekBar size_seek_bar,seekBarMarker,seekBarErase;
-    ImageView ivChooseColor,ivMarker,ivPencil,ivErase,arrowPencil,arrowMarker,arrowErase;
+    ConstraintLayout boxPencil, mainDraw, boxMarker, boxErase;
+    AppCompatSeekBar size_seek_bar, seekBarMarker, seekBarErase;
+    ImageView ivChooseColor, ivMarker, ivPencil, ivErase, arrowPencil, arrowMarker, arrowErase;
     private DrawingView mDrawingView;
     private SeekBar mSizeSeekBar;
     private ImageView mUndoButton;
     private ImageView mRedoButton;
-    int color  = Color.YELLOW;
-    BrushView brushView,markerPreview,erasePreview;
-    TextView tvDone,tvBackPain;
+    int color = Color.YELLOW;
+    BrushView brushView, markerPreview, erasePreview;
+    TextView tvDone, tvBackPain;
     int idNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +63,14 @@ public class DrawNoteActivity extends BaseActivity {
         initVIew();
         onBack();
         Intent intent = getIntent();
-        idNote = intent.getIntExtra("idNote",0);
+        idNote = intent.getIntExtra("idNote", 0);
         mDrawingView.setUndoAndRedoEnable(true);
 //        mDrawingView.enterZoomMode();
         brushView.setDrawingView(mDrawingView);
         markerPreview.setDrawingView(mDrawingView);
         erasePreview.setDrawingView(mDrawingView);
         BrushSettings brushSettings = mDrawingView.getBrushSettings();
-        brushSettings.setSelectedBrushSize(10/100f);
+        brushSettings.setSelectedBrushSize(10 / 100f);
         size_seek_bar.setProgress(10);
         size_seek_bar.setMax(100);
         brushSettings.setColor(getResources().getColor(R.color.main_color));
@@ -77,39 +78,48 @@ public class DrawNoteActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                brushSettings.setSelectedBrushSize(i/100f);
+                brushSettings.setSelectedBrushSize(i / 100f);
             }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
         seekBarMarker.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                brushSettings.setSelectedBrushSize(i/100f);
+                brushSettings.setSelectedBrushSize(i / 100f);
             }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
         seekBarErase.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                brushSettings.setSelectedBrushSize(i/100f);
+                brushSettings.setSelectedBrushSize(i / 100f);
             }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
-         setupUndoAndRedo();
+        setupUndoAndRedo();
         ivChooseColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,12 +130,14 @@ public class DrawNoteActivity extends BaseActivity {
                             brushSettings.setColor(color);
 
                         })
-                        .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {})
+                        .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
+                        })
                         .alphaViewEnable(true)
                         .setOnColorSelectListener(new OnColorSelectListener() {
                             @Override
                             public void onColorChanged(@NonNull String s) {
                             }
+
                             @Override
                             public void afterColorChanged(@NonNull String s) {
                                 color = Color.parseColor(s);
@@ -153,9 +165,9 @@ public class DrawNoteActivity extends BaseActivity {
         ivPencil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setPercent(ivPencil,0.09F);
-                setPercent(ivErase,0.07F);
-                setPercent(ivMarker,0.07F);
+                setPercent(ivPencil, 0.09F);
+                setPercent(ivErase, 0.07F);
+                setPercent(ivMarker, 0.07F);
                 boxPencil.setVisibility(View.VISIBLE);
                 boxErase.setVisibility(View.GONE);
                 boxMarker.setVisibility(View.GONE);
@@ -169,9 +181,9 @@ public class DrawNoteActivity extends BaseActivity {
         ivMarker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setPercent(ivMarker,0.09F);
-                setPercent(ivErase,0.07F);
-                setPercent(ivPencil,0.07F);
+                setPercent(ivMarker, 0.09F);
+                setPercent(ivErase, 0.07F);
+                setPercent(ivPencil, 0.07F);
                 boxPencil.setVisibility(View.GONE);
                 boxErase.setVisibility(View.GONE);
                 boxMarker.setVisibility(View.VISIBLE);
@@ -184,9 +196,9 @@ public class DrawNoteActivity extends BaseActivity {
         ivErase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setPercent(ivErase,0.09F);
-                setPercent(ivPencil,0.07F);
-                setPercent(ivMarker,0.07F);
+                setPercent(ivErase, 0.09F);
+                setPercent(ivPencil, 0.07F);
+                setPercent(ivMarker, 0.07F);
                 boxPencil.setVisibility(View.GONE);
                 boxErase.setVisibility(View.VISIBLE);
                 boxMarker.setVisibility(View.GONE);
@@ -197,17 +209,20 @@ public class DrawNoteActivity extends BaseActivity {
             }
         });
     }
-    private void setPercent(View view,float value){
+
+    private void setPercent(View view, float value) {
         ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         lp.matchConstraintPercentHeight = value;
         view.setLayoutParams(lp);
     }
-    private void setBrushSelected(int brushID){
+
+    private void setBrushSelected(int brushID) {
         BrushSettings settings = mDrawingView.getBrushSettings();
         settings.setSelectedBrush(brushID);
 //        int sizeInPercentage = (int) (settings.getSelectedBrushSize() * 100);
 //        mSizeSeekBar.setProgress(sizeInPercentage);
     }
+
     private void setupUndoAndRedo() {
         mUndoButton = findViewById(R.id.ivUndo);
         mUndoButton.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +254,7 @@ public class DrawNoteActivity extends BaseActivity {
         tvDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(DrawNoteActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.checkSelfPermission(DrawNoteActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(DrawNoteActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);//ignoring the request code
                     return;
                 }
@@ -249,7 +264,8 @@ public class DrawNoteActivity extends BaseActivity {
             }
         });
     }
-    private void initVIew(){
+
+    private void initVIew() {
         boxPencil = findViewById(R.id.boxPencil);
         boxMarker = findViewById(R.id.boxMarker);
         boxErase = findViewById(R.id.boxErase);
@@ -271,8 +287,9 @@ public class DrawNoteActivity extends BaseActivity {
 
         mDrawingView = findViewById(R.id.drawing_view);
     }
+
     private void exportImage(Bitmap bitmap) {
-        String path = getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+"/" +UUID.randomUUID() + ".png";
+        String path = getApplicationContext().getExternalFilesDir(null).getAbsolutePath() + "/" + UUID.randomUUID() + ".png";
         File imageFile = new File(path);
         try {
             imageFile.createNewFile();
@@ -282,11 +299,11 @@ public class DrawNoteActivity extends BaseActivity {
 
         try {
             ConfigUtils.storeBitmap(imageFile, bitmap);
-            if (idNote != 0){
+            if (idNote != 0) {
                 List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
                 listImage.add(path);
-                AppDatabase.noteDB.getNoteDAO().updateListImage(listImage,idNote);
-            }else {
+                AppDatabase.noteDB.getNoteDAO().updateListImage(listImage, idNote);
+            } else {
                 ConfigUtils.listImageCache.add(path);
             }
         } catch (Exception e) {
@@ -299,12 +316,6 @@ public class DrawNoteActivity extends BaseActivity {
 //                null);
 //        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
     }
-
-
-
-
-
-
 
 
 }

@@ -4,7 +4,7 @@ package com.example.inote.view.drawingview;
  * This filter uses quad interpolation to make drawing smother.
  */
 
-class DrawingFilter{
+class DrawingFilter {
 
     private float mCurrentBrushStep;
     private float mPoint0[];

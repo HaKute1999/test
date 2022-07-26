@@ -26,18 +26,19 @@ import com.github.florent37.expansionpanel.ExpansionLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotesActivity extends BaseActivity  implements IUpdate {
-    NoteAdapter noteAdapter,noteAdapterPin;
-    List<Note> noteList,noteListPin;
-    RecyclerView rlNote,rv_note_pin;
-    ImageView ivCreateNote,close_search ;
-    TextView tvMain,tvNoteSize,tvEmptyNote,tv_note ;
+public class NotesActivity extends BaseActivity implements IUpdate {
+    NoteAdapter noteAdapter, noteAdapterPin;
+    List<Note> noteList, noteListPin;
+    RecyclerView rlNote, rv_note_pin;
+    ImageView ivCreateNote, close_search;
+    TextView tvMain, tvNoteSize, tvEmptyNote, tv_note;
     ExpansionHeader pinHeader;
     ExpansionLayout expansionLayout;
     EditText edit_result;
     int idFolder;
     String type;
     LinearLayout ll_note;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,22 +57,22 @@ public class NotesActivity extends BaseActivity  implements IUpdate {
         close_search = findViewById(R.id.close_search);
         onBack();
         Intent intent = getIntent();
-         idFolder = intent.getIntExtra("idFolder",0);
-         type = intent.getStringExtra("rl_go_pin");
-         if (type != null && type.contains("pin")){
-             tv_note.setVisibility(View.GONE);
-             ll_note.setVisibility(View.GONE);
-             pinHeader.setVisibility(View.VISIBLE);
-             expansionLayout.setVisibility(View.VISIBLE);
-             tvMain.setText(getString(R.string.pinned));
+        idFolder = intent.getIntExtra("idFolder", 0);
+        type = intent.getStringExtra("rl_go_pin");
+        if (type != null && type.contains("pin")) {
+            tv_note.setVisibility(View.GONE);
+            ll_note.setVisibility(View.GONE);
+            pinHeader.setVisibility(View.VISIBLE);
+            expansionLayout.setVisibility(View.VISIBLE);
+            tvMain.setText(getString(R.string.pinned));
 //             tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotePin(true).size()+ " "+getString(R.string.notes));
 
-         }
+        }
         ivCreateNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(NotesActivity.this,AddNoteActivity.class);
-                intent1.putExtra("idFolder",idFolder);
+                Intent intent1 = new Intent(NotesActivity.this, AddNoteActivity.class);
+                intent1.putExtra("idFolder", idFolder);
                 startActivity(intent1);
 
             }
@@ -85,13 +86,13 @@ public class NotesActivity extends BaseActivity  implements IUpdate {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 close_search.setVisibility(View.VISIBLE);
-                noteAdapter.setFilter(filte(charSequence.toString(),noteList));
-                noteAdapterPin.setFilter(filte(charSequence.toString(),noteListPin));
-                tvEmptyNote.setVisibility(filte(charSequence.toString(),noteList).size() ==0 ?View.VISIBLE  : View.GONE);
-                if (filte(charSequence.toString(),noteListPin).size() > 0){
+                noteAdapter.setFilter(filte(charSequence.toString(), noteList));
+                noteAdapterPin.setFilter(filte(charSequence.toString(), noteListPin));
+                tvEmptyNote.setVisibility(filte(charSequence.toString(), noteList).size() == 0 ? View.VISIBLE : View.GONE);
+                if (filte(charSequence.toString(), noteListPin).size() > 0) {
                     pinHeader.setVisibility(View.VISIBLE);
                     expansionLayout.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     pinHeader.setVisibility(View.GONE);
                     expansionLayout.setVisibility(View.GONE);
                 }
@@ -118,12 +119,13 @@ public class NotesActivity extends BaseActivity  implements IUpdate {
             }
         });
     }
-    private ArrayList<Note> filte(String charSequence,List<Note> notes){
+
+    private ArrayList<Note> filte(String charSequence, List<Note> notes) {
         String newText = charSequence.toLowerCase();
         ArrayList<Note> newList = new ArrayList<>();
-        for (Note note: notes){
+        for (Note note : notes) {
             String channelName = note.getTitle().toLowerCase();
-            if (channelName.contains(newText)){
+            if (channelName.contains(newText)) {
                 newList.add(note);
             }
         }
@@ -131,36 +133,34 @@ public class NotesActivity extends BaseActivity  implements IUpdate {
     }
 
     private void initListNote() {
-        if (idFolder !=0){
-            tvMain.setText(AppDatabase.noteDB.getFolderDAO().getItemFolder(idFolder).getTitle()+"");
-            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNoteFolder(idFolder).size()+ " "+getString(R.string.notes));
-            noteList = AppDatabase.noteDB.getNoteDAO().getNotePin(false,idFolder);
-            noteListPin = AppDatabase.noteDB.getNoteDAO().getNotePin(true,idFolder);
+        if (idFolder != 0) {
+            tvMain.setText(AppDatabase.noteDB.getFolderDAO().getItemFolder(idFolder).getTitle() + "");
+            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNoteFolder(idFolder).size() + " " + getString(R.string.notes));
+            noteList = AppDatabase.noteDB.getNoteDAO().getNotePin(false, idFolder);
+            noteListPin = AppDatabase.noteDB.getNoteDAO().getNotePin(true, idFolder);
 
-        }else {
-            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotes().size()+ " "+getString(R.string.notes));
+        } else {
+            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotes().size() + " " + getString(R.string.notes));
             noteList = AppDatabase.noteDB.getNoteDAO().getAllNotePin(false);
             noteListPin = AppDatabase.noteDB.getNoteDAO().getAllNotePin(true);
 
         }
-         if (noteListPin.size() > 0){
-             pinHeader.setVisibility(View.VISIBLE);
-             expansionLayout.setVisibility(View.VISIBLE);
-         }else {
-             pinHeader.setVisibility(View.GONE);
-             expansionLayout.setVisibility(View.GONE);
-         }
-        tvEmptyNote.setVisibility(noteList.size() ==0 ?View.VISIBLE  : View.GONE);
-        noteAdapter = new NoteAdapter(getApplicationContext(),noteList,this);
+        if (noteListPin.size() > 0) {
+            pinHeader.setVisibility(View.VISIBLE);
+            expansionLayout.setVisibility(View.VISIBLE);
+        } else {
+            pinHeader.setVisibility(View.GONE);
+            expansionLayout.setVisibility(View.GONE);
+        }
+        tvEmptyNote.setVisibility(noteList.size() == 0 ? View.VISIBLE : View.GONE);
+        noteAdapter = new NoteAdapter(getApplicationContext(), noteList, this);
         rlNote.setLayoutManager(new LinearLayoutManager(this));
 
         rlNote.setAdapter(noteAdapter);
-        noteAdapterPin = new NoteAdapter(getApplicationContext(),noteListPin,this);
+        noteAdapterPin = new NoteAdapter(getApplicationContext(), noteListPin, this);
         rv_note_pin.setLayoutManager(new LinearLayoutManager(this));
 
         rv_note_pin.setAdapter(noteAdapterPin);
-
-
 
 
     }
