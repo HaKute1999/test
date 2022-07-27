@@ -53,8 +53,9 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:padding="@dimen/_8sdp"
+        android:visibility="gone"
         android:src="@drawable/ic_baseline_menu_24"
-        android:visibility="gone" />
+        />
 
     <ImageView
         android:id="@+id/checklist_delete"

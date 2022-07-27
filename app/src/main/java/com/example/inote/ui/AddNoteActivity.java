@@ -1,8 +1,11 @@
 package com.example.inote.ui;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +19,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,19 +50,23 @@ import com.example.inote.view.IUpdate;
 import com.example.inote.view.ShareUtils;
 import com.example.inote.view.drawingview.ICopy;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
     RelativeLayout ivMore;
-    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer;
+    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search;
     View viewBackground;
     EditText edtTitle, text_note_view, text_note_view2, text_note_view3;
-    TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone;
+    TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone,tvWordCount,tvSize;
     int idNote;
     int idFolder;
     ImageView ivDraw, ivPhoto, ivCreate, ivChecklist;
@@ -66,6 +74,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     ImageNoteAdapter imageNoteAdapter;
     CheckListAdapter checkListAdapter;
     List<String> listImage;
+    NestedScrollView nestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +189,13 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             }
         });
 
+        rl_sharenote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.share_bitMap_to_Apps(nestedScrollView,AddNoteActivity.this);
+            }
+        });
+
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -255,6 +271,11 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         checklist_list = findViewById(R.id.checklist_list);
         rv_image = findViewById(R.id.rv_image);
         tvDone = findViewById(R.id.tvDone);
+        nestedScrollView = findViewById(R.id.nestedScrollView);
+        rl_sharenote = findViewById(R.id.rl_sharenote);
+        rl_search = findViewById(R.id.rl_search);
+        tvWordCount = findViewById(R.id.tvWordCount);
+        tvSize = findViewById(R.id.tvSize);
         listImage = new ArrayList<>();
 
     }
@@ -318,19 +339,69 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         imageNoteAdapter = new ImageNoteAdapter(this, listImage, this);
         rv_image.setAdapter(imageNoteAdapter);
     }
-
+    private int fromPos = -1;
+    private int toPos = -1;
     private void setUpListCheckList() {
         List<CheckItem> checkItems = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValueChecklist();
         if (checkItems == null || checkItems.size() == 0) {
             text_note_view2.setVisibility(View.GONE);
         } else {
             text_note_view2.setVisibility(View.VISIBLE);
+            checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
+            checkListAdapter = new CheckListAdapter(this, checkItems, this);
+            checklist_list.setAdapter(checkListAdapter);
+            setTouchList(checkItems);
         }
-        checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
-        checkListAdapter = new CheckListAdapter(this, checkItems, this);
-        checklist_list.setAdapter(checkListAdapter);
-    }
 
+    }
+    private void setTouchList(List<CheckItem> checkItems){
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback( ItemTouchHelper.UP | ItemTouchHelper.DOWN , 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                toPos = target.getAdapterPosition();
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+
+            @Override
+            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                switch(actionState){
+                    case ItemTouchHelper.ACTION_STATE_DRAG:{
+                        fromPos = viewHolder.getAdapterPosition();
+                        break;
+                    }
+
+                    case ItemTouchHelper.ACTION_STATE_IDLE: {
+                        //Execute when the user dropped the item after dragging.
+                        if(fromPos != -1 && toPos != -1
+                                && fromPos != toPos) {
+                            moveItem(checkItems,fromPos, toPos);
+                            fromPos = -1;
+                            toPos = -1;
+                        }
+                        break;
+                    }
+                }
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(checklist_list);
+
+    }
+    private void moveItem(List<CheckItem> checkItems,int oldPos, int newPos) {
+
+        CheckItem temp = checkItems.get(oldPos);
+        checkItems.set(oldPos, checkItems.get(newPos));
+        checkItems.set(newPos, temp);
+        checkListAdapter.notifyItemChanged(oldPos);
+        checkListAdapter.notifyItemChanged(newPos);
+        AppDatabase.noteDB.getNoteDAO().updateListCheckList(checkItems,idNote);
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -344,6 +415,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
             checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
             checklist_list.setAdapter(checkListAdapter);
+            setTouchList(ConfigUtils.listCheckList);
 
         }
     }
@@ -486,6 +558,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
             checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
             checklist_list.setAdapter(checkListAdapter);
+            setTouchList(ConfigUtils.listCheckList);
 
         }
     }

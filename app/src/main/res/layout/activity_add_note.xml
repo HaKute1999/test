@@ -117,9 +117,9 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
+                android:textColor="@color/black"
                 android:textColorHint="#a3a2a2"
                 android:textCursorDrawable="@drawable/cursor_drawble"
-
                 android:visibility="gone" />
 
             <androidx.core.widget.NestedScrollView

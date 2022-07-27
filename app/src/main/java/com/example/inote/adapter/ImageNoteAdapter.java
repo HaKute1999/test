@@ -82,6 +82,8 @@ public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.View
             ivDeleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                new File(data.get(getAdapterPosition())).delete();
+
                     data.remove(getAdapterPosition());
                     notifyDataSetChanged();
                     iUpdate.onFinish(data);

@@ -2,12 +2,21 @@ package com.example.inote.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.core.content.FileProvider;
+
 import com.example.inote.models.CheckItem;
+import com.example.inote.ui.MainActivity;
 import com.example.inote.view.drawingview.ICopy;
 
 import java.io.ByteArrayOutputStream;
@@ -92,5 +101,51 @@ public class ConfigUtils {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+    public static Bitmap getBitmapFromView(View view) {
+        // Define a bitmap with the same size as the view
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        // Bind a canvas to it
+        Canvas canvas = new Canvas(returnedBitmap);
+        // Get the view's background
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null)
+            // has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas);
+        else
+            // does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.WHITE);
+        // draw the view on the canvas
+        view.draw(canvas);
+        // return the bitmap
+        return returnedBitmap;
+    }
+    public static void share_bitMap_to_Apps(View view,Context context) {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        File imageFile = null;
+        try {
+            String path = context.getExternalFilesDir(null).getAbsolutePath() + "/temp.png";
+            imageFile = new File(path);
+            try {
+                imageFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ConfigUtils.storeBitmap(imageFile, ConfigUtils.getBitmapFromView(view));
+        }
+        catch (Exception e) {}
+        Intent i = new Intent(Intent.ACTION_SEND);
+        Uri imageUri = FileProvider.getUriForFile(
+                context,
+                "com.example.inote.provider", //(use your app signature + ".provider" )
+                imageFile);
+        i.setType("image/*");
+        i.putExtra(Intent.EXTRA_STREAM,imageUri);
+        try {
+            context.startActivity(Intent.createChooser(i, "My Share  ..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 }

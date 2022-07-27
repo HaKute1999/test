@@ -37,6 +37,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,16 +94,18 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView checklist_image, ivRename, checklist_drag_handle, checklist_delete;
         TextView checklist_title;
+        RelativeLayout checklist_holder;
 
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             this.checklist_image = view.findViewById(R.id.checklist_image);
+            this.checklist_holder = view.findViewById(R.id.checklist_holder);
             this.ivRename = view.findViewById(R.id.ivRename);
             this.checklist_drag_handle = view.findViewById(R.id.checklist_drag_handle);
             this.checklist_delete = view.findViewById(R.id.checklist_delete);
             this.checklist_title = view.findViewById(R.id.checklist_title);
-            view.setOnClickListener(new View.OnClickListener() {
+            checklist_holder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (data.get(getAdapterPosition()).isDone()) {
@@ -114,22 +117,25 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
 
                 }
             });
-            view.setOnLongClickListener(new View.OnLongClickListener() {
+            checklist_holder.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     ivRename.setVisibility(View.VISIBLE);
                     checklist_delete.setVisibility(View.VISIBLE);
                     checklist_drag_handle.setVisibility(View.VISIBLE);
                     view.setBackgroundColor(context.getResources().getColor(R.color.activated_item_foreground));
-                    return false;
+                    return true;
                 }
             });
             checklist_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    data.remove(getAdapterPosition());
+                    iUpdate.updateCheckList(data);
                 }
             });
+
+
         }
 
         @Override
