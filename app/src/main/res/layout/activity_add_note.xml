@@ -55,6 +55,7 @@
                 android:textCursorDrawable="@drawable/cursor_drawble"
                 android:textStyle="bold"
                 />
+
             <EditText
                 android:id="@+id/text_note_view"
                 android:layout_width="match_parent"
@@ -63,6 +64,7 @@
                 android:fontFamily="@font/font"
                 android:freezesText="true"
                 android:gravity="top"
+                android:hint="@string/insert_text_here"
                 android:inputType="textMultiLine"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -70,7 +72,6 @@
                 android:scrollbars="vertical"
                 android:textColor="#000000"
                 android:textColorHint="#a3a2a2"
-                android:hint="@string/insert_text_here"
                 android:textCursorDrawable="@drawable/cursor_drawble" />
 
             <RelativeLayout
@@ -125,7 +126,6 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

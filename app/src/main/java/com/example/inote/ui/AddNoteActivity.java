@@ -22,7 +22,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -63,13 +67,13 @@ import java.util.UUID;
 
 public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
     RelativeLayout ivMore;
-    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search;
+    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search,search_root;
     View viewBackground;
-    EditText edtTitle, text_note_view, text_note_view2, text_note_view3;
+    EditText edtTitle, text_note_view, text_note_view2, text_note_view3,search_query;
     TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone,tvWordCount,tvSize;
     int idNote;
     int idFolder;
-    ImageView ivDraw, ivPhoto, ivCreate, ivChecklist;
+    ImageView ivDraw, ivPhoto, ivCreate, ivChecklist,search_previous,search_next,search_clear;
     RecyclerView rv_image, checklist_list;
     ImageNoteAdapter imageNoteAdapter;
     CheckListAdapter checkListAdapter;
@@ -84,7 +88,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         Intent intent = getIntent();
         idNote = intent.getIntExtra("idNote", 0);
         idFolder = intent.getIntExtra("idFolder", 0);
-
+        ConfigUtils.listCheckList.clear();
         if (idNote != 0) {
             if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getProtectionType() == 1) {
                 layoutLock.setVisibility(View.VISIBLE);
@@ -195,6 +199,24 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
                 ConfigUtils.share_bitMap_to_Apps(nestedScrollView,AddNoteActivity.this);
             }
         });
+        rl_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                viewBackground.setVisibility(View.GONE);
+                imageChooserContainer.setVisibility(View.GONE);
+
+                YoYo.with(Techniques.SlideOutDown).duration(300L).onEnd(new YoYo.AnimatorCallback() {
+                    @Override
+                    public final void call(Animator animator) {
+                        menuChooserContainer.setVisibility(View.GONE);
+                    }
+                }).playOn(findViewById(R.id.menuChooserContainer));
+                search_root.setVisibility(View.VISIBLE);
+            }
+        });
+        initSearch();
+
 
     }
 
@@ -233,7 +255,6 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
                     checkItems.addAll(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValueChecklist());
                     AppDatabase.noteDB.getNoteDAO().updateListCheckList(checkItems, idNote);
                 } else {
-                    ConfigUtils.listCheckList.clear();
                     ConfigUtils.listCheckList.addAll(checkItems);
 
                 }
@@ -276,7 +297,113 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         rl_search = findViewById(R.id.rl_search);
         tvWordCount = findViewById(R.id.tvWordCount);
         tvSize = findViewById(R.id.tvSize);
+        search_root = findViewById(R.id.search_root);
+        search_clear = findViewById(R.id.search_clear);
+        search_next = findViewById(R.id.search_next);
+        search_previous = findViewById(R.id.search_previous);
+        search_query = findViewById(R.id.search_query);
         listImage = new ArrayList<>();
+
+    }
+    String target = "";
+
+    private void initSearch(){
+        search_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                search_root.setVisibility(View.GONE);
+                                    String highlighted = "<span style=\"background-color:#ffffff;\">" + text_note_view.getText().toString() + "</span>";
+
+                text_note_view.setText(Html.fromHtml(highlighted));
+//                changeTextView("",false);
+            }
+        });
+        search_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeTextView(target,false);
+
+            }
+        });
+        search_previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeTextView(target,true);
+
+            }
+        });
+        search_query.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() != 0) {
+                    target = charSequence.toString();
+                    changeTextView(target,true);
+//                    String fullText = text_note_view.getText().toString();
+//                    String highlighted = "<span style=\"background-color:#e4b645;\">" + charSequence + "</span>";
+//                    fullText = fullText.replace( charSequence,highlighted);
+//                    text_note_view.setText(Html.fromHtml(fullText));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+    }
+    int index=0;
+    private void changeTextView(String target,boolean prev)
+    {
+        target = target.toLowerCase();
+        String bString =text_note_view.getText().toString();
+        int startSpan = 0, endSpan = 0;
+        Spannable spanRange = new SpannableString(bString);
+        bString = bString.toLowerCase();
+
+        if(prev)
+        {
+            index -= target.length();
+            index -= 1;
+            if(index <= -1)
+                index = bString.length()-1;
+            index = bString.lastIndexOf(target, index);
+            if(index <= -1)
+                index = bString.lastIndexOf(target, bString.length()-1);
+            index += target.length();
+        }
+        else
+        {
+            index = bString.indexOf(target, index);
+            if(index == -1)
+                index = bString.indexOf(target, 0);
+            index += target.length();
+        }
+
+        while(true) {
+            startSpan = bString.indexOf(target, endSpan);
+            if(startSpan < 0)
+                break;
+            endSpan = startSpan + target.length();
+            if(index == endSpan){
+                spanRange.setSpan(
+                        new BackgroundColorSpan(Color.parseColor("#e4b645")),
+                        startSpan,
+                        endSpan,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            else
+                spanRange.setSpan(
+                        new BackgroundColorSpan(Color.YELLOW),
+                        startSpan,
+                        endSpan,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        text_note_view.setText(spanRange);
 
     }
 
@@ -553,8 +680,6 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             AppDatabase.noteDB.getNoteDAO().updateListCheckList(data, idNote);
             setUpListCheckList();
         } else {
-            ConfigUtils.listCheckList.clear();
-            ConfigUtils.listCheckList.addAll(data);
             checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
             checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
             checklist_list.setAdapter(checkListAdapter);

@@ -811,7 +811,9 @@
     <dimen name="abc_list_item_height_large_material">80dp</dimen>
     <dimen name="abc_list_item_height_material">64dp</dimen>
     <dimen name="abc_list_item_height_small_material">48dp</dimen>
-    <dimen name="abc_list_item_padding_horizontal_material">@dimen/abc_action_bar_content_inset_material</dimen>
+    <dimen name="abc_list_item_padding_horizontal_material">
+        @dimen/abc_action_bar_content_inset_material
+    </dimen>
     <dimen name="abc_panel_menu_list_width">296dp</dimen>
     <dimen name="abc_progress_bar_height_material">4dp</dimen>
     <dimen name="abc_search_view_preferred_height">48dp</dimen>
@@ -1237,4 +1239,10 @@
     <dimen name="pen_min_stroke_size">1dp</dimen>
 
     <dimen name="pen_max_stroke_size">40dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">0dp</dimen>
 </resources>

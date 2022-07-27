@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <style name="CustomDialog" parent="android:style/Theme.Dialog">
-            <item name="android:windowBackground">@drawable/background_dialog</item>
-            <item name="android:height">50dp</item>
 
-            <item
-                name="android:windowContentOverlay">@null</item>
-        </style>
+    <style name="CustomDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/background_dialog</item>
+        <item name="android:height">50dp</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
     <!-- Alert Dialog -->
     <style name="MyThemeOverlayAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Dialog.Rounded
+        </item>
         <item name="background">@drawable/background_dialog</item>
     </style>
 
@@ -24,28 +25,39 @@
         <item name="colorPrimary">#ed2727</item>
         <item name="colorPrimaryDark">#ed2727</item>
     </style>
+
     <declare-styleable name="DrawingView">
 
-    <attr name="brush_color" format="color"/>
+        <attr name="brush_color" format="color" />
 
-    <attr name="drawing_background_color" format="color"/>
+        <attr name="drawing_background_color" format="color" />
 
-    <attr name="brush_size" format="float"/>
+        <attr name="brush_size" format="float" />
 
 
-    <attr name="brush" format="integer">
+        <attr name="brush" format="integer">
 
-    <enum name="pen" value="0"/>
+            <enum name="pen" value="0" />
 
-    <enum name="pencil" value="1"/>
+            <enum name="pencil" value="1" />
 
-    <enum name="calligraphy" value="2"/>
+            <enum name="calligraphy" value="2" />
 
-    <enum name="air_brush" value="3"/>
+            <enum name="air_brush" value="3" />
 
-    <enum name="eraser" value="4"/>
+            <enum name="eraser" value="4" />
 
-     </attr>
+        </attr>
 
-  </declare-styleable>
+    </declare-styleable>
+
+    <style name="Widget.Inote.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.Inote.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 </resources>
