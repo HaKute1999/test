@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -89,6 +91,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         idNote = intent.getIntExtra("idNote", 0);
         idFolder = intent.getIntExtra("idFolder", 0);
         ConfigUtils.listCheckList.clear();
+
         if (idNote != 0) {
             if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getProtectionType() == 1) {
                 layoutLock.setVisibility(View.VISIBLE);
@@ -216,6 +219,18 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             }
         });
         initSearch();
+        Intent intent2 = new Intent(this, NoteWidget.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplication());
+
+        int[] ids = appWidgetManager
+                .getAppWidgetIds(new ComponentName(getApplication(), NoteWidget.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent2
+
+
+        );
+
 
 
     }
@@ -591,6 +606,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listCheckList.clear();
         }
+
+//        ap
 
         super.onBackPressed();
     }

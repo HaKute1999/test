@@ -8,17 +8,19 @@
     <TextView
         android:id="@+id/txx"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:background="@color/main_color"
+        android:layout_height="@dimen/_44sdp"
+        android:background="@drawable/backround_button_rate1"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/_16sdp"
         android:text="@string/notes"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10sdp" />
+        android:textSize="@dimen/_12ssp" />
+
     <ListView
-        android:layout_margin="@dimen/_16sdp"
+        android:background="@drawable/bg_radius_bottom_16"
         android:id="@+id/list"
-        android:layout_below="@+id/txx"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txx"
+        />
 </RelativeLayout>

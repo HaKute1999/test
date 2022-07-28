@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         setupListFolder();
 
+
     }
 
     private void initView() {
