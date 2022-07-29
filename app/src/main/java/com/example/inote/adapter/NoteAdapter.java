@@ -28,6 +28,7 @@ import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.models.Recent;
 import com.example.inote.ui.AddNoteActivity;
 import com.example.inote.ui.MainActivity;
 import com.example.inote.view.IUpdate;
@@ -77,8 +78,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             holder.tvNoteSmall.setText(AppDatabase.noteDB.getFolderDAO().getItemFolder(note.getIdFolder()).getTitle());
 
         }
-        if (note.getValue().length() != 0) {
-            holder.tvValueNote.setText(dateFormat.format(date) + ", " + note.getValue() + "");
+        if (note.getValue().size() != 0) {
+            holder.tvValueNote.setText(dateFormat.format(date) + ", " + note.getValue().get(0) + "");
 
         } else {
             holder.tvValueNote.setText(dateFormat.format(date) + ", " + mContext.getResources().getString(R.string.no_content));
@@ -248,6 +249,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             tv_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AppDatabase.noteDB.getRecentDao().insert(
+                            new Recent(data.get(getAdapterPosition()).getIdFolder(),false,data.get(getAdapterPosition()).getListImage(),0,
+                                    System.currentTimeMillis(),
+                            data.get(getAdapterPosition()).getTitle(),0,
+                            data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist()
+                            ));
                     AppDatabase.noteDB.getNoteDAO().deleteItemNote(data.get(getAdapterPosition()).getId());
                     dialog.dismiss();
                     iUpdate.onFinish();

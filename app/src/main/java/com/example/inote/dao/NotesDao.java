@@ -36,7 +36,7 @@ public interface NotesDao {
     public Note getItemNote(int id);
 
     @Query("UPDATE note SET title=:title, value =:value WHERE id = :id")
-    void updateItem(String title, String value, int id);
+    void updateItem(String title, List<String> value, int id);
 
     @Query("UPDATE note SET protectionType=:protectionType WHERE id = :id")
     void updateprotectionType(int protectionType, int id);

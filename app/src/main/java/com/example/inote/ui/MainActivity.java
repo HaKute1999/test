@@ -58,12 +58,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_main);
         initView();
         ConfigUtils.listImageCache.clear();
+        ConfigUtils.listValueCache.clear();
 
         new ShareUtils(this);
         noteDb = AppDatabase.getInstance(this, DB_NAME);
         if (noteDb.getNoteDAO().getAllNotes().size() == 0) {
             String string = getResources().getString(R.string.thank_you);
-            Note note = new Note(0, false, new ArrayList<>(), null, null, null, "", 0, System.currentTimeMillis(), string, 0, getString(R.string.thanks_all_app) + "\n\n" + getString(R.string.find_all_app) + " \n\nDefault Note", new ArrayList<>());
+            ConfigUtils.listValueCache.add(getString(R.string.thanks_all_app) + "\n\n" + getString(R.string.find_all_app) + " \n\nDefault Note");
+            ConfigUtils.listValueCache.add("");
+            ConfigUtils.listValueCache.add("");
+            Note note = new Note(0, false, new ArrayList<>(), 0, System.currentTimeMillis(), string, 0, ConfigUtils.listValueCache, new ArrayList<>());
             noteDb.getNoteDAO().insert(note);
         }
         setupListFolder();

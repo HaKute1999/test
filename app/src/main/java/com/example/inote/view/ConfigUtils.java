@@ -33,6 +33,7 @@ import java.util.UUID;
 
 public class ConfigUtils {
     public final static List<String> listImageCache = new ArrayList<>();
+    public final static List<String> listValueCache = new ArrayList<>();
     public final static List<CheckItem> listCheckList = new ArrayList<>();
     public static void hideKeyboard(Activity activity) {
 

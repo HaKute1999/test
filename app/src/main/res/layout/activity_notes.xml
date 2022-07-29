@@ -244,6 +244,7 @@
             android:textSize="@dimen/_14sdp" />
 
         <LinearLayout
+            android:id="@+id/ll_menu"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:layout_alignParentEnd="true"

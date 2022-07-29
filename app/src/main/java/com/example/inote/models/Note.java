@@ -17,26 +17,20 @@ public class Note {
     private int idFolder;
     private boolean isPinned;
     private List<String> listImage;
-    private String noteStyle;
-    private String passNote;
-    private String path;
-    private String protectionHash;
+
     private int protectionType;
     private long timeEdit;
     private String title;
     private int type;
-    private String value;
+    private List<String> value;
     private List<CheckItem> valueChecklist;
 
-    public Note(int idFolder, boolean isPinned, List<String> listImage, String noteStyle, String passNote, String path, String protectionHash, int protectionType, long timeEdit, String title, int type, String value, List<CheckItem> valueChecklist) {
+    public Note(int idFolder, boolean isPinned, List<String> listImage,  int protectionType, long timeEdit, String title, int type, List<String> value, List<CheckItem> valueChecklist) {
 
         this.idFolder = idFolder;
         this.isPinned = isPinned;
         this.listImage = listImage;
-        this.noteStyle = noteStyle;
-        this.passNote = passNote;
-        this.path = path;
-        this.protectionHash = protectionHash;
+
         this.protectionType = protectionType;
         this.timeEdit = timeEdit;
         this.title = title;
@@ -77,38 +71,6 @@ public class Note {
         this.listImage = listImage;
     }
 
-    public String getNoteStyle() {
-        return noteStyle;
-    }
-
-    public void setNoteStyle(String noteStyle) {
-        this.noteStyle = noteStyle;
-    }
-
-    public String getPassNote() {
-        return passNote;
-    }
-
-    public void setPassNote(String passNote) {
-        this.passNote = passNote;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getProtectionHash() {
-        return protectionHash;
-    }
-
-    public void setProtectionHash(String protectionHash) {
-        this.protectionHash = protectionHash;
-    }
-
     public int getProtectionType() {
         return protectionType;
     }
@@ -141,11 +103,11 @@ public class Note {
         this.type = type;
     }
 
-    public String getValue() {
+    public List<String> getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(List<String> value) {
         this.value = value;
     }
 

@@ -10,19 +10,22 @@ import androidx.room.TypeConverters;
 import com.example.inote.R;
 import com.example.inote.dao.FolderDao;
 import com.example.inote.dao.NotesDao;
+import com.example.inote.dao.RecentDao;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.models.Recent;
 import com.example.inote.view.Converters;
 
 import java.io.File;
 
-@Database(entities = {Note.class, Folder.class}, version = 2)
+@Database(entities = {Note.class, Folder.class, Recent.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase noteDB;
     private static final String DB_NAME = "notes.db";
 
     public abstract NotesDao getNoteDAO();
+    public abstract RecentDao getRecentDao();
 
     public abstract FolderDao getFolderDAO();
 

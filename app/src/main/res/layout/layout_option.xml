@@ -4,7 +4,7 @@
     android:id="@+id/menuChooserContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
+
   >
 
     <LinearLayout
@@ -327,6 +327,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_font"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_39sdp"
@@ -414,6 +415,7 @@
                 android:background="#c6c6c6" />
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_align"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_42sdp"

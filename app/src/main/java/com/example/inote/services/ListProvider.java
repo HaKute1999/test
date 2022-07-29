@@ -56,7 +56,7 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
                 R.layout.item_note_widget);
 
         row.setTextViewText(R.id.tvTitleNote, items.get(position).getTitle());
-        row.setTextViewText(R.id.tvValueNote, items.get(position).getValue());
+        row.setTextViewText(R.id.tvValueNote, items.get(position).getValue().get(0));
         if (items.get(position).getListImage().size() > 0) {
             Bitmap bitmap = null;
             try {

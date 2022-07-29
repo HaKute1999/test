@@ -115,22 +115,22 @@
                             android:text="@string/light"
                             android:textColor="#000000" />
 
-                        <RadioButton
-                            android:id="@+id/auto_on"
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:background="@drawable/yesno_delete"
-                            android:button="@null" />
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/auto_on"-->
+<!--                            android:layout_width="@dimen/_15sdp"-->
+<!--                            android:layout_height="@dimen/_15sdp"-->
+<!--                            android:background="@drawable/yesno_delete"-->
+<!--                            android:button="@null" />-->
 
-                        <TextView
-                            android:id="@+id/tv_auto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:layout_marginEnd="@dimen/_15sdp"
-                            android:fontFamily="@font/font"
-                            android:text="@string/auto"
-                            android:textColor="#000000" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_auto"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/_5sdp"-->
+<!--                            android:layout_marginEnd="@dimen/_15sdp"-->
+<!--                            android:fontFamily="@font/font"-->
+<!--                            android:text="@string/auto"-->
+<!--                            android:textColor="#000000" />-->
                     </RadioGroup>
 
                     <View
@@ -803,7 +803,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/font"
-                        android:text="Rate 5 ⭐️⭐️⭐️⭐️⭐️"
+                        android:text="Rate"
                         android:textColor="#000000"
                         android:textSize="@dimen/_12ssp" />
 

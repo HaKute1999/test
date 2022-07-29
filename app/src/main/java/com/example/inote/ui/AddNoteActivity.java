@@ -91,15 +91,24 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         idNote = intent.getIntExtra("idNote", 0);
         idFolder = intent.getIntExtra("idFolder", 0);
         ConfigUtils.listCheckList.clear();
+        ConfigUtils.listValueCache.clear();
 
         if (idNote != 0) {
+            ConfigUtils.listValueCache.addAll(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue());
+
             if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getProtectionType() == 1) {
                 layoutLock.setVisibility(View.VISIBLE);
             }
             edtTitle.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getTitle());
-            text_note_view.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue());
+            text_note_view.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue().get(0));
+            text_note_view2.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue().get(1));
+            text_note_view3.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue().get(2));
             tvTime.setText(ConfigUtils.formatDateTIme(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getTimeEdit()));
         } else {
+            ConfigUtils.listValueCache.add(0,"");
+            ConfigUtils.listValueCache.add(1,"");
+            ConfigUtils.listValueCache.add(2,"");
+
             tvTime.setVisibility(View.GONE);
         }
         findViewById(R.id.tvBack).setOnClickListener(view -> onBackPressed());
@@ -226,11 +235,50 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         int[] ids = appWidgetManager
                 .getAppWidgetIds(new ComponentName(getApplication(), NoteWidget.class));
         intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        sendBroadcast(intent2
+        sendBroadcast(intent2);
+        text_note_view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ConfigUtils.listValueCache.remove(0);
+                if (charSequence.length() != 0){
+                    ConfigUtils.listValueCache.add(0,charSequence.toString());
+                }else ConfigUtils.listValueCache.add(0,"");
 
+            }
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+        text_note_view2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ConfigUtils.listValueCache.remove(1);
+                if (charSequence.length() != 0){
+                    ConfigUtils.listValueCache.add(1,charSequence.toString());
+                }else {
+                    ConfigUtils.listValueCache.add(1,"");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
+        text_note_view3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ConfigUtils.listValueCache.remove(2);
+                if (charSequence.length() != 0){
+                    ConfigUtils.listValueCache.add(2,charSequence.toString());
+                }else ConfigUtils.listValueCache.add(2,"");
 
-        );
-
+            }
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
 
 
     }
@@ -472,7 +520,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
     private void setupListImage() {
         List<String> listImage = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getListImage();
-        if (listImage.size() == 0) {
+        if (listImage.size() == 0 &&  text_note_view3.length() == 0) {
             text_note_view3.setVisibility(View.GONE);
         } else {
             text_note_view3.setVisibility(View.VISIBLE);
@@ -485,7 +533,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     private int toPos = -1;
     private void setUpListCheckList() {
         List<CheckItem> checkItems = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValueChecklist();
-        if (checkItems == null || checkItems.size() == 0) {
+        if ((checkItems == null || checkItems.size() == 0) &&  text_note_view2.length() == 0) {
             text_note_view2.setVisibility(View.GONE);
         } else {
             text_note_view2.setVisibility(View.VISIBLE);
@@ -493,6 +541,21 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             checkListAdapter = new CheckListAdapter(this, checkItems, this);
             checklist_list.setAdapter(checkListAdapter);
             setTouchList(checkItems);
+        }
+
+    }
+    private void setUpValue() {
+        List<String> value = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue();
+        if (value.size() ==1){
+            text_note_view.setText(value.get(0));
+        }else if (value.size() ==2){
+            text_note_view2.setText(value.get(1));
+            text_note_view2.setVisibility(View.VISIBLE);
+        }if (value.size() ==3){
+
+            text_note_view3.setText(value.get(2));
+            text_note_view3.setVisibility(View.VISIBLE);
+
         }
 
     }
@@ -550,7 +613,18 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         if (idNote != 0) {
             setupListImage();
             setUpListCheckList();
+            setUpValue();
         } else {
+            if (ConfigUtils.listImageCache.size() == 0  &&  text_note_view3.length() == 0) {
+                text_note_view3.setVisibility(View.GONE);
+            } else {
+                text_note_view3.setVisibility(View.VISIBLE);
+            }
+            if (ConfigUtils.listCheckList.size() == 0  &&  text_note_view2.length() == 0) {
+                text_note_view2.setVisibility(View.GONE);
+            } else {
+                text_note_view2.setVisibility(View.VISIBLE);
+            }
             rv_image.setLayoutManager(new GridLayoutManager(this, 2));
             imageNoteAdapter = new ImageNoteAdapter(this, ConfigUtils.listImageCache, this);
             rv_image.setAdapter(imageNoteAdapter);
@@ -558,7 +632,6 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
             checklist_list.setAdapter(checkListAdapter);
             setTouchList(ConfigUtils.listCheckList);
-
         }
     }
 
@@ -570,6 +643,11 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         } else {
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listImageCache.addAll(data);
+            if (ConfigUtils.listImageCache.size() == 0  &&  text_note_view3.length() == 0) {
+                text_note_view3.setVisibility(View.GONE);
+            } else {
+                text_note_view3.setVisibility(View.VISIBLE);
+            }
             rv_image.setLayoutManager(new GridLayoutManager(this, 2));
             imageNoteAdapter = new ImageNoteAdapter(this, ConfigUtils.listImageCache, this);
             rv_image.setAdapter(imageNoteAdapter);
@@ -592,19 +670,20 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     @Override
     public void onBackPressed() {
         if (idNote != 0) {
-            AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(), text_note_view.getText().toString(), idNote);
+            AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(), ConfigUtils.listValueCache, idNote);
         } else if (edtTitle.getText().toString().length() != 0
-                || text_note_view.getText().toString().length() != 0
+                || ConfigUtils.listValueCache.size() > 0
                 || ConfigUtils.listCheckList.size() > 0
                 || ConfigUtils.listImageCache.size() > 0) {
             AppDatabase.noteDB.getNoteDAO().insert(
-                    new Note(idFolder, false, ConfigUtils.listImageCache, null, null, null, null, 0, System.currentTimeMillis(),
-                            edtTitle.getText().toString(), 0, text_note_view.getText().toString(), ConfigUtils.listCheckList));
+                    new Note(idFolder, false, ConfigUtils.listImageCache,  0, System.currentTimeMillis(),
+                            edtTitle.getText().toString(), 0, ConfigUtils.listValueCache, ConfigUtils.listCheckList));
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listCheckList.clear();
         } else {
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listCheckList.clear();
+            ConfigUtils.listValueCache.clear();
         }
 
 //        ap
@@ -697,11 +776,17 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             AppDatabase.noteDB.getNoteDAO().updateListCheckList(data, idNote);
             setUpListCheckList();
         } else {
+            if (ConfigUtils.listCheckList.size() == 0 && text_note_view2.length() == 0) {
+                text_note_view2.setVisibility(View.GONE);
+            } else {
+                text_note_view2.setVisibility(View.VISIBLE);
+            }
             checklist_list.setLayoutManager(new GridLayoutManager(this, 1));
             checkListAdapter = new CheckListAdapter(this, ConfigUtils.listCheckList, this);
             checklist_list.setAdapter(checkListAdapter);
             setTouchList(ConfigUtils.listCheckList);
 
         }
+
     }
 }

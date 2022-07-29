@@ -38,6 +38,8 @@ public class NotesActivity extends BaseActivity implements IUpdate {
     int idFolder;
     String type;
     LinearLayout ll_note;
+    LinearLayout ll_menu;
+    View viewBackgroundHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
