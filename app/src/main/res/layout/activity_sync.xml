@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootSync"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp">
+
+        <ImageView
+            android:id="@+id/img_back_note"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvBack_note"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="-2dp"
+            android:layout_toEndOf="@+id/img_back_note"
+            android:fontFamily="@font/font"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/synchronized2"
+            android:textColor="@color/main_color"
+            android:textSize="@dimen/_15sdp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:layout_marginTop="@dimen/_10sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlSync"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/button_selector_light"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imgSync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:src="@drawable/ic_next" />
+
+                <TextView
+                    android:id="@+id/tvSync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:fontFamily="@font/font"
+                    android:text="@string/export_backup_file"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/viewSync"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#c7c7c7" />
+
+                <View
+                    android:id="@+id/viewSync1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#c7c7c7" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvCheckSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/you_are_not_in_sync"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/numberSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/number_of_notes_synchronized"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/tvBackupFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/backup_file"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rlFile"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/iv1"
+                    android:fontFamily="@font/font"
+                    android:text="BackUpNoteIos.json"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tv1"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_toStartOf="@+id/ivShareBackup"
+                    android:layout_toEndOf="@+id/iv1"
+                    android:fontFamily="@font/font"
+                    android:maxLines="1"
+                    android:text="/storage/emulated/0/Documents/Backupnoteios.json"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp" />
+
+                <ImageView
+                    android:id="@+id/iv1"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivShareBackup"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_share" />
+
+                <View
+                    android:id="@+id/viewImport3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#c7c7c7" />
+
+                <View
+                    android:id="@+id/viewImport4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#c7c7c7" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlImport"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/button_selector_light"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imgImport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:src="@drawable/ic_next" />
+
+                <TextView
+                    android:id="@+id/tvImport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:fontFamily="@font/font"
+                    android:text="@string/import_file_backup"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/viewImport"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#c7c7c7" />
+
+                <View
+                    android:id="@+id/viewImport1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#c7c7c7" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/tutorial"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvcuoi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/font"
+                android:text="@string/choose_to_export_backup_file_then_it_will_be_saved_in_the_docmument_folder_at_the_internalstorage_documents_inote_backupnoteios_json_to_sync_you_can_either_send_this_file_to_another_device_or_when_reinstall_the_app_choose_to_import_the_sync_file_and_choose_where_you_save_the_backupnoteios_json_file_to_sync_currently_only_text_notes_and_checklists_can_be_synchronized"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11ssp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
