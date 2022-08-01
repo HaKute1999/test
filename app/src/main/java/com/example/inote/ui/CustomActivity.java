@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-public class CustomActivity extends AppCompatActivity {
+public class CustomActivity extends BaseActivity {
     //LinePreview pencilPreview;
 //ConstraintLayout boxPencil;
 //AppCompatSeekBar seekBarPencil;
@@ -45,6 +45,9 @@ public class CustomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
+
+
         setContentView(R.layout.custom);
 //        pencilPreview = findViewById(R.id.pencilPreview);
 //        boxPencil = findViewById(R.id.boxPencil);

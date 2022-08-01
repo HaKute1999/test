@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ import com.example.inote.models.Note;
 import com.example.inote.models.Recent;
 import com.example.inote.ui.AddNoteActivity;
 import com.example.inote.ui.MainActivity;
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.IUpdate;
 import com.example.inote.view.ShareUtils;
 import com.makeramen.roundedimageview.RoundedDrawable;
@@ -97,6 +99,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         if (data.get(position).getListImage().size() > 0) {
             holder.image_note2.setImageURI(Uri.fromFile(new File(data.get(position).getListImage().get(data.get(position).getListImage().size() - 1))));
         }
+        if (position == data.size()-1){
+            holder.view_main.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -110,6 +115,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         private TextView tvNoteSmall;
         private RoundedImageView image_note2;
         private ImageView ivLockHome;
+        private View view_main;
 
         public ViewHolder(View view) {
             super(view);
@@ -119,6 +125,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             this.tvNoteSmall = view.findViewById(R.id.tvNoteSmall);
             this.image_note2 = view.findViewById(R.id.image_note2);
             this.ivLockHome = view.findViewById(R.id.ivLockHome);
+            this.view_main = view.findViewById(R.id.view_main);
+            ConfigUtils.getConFigDark(mContext,view_main,tvTitle);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -146,8 +154,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             RelativeLayout rlEdit = dialog.findViewById(R.id.rlEdit);
             RelativeLayout rlDelete = dialog.findViewById(R.id.rlDelete);
             RelativeLayout rlMove = dialog.findViewById(R.id.rlFolder);
+            RelativeLayout dialog2 = dialog.findViewById(R.id.dialog2);
+            LinearLayout rl_bottom = dialog.findViewById(R.id.rl_bottom);
             TextView tvName = dialog.findViewById(R.id.tvName);
             TextView tvPinDl = dialog.findViewById(R.id.tvPinDl);
+            TextView tvEdit = dialog.findViewById(R.id.tvEdit);
+            TextView tvFolder = dialog.findViewById(R.id.tvFolder);
+            View viewM = dialog.findViewById(R.id.viewM);
+            View viewM3 = dialog.findViewById(R.id.viewM3);
+            View viewM4 = dialog.findViewById(R.id.viewM4);
+            View viewM2 = dialog.findViewById(R.id.viewM2);
             tvName.setText(data.get(getAdapterPosition()).getTitle());
             if (data.get(getAdapterPosition()).isPinned()) {
                 tvPinDl.setText(mContext.getResources().getString(R.string.unpin));
@@ -172,6 +188,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             if (data.get(getAdapterPosition()).getProtectionType() == 1) {
                 tvFavorites.setText(mContext.getString(R.string.unlocks));
             }
+            ConfigUtils.getConFigDark(mContext,rl_bottom,tvName,tvPinDl,tvFolder,tvEdit,tvFavorites,viewM3,viewM,viewM4,viewM2,dialog2);
+
+
             rlLock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -235,6 +254,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             TextView tvA_cancel = dialog.findViewById(R.id.tvA_cancel);
             TextView tv_rename = dialog.findViewById(R.id.tv_rename);
+            LinearLayout dialog_show = dialog.findViewById(R.id.dialog_show);
+
             String str = itemView.getContext().getResources().getString(R.string.delete_note_prompt_message);
             String format = String.format(str, Arrays.copyOf(new Object[]{data.get(getAdapterPosition()).getTitle()}, 1));
             tv_rename.setText(format);
@@ -246,6 +267,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             });
 
             TextView tv_ok = dialog.findViewById(R.id.tv_ok);
+            ConfigUtils.getConFigDark(dialog.getContext(),tv_rename,tvA_cancel,tv_ok,dialog_show);
+
             tv_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -276,6 +299,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             EditText edtQuestion = dialog.findViewById(R.id.edtQuestion);
             TextView tvOk = dialog.findViewById(R.id.tvOk);
             TextView tvCancel = dialog.findViewById(R.id.tvCancel);
+            TextView tvTitle = dialog.findViewById(R.id.tvTitle);
+            RelativeLayout root_dl = dialog.findViewById(R.id.root_dl);
+            View view1_dl = dialog.findViewById(R.id.view1_dl);
+            View view2_dl = dialog.findViewById(R.id.view2_dl);
+            ConfigUtils.getConFigDark(mContext, root_dl,edtPasscode,edtRePasscode,edtQuestion,tvOk,tvCancel,view1_dl,view2_dl,tvTitle);
             tvOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -318,6 +346,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             EditText tv_rename = dialog.findViewById(R.id.edtFolder2);
             TextView tvCancelFolder2 = dialog.findViewById(R.id.tvCancelFolder2);
+            TextView tvTitleFolder2 = dialog.findViewById(R.id.tvTitleFolder2);
+            TextView tvTitleFolder22 = dialog.findViewById(R.id.tvTitleFolder22);
+            View view1_dl2 = dialog.findViewById(R.id.view1_dl2);
+            View view2_dl2 = dialog.findViewById(R.id.view2_dl2);
 
             tvCancelFolder2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -327,6 +359,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             });
 
             TextView tv_delete_note = dialog.findViewById(R.id.tvOkFolder2);
+            ConfigUtils.getConFigDark(mContext,tvCancelFolder2,tv_delete_note,tv_rename,tvTitleFolder2,tvTitleFolder22,view2_dl2,view1_dl2);
             tv_delete_note.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

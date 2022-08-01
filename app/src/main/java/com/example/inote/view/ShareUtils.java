@@ -8,6 +8,7 @@ public class ShareUtils {
     private static SharedPreferences prefs;
 
     public final static  String PASSCODE = "PASSCODE";
+    public final static  String CONFIG_DARK = "CONFIG_DARK";
     //direction
 
     public static boolean isPreferencesSet(Context context){
@@ -23,7 +24,7 @@ public class ShareUtils {
 
     public static boolean checkExist( String key)
     {
-        if(!prefs.contains(key)){
+        if(prefs.contains(key)){
             return true;
         }
         else {

@@ -7,6 +7,7 @@
     android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -247,6 +248,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"

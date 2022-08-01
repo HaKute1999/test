@@ -69,7 +69,7 @@ import java.util.UUID;
 
 public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
     RelativeLayout ivMore;
-    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search,search_root;
+    RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search,search_root,main_note,rl_bottom,rl_top;
     View viewBackground;
     EditText edtTitle, text_note_view, text_note_view2, text_note_view3,search_query;
     TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone,tvWordCount,tvSize;
@@ -85,6 +85,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
+
         setContentView(R.layout.activity_add_note);
         initView();
         Intent intent = getIntent();
@@ -279,7 +281,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             @Override
             public void afterTextChanged(Editable editable) { }
         });
-
+        ConfigUtils.getConFigDark1(getApplicationContext(),edtTitle,text_note_view,text_note_view2,text_note_view3,tvTime,rl_top,rl_bottom);
 
     }
 
@@ -365,6 +367,9 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         search_next = findViewById(R.id.search_next);
         search_previous = findViewById(R.id.search_previous);
         search_query = findViewById(R.id.search_query);
+        main_note = findViewById(R.id.main_note);
+        rl_bottom = findViewById(R.id.rl_bottom);
+        rl_top = findViewById(R.id.rl_top);
         listImage = new ArrayList<>();
 
     }
@@ -633,6 +638,10 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             checklist_list.setAdapter(checkListAdapter);
             setTouchList(ConfigUtils.listCheckList);
         }
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
+            main_note.setBackgroundColor(Color.BLACK);
+        }else  main_note.setBackgroundColor(getResources().getColor(R.color.color_main));
+        ;
     }
 
     @Override
@@ -673,11 +682,11 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(), ConfigUtils.listValueCache, idNote);
         } else if (edtTitle.getText().toString().length() != 0
                 || ConfigUtils.listValueCache.size() > 0
-                || ConfigUtils.listCheckList.size() > 0
                 || ConfigUtils.listImageCache.size() > 0) {
             AppDatabase.noteDB.getNoteDAO().insert(
                     new Note(idFolder, false, ConfigUtils.listImageCache,  0, System.currentTimeMillis(),
                             edtTitle.getText().toString(), 0, ConfigUtils.listValueCache, ConfigUtils.listCheckList));
+            ConfigUtils.listValueCache.clear();
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listCheckList.clear();
         } else {

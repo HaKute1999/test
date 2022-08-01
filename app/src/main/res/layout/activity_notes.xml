@@ -11,6 +11,7 @@
         android:id="@+id/myScrollViewAllNote"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_16sdp"
         android:overScrollMode="never"
         android:scrollbarSize="3dp"
         android:scrollbars="vertical">
@@ -70,8 +71,8 @@
                     android:hint="@string/searchs"
                     android:inputType="textNoSuggestions"
                     android:textColor="#000000"
-                    android:textCursorDrawable="@drawable/cursor_drawble"
                     android:textColorHint="#969799"
+                    android:textCursorDrawable="@drawable/cursor_drawble"
                     android:textSize="@dimen/_13ssp" />
 
                 <ImageView
@@ -196,6 +197,7 @@
                     android:id="@+id/rv_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:overScrollMode="never" />
             </LinearLayout>
 
@@ -209,6 +211,7 @@
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/background_header_home"
         android:clickable="true"
         android:focusable="true">
@@ -315,4 +318,5 @@
         android:visibility="gone" />
 
     <include layout="@layout/layout_home_chooser" />
+    <include layout="@layout/layout_config_note"/>
 </RelativeLayout>

@@ -21,6 +21,8 @@ public class DeleteActivity extends BaseActivity  implements IUpdate {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
+
         setContentView(R.layout.activity_delete);
         onBack();
         rv_note_delete = findViewById(R.id.rv_note_delete);

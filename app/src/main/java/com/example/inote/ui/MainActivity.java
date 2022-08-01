@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, IUpdate {
-    RelativeLayout rl_gomain, rlDeleteNote, rl_gosetting, rl_go_pin;
+    RelativeLayout rl_gomain, rlDeleteNote, rl_gosetting, rl_go_pin,root_final;
     ImageView ivAddFolder;
     ImageView ivAddNote;
     TextView size_list1;
@@ -61,6 +61,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ConfigUtils.listValueCache.clear();
 
         new ShareUtils(this);
+        if (!ShareUtils.checkExist(ShareUtils.CONFIG_DARK)){
+            ShareUtils.setBool(ShareUtils.CONFIG_DARK,false);
+        }
         noteDb = AppDatabase.getInstance(this, DB_NAME);
         if (noteDb.getNoteDAO().getAllNotes().size() == 0) {
             String string = getResources().getString(R.string.thank_you);
@@ -86,6 +89,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         size_list2 = findViewById(R.id.size_list2);
         sizeDelete = findViewById(R.id.sizeDelete);
         listFolder = findViewById(R.id.listFolder);
+        root_final = findViewById(R.id.root_final);
         rl_gomain.setOnClickListener(this);
         rl_go_pin.setOnClickListener(this);
         rl_gosetting.setOnClickListener(this);
@@ -99,6 +103,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void setupListFolder() {
         size_list2.setText(noteDb.getNoteDAO().getAllNotePin(true).size() + "");
         size_list1.setText(noteDb.getNoteDAO().getAllNotes().size() + "");
+        sizeDelete.setText(noteDb.getRecentDao().getAllRecents().size()+"");
         listData = new ArrayList<>();
         listData = noteDb.getFolderDAO().getAllFolder();
         listFolder.setLayoutManager(new LinearLayoutManager(this));
@@ -110,6 +115,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         AppDatabase.doesDatabaseExist(this, DB_NAME);
         setupListFolder();
+        ConfigUtils.getConFigDark(getApplicationContext(),ids(R.id.view_main),ids(R.id.tv_rc),ids(R.id.tv_fv_exit),ids(R.id.tvRcDelete),ids(R.id.tv_stt),ids(R.id.ll_exit_menu),ids(R.id.viewExit),ids(R.id.viewExit2),ids(R.id.viewDelete),ids(R.id.viewExit3),ids(R.id.rl_pro2));
+
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
+            root_final.setBackgroundColor(Color.BLACK);
+        }else  root_final.setBackgroundColor(getResources().getColor(R.color.color_main));
+;
         super.onResume();
     }
 
@@ -165,6 +176,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         dialog.setContentView(R.layout.dialog_create_folder);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView tvCancelFolder = dialog.findViewById(R.id.tvCancelFolder);
+        TextView tvTitleFolder = dialog.findViewById(R.id.tvTitleFolder);
+        TextView tvTitleFolder2 = dialog.findViewById(R.id.tvTitleFolder2);
+        RelativeLayout root_dl = dialog.findViewById(R.id.root_dl);
         EditText edtFolder = dialog.findViewById(R.id.edtFolder);
 
         tvCancelFolder.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +189,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
 
         TextView tvOkFolder = dialog.findViewById(R.id.tvOkFolder);
+        ConfigUtils.getConFigDark(getApplicationContext(),edtFolder,tvTitleFolder,tvTitleFolder2,tvCancelFolder,tvOkFolder,root_dl);
+
         tvOkFolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

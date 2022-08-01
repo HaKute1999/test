@@ -71,6 +71,10 @@ public class BaseActivity extends AppCompatActivity {
         requestStoragePermission(activity, REQUEST_CODE);
         return checkReadExternalStoragePermission(activity, REQUEST_CODE);
     }
+    public View ids(int id){
+       return findViewById(id);
+
+    }
 
     @Override
     protected void onResume() {

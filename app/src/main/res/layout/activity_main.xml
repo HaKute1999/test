@@ -28,7 +28,6 @@
             android:id="@+id/ll_exit_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@drawable/background_white_radius"
             android:orientation="vertical">
 
@@ -84,7 +83,7 @@
                 <View
                     android:id="@+id/viewExit"
                     android:layout_width="match_parent"
-                    android:layout_height="0.4dp"
+                    android:layout_height="0.2dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="@dimen/_47sdp"
                     android:background="#c8c8c8" />
@@ -125,7 +124,7 @@
                 <View
                     android:id="@+id/viewExit2"
                     android:layout_width="match_parent"
-                    android:layout_height="0.4dp"
+                    android:layout_height="0.2dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="@dimen/_47sdp"
                     android:background="#c8c8c8" />
@@ -184,7 +183,7 @@
                 <View
                     android:id="@+id/viewDelete"
                     android:layout_width="match_parent"
-                    android:layout_height="0.4dp"
+                    android:layout_height="0.2dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="@dimen/_47sdp"
                     android:background="#c8c8c8" />
@@ -362,7 +361,7 @@
         <View
             android:id="@+id/viewExit3"
             android:layout_width="match_parent"
-            android:layout_height="0.4dp"
+            android:layout_height="0.2dp"
             android:background="#c8c8c8" />
 
         <ImageView

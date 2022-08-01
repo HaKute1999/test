@@ -59,6 +59,7 @@ public class DrawNoteActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
         setContentView(R.layout.activity_draw_note);
         initVIew();
         onBack();

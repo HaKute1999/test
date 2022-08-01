@@ -12,9 +12,14 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
 
+import com.example.inote.R;
 import com.example.inote.models.CheckItem;
 import com.example.inote.ui.MainActivity;
 import com.example.inote.view.drawingview.ICopy;
@@ -149,4 +154,78 @@ public class ConfigUtils {
             ex.printStackTrace();
         }
     }
+    public static final  <T> void getConFigDark(Context context,T... arr) {
+        for (T v : arr) {
+
+                    if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) {
+                        if (v instanceof EditText){
+                            ((EditText) v).setBackground(context.getDrawable(R.drawable.background_edt_dialog_drak));
+                            ((EditText) v).setTextColor(Color.WHITE);
+                            ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
+                        }else if (v instanceof TextView){
+                            ((TextView) v).setTextColor(Color.WHITE);
+                        }else  if (v instanceof RelativeLayout ){
+                            ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
+                        }else  if (v instanceof LinearLayout){
+                            ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
+                        }else {
+                            ((View) v).setBackgroundResource(R.color.md_grey_800_dark);
+                        }
+                    }else {
+                        if (v instanceof EditText){
+                            ((EditText) v).setBackground(context.getDrawable(R.drawable.background_edt_dialog));
+                            ((EditText) v).setTextColor(Color.BLACK);
+                            ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
+
+                        }else if (v instanceof TextView){
+                            ((TextView) v).setTextColor(Color.BLACK);
+                        }else  if (v instanceof RelativeLayout ){
+                            ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius);
+                        }else  if (v instanceof LinearLayout){
+                            ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius);
+                        }else {
+                            ((View) v).setBackgroundResource(R.color.md_grey_300_dark);
+                        }
+                    }
+
+
+    }
+
+
+    }
+    public static final  <T> void getConFigDark1(Context context,T... arr) {
+        for (T v : arr) {
+
+            if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) {
+                if (v instanceof EditText) {
+                    ((EditText) v).setTextColor(Color.WHITE);
+                    ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
+                } else if (v instanceof TextView) {
+                    ((TextView) v).setTextColor(Color.WHITE);
+                } else if (v instanceof RelativeLayout) {
+                    ((RelativeLayout) v).setBackgroundResource(R.drawable.background_header_light);
+                } else if (v instanceof LinearLayout) {
+                    ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
+                } else {
+                    ((View) v).setBackgroundResource(R.color.md_grey_800_dark);
+                }
+            } else {
+                if (v instanceof EditText) {
+                    ((EditText) v).setTextColor(Color.BLACK);
+                    ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
+
+                } else if (v instanceof TextView) {
+                    ((TextView) v).setTextColor(Color.BLACK);
+                } else if (v instanceof RelativeLayout) {
+                    ((RelativeLayout) v).setBackgroundResource(R.drawable.background_header_home);
+                } else if (v instanceof LinearLayout) {
+                    ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius);
+                } else {
+                    ((View) v).setBackgroundResource(R.color.md_grey_300_dark);
+                }
+            }
+        }
+
+        }
+
 }

@@ -15,6 +15,7 @@
         android:scrollbars="vertical">
 
         <LinearLayout
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/ll_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +41,6 @@
                     android:id="@+id/tvBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_6sdp"
                     android:fontFamily="@font/font"
                     android:text="@string/settingxl"
                     android:textColor="@color/main_color"
@@ -92,7 +92,7 @@
                             android:id="@+id/tv_dark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:paddingLeft="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/font"
                             android:text="@string/dark"
@@ -109,28 +109,28 @@
                             android:id="@+id/tv_light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
+                            android:paddingLeft="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/font"
                             android:text="@string/light"
                             android:textColor="#000000" />
 
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/auto_on"-->
-<!--                            android:layout_width="@dimen/_15sdp"-->
-<!--                            android:layout_height="@dimen/_15sdp"-->
-<!--                            android:background="@drawable/yesno_delete"-->
-<!--                            android:button="@null" />-->
+                        <!--                        <RadioButton-->
+                        <!--                            android:id="@+id/auto_on"-->
+                        <!--                            android:layout_width="@dimen/_15sdp"-->
+                        <!--                            android:layout_height="@dimen/_15sdp"-->
+                        <!--                            android:background="@drawable/yesno_delete"-->
+                        <!--                            android:button="@null" />-->
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/tv_auto"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="@dimen/_5sdp"-->
-<!--                            android:layout_marginEnd="@dimen/_15sdp"-->
-<!--                            android:fontFamily="@font/font"-->
-<!--                            android:text="@string/auto"-->
-<!--                            android:textColor="#000000" />-->
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/tv_auto"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginStart="@dimen/_5sdp"-->
+                        <!--                            android:layout_marginEnd="@dimen/_15sdp"-->
+                        <!--                            android:fontFamily="@font/font"-->
+                        <!--                            android:text="@string/auto"-->
+                        <!--                            android:textColor="#000000" />-->
                     </RadioGroup>
 
                     <View
@@ -306,11 +306,11 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/make_link"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
-                    android:background="@drawable/button_selector_light">
+                    android:background="@drawable/button_selector_light"
+                    android:visibility="gone">
 
                     <com.suke.widget.SwitchButton
                         android:id="@+id/check_make_link_light"
@@ -465,13 +465,13 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rl_hide_hint"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/button_selector_light"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_hide_hint"
@@ -520,13 +520,13 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rl_au_to"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/button_selector_light"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tvAuto"
@@ -574,13 +574,13 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rl_lock_st"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/button_selector_light"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_lock"
@@ -633,8 +633,7 @@
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/button_selector_light"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:visibility="gone">
+                    android:focusable="true">
 
                     <ImageView
                         android:id="@+id/img_next77"
@@ -671,8 +670,7 @@
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/button_selector_light"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:visibility="gone">
+                    android:focusable="true">
 
                     <ImageView
                         android:id="@+id/img_next772"
@@ -704,7 +702,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rlSync"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
@@ -803,7 +800,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/font"
-                        android:text="Rate"
+                        android:text="@string/rate"
                         android:textColor="#000000"
                         android:textSize="@dimen/_12ssp" />
 

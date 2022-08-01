@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Folder;
 import com.example.inote.ui.NotesActivity;
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.IUpdate;
 
 import java.util.Arrays;
@@ -60,12 +62,16 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvNameFolder;
         private TextView sizeFolder;
+        private View viewFolder;
 
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             this.tvNameFolder = view.findViewById(R.id.tvNameFolder);
             this.sizeFolder = view.findViewById(R.id.size_folder);
+            this.viewFolder = view.findViewById(R.id.viewFolder);
+            ConfigUtils.getConFigDark(view.getContext(),tvNameFolder,viewFolder);
+
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -90,7 +96,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             dialog.setContentView(R.layout.dialog_info);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             TextView tv_rename = dialog.findViewById(R.id.tv_rename);
-
+            LinearLayout dialog_show = dialog.findViewById(R.id.dialog_show);
             tv_rename.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,6 +106,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             });
 
             TextView tv_delete_note = dialog.findViewById(R.id.tv_delete_note);
+            ConfigUtils.getConFigDark(dialog.getContext(),tv_delete_note,tv_rename,dialog_show);
+
             tv_delete_note.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -121,6 +129,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             TextView tvA_cancel = dialog.findViewById(R.id.tvA_cancel);
             TextView tv_rename = dialog.findViewById(R.id.tv_rename);
+            LinearLayout dialog_show = dialog.findViewById(R.id.dialog_show);
             String str = itemView.getContext().getResources().getString(R.string.delete_note_prompt_message);
             String format = String.format(str, Arrays.copyOf(new Object[]{data.get(getAdapterPosition()).getTitle()}, 1));
             tv_rename.setText(format);
@@ -132,6 +141,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             });
 
             TextView tv_ok = dialog.findViewById(R.id.tv_ok);
+            ConfigUtils.getConFigDark(dialog.getContext(),tv_rename,tvA_cancel,tv_ok,dialog_show);
+
             tv_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -154,6 +165,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             TextView tvA_cancel = dialog.findViewById(R.id.tvA_cancel);
             EditText tv_rename = dialog.findViewById(R.id.tv_rename);
+            LinearLayout dialog_show = dialog.findViewById(R.id.dialog_show);
             tv_rename.setText(data.get(getAdapterPosition()).getTitle());
             tv_rename.getBackground().setColorFilter(itemView.getContext().getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_IN);
             tv_rename.requestFocus();
@@ -169,6 +181,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             });
 
             TextView tv_ok = dialog.findViewById(R.id.tv_ok);
+            ConfigUtils.getConFigDark(itemView.getContext(),tv_rename,tvA_cancel,tv_ok,dialog_show);
+
             tv_ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
