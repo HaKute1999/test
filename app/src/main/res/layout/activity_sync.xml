@@ -123,8 +123,7 @@
                 android:id="@+id/rlFile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginBottom="@dimen/_30sdp"
-                android:visibility="gone">
+                android:layout_marginBottom="@dimen/_30sdp">
 
                 <TextView
                     android:id="@+id/tv1"
@@ -133,7 +132,7 @@
                     android:layout_marginTop="@dimen/_12sdp"
                     android:layout_toEndOf="@+id/iv1"
                     android:fontFamily="@font/font"
-                    android:text="BackUpNoteIos.json"
+                    android:text="BackUpINoteIos.json"
                     android:textColor="@color/black" />
 
                 <TextView

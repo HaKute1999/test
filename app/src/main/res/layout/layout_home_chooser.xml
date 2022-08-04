@@ -4,7 +4,8 @@
     android:id="@+id/homeChooserContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone">
+    android:visibility="gone"
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,23 +71,6 @@
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
 
-            <View
-                android:id="@+id/viewhome3"
-                android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:background="#c6c6c6" />
-
-            <TextView
-                android:id="@+id/tvGoSetting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font"
-                android:gravity="center"
-                android:padding="@dimen/_14sdp"
-                android:text="@string/settingxl"
-                android:textColor="#000000"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView

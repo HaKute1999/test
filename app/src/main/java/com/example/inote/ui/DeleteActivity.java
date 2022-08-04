@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.inote.R;
 import com.example.inote.adapter.RecentAdapter;
@@ -18,6 +20,9 @@ public class DeleteActivity extends BaseActivity  implements IUpdate {
     List<Recent> recentList;
     RecentAdapter recentAdapter;
     RecyclerView rv_note_delete;
+    TextView tvNoteSize;
+    EditText edit_result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +31,9 @@ public class DeleteActivity extends BaseActivity  implements IUpdate {
         setContentView(R.layout.activity_delete);
         onBack();
         rv_note_delete = findViewById(R.id.rv_note_delete);
+        tvNoteSize = findViewById(R.id.tvNoteSize);
+        edit_result = findViewById(R.id.edit_result);
+        tvNoteSize.setText(AppDatabase.noteDB.getRecentDao().getAllRecents().size()+ getString(R.string.notes));
         setRecentList();
     }
    private void setRecentList(){
@@ -37,6 +45,8 @@ public class DeleteActivity extends BaseActivity  implements IUpdate {
     @Override
     public void onFinish() {
         setRecentList();
+        tvNoteSize.setText(AppDatabase.noteDB.getRecentDao().getAllRecents().size()+ getString(R.string.notes));
+
 
     }
 }

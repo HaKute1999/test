@@ -4,6 +4,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,7 +38,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
     List<Note> noteList, noteListPin;
     RecyclerView rlNote, rv_note_pin;
     ImageView ivCreateNote, close_search;
-    TextView tvMain, tvNoteSize, tvEmptyNote, tv_note;
+    TextView tvMain, tvNoteSize, tvEmptyNote, tv_note,tvSortAZ,tvSortZA,tvSortDate;
     ExpansionHeader pinHeader;
     ExpansionLayout expansionLayout;
     EditText edit_result;
@@ -44,7 +46,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
     String type;
     LinearLayout ll_note;
     LinearLayout ll_menu;
-    RelativeLayout menu_config_note,homeNote;
+    RelativeLayout homeChooserContainer,homeNote;
     View viewBackgroundHome;
 
     @Override
@@ -54,6 +56,9 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         setContentView(R.layout.activity_notes);
         rlNote = findViewById(R.id.rv_note);
         tv_note = findViewById(R.id.tvNote);
+        tvSortAZ = findViewById(R.id.tvSortAZ);
+        tvSortZA = findViewById(R.id.tvSortZA);
+        tvSortDate = findViewById(R.id.tvSortDate);
         ll_note = findViewById(R.id.ll_note);
         pinHeader = findViewById(R.id.pinHeader);
         expansionLayout = findViewById(R.id.pinExpansion);
@@ -67,7 +72,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         homeNote = findViewById(R.id.homeNote);
         ll_menu = findViewById(R.id.ll_menu);
         viewBackgroundHome = findViewById(R.id.viewBackgroundHome);
-        menu_config_note = findViewById(R.id.menu_config_note);
+        homeChooserContainer = findViewById(R.id.homeChooserContainer);
         onBack();
         Intent intent = getIntent();
         idFolder = intent.getIntExtra("idFolder", 0);
@@ -131,8 +136,17 @@ public class NotesActivity extends BaseActivity implements IUpdate {
 
             }
         });
+        tvSortAZ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         ConfigUtils.getConFigDark(getApplicationContext(),ids(R.id.tvMain),ids(R.id.tvNote),ids(R.id.tvNoteSize),ids(R.id.tvPinHome),ids(R.id.tvEmptyNote),ids(R.id.tvNoteShow),ids(R.id.ll_note),
-                ids(R.id.ln_pin),ids(R.id.viewX),ids(R.id.rl_top),ids(R.id.search_ree),ids(R.id.bottom));
+                ids(R.id.ln_pin),ids(R.id.viewX),ids(R.id.search_ree),ids(R.id.tvSortAZ),ids(R.id.tvSortZA),ids(R.id.tvSortDate),ids(R.id.tvCancelHome),ids(R.id.ln_more),ids(R.id.viewhome1),ids(R.id.viewhome2));
+        ConfigUtils.darkTextViewRadius(ids(R.id.tvCancelHome));
+        ConfigUtils.darkBlack(ids(R.id.rl_top));
+        ConfigUtils.darkBlack(ids(R.id.bottom));
     }
 
     private ArrayList<Note> filter(String charSequence, List<Note> notes) {
@@ -185,7 +199,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
                YoYo.with(Techniques.SlideInDown).duration(200L).onEnd(new YoYo.AnimatorCallback() {
                    @Override
                    public final void call(Animator animator) {
-                       menu_config_note.setVisibility(View.VISIBLE);
+                       homeChooserContainer.setVisibility(View.VISIBLE);
                    }
                }).playOn(findViewById(R.id.menu_config_note));
            }
@@ -194,7 +208,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
            @Override
            public void onClick(View view) {
                viewBackgroundHome.setVisibility(View.GONE);
-               menu_config_note.setVisibility(View.GONE);
+               homeChooserContainer.setVisibility(View.GONE);
            }
        });
 
@@ -211,6 +225,14 @@ public class NotesActivity extends BaseActivity implements IUpdate {
             edit_result.setTextColor(Color.BLACK);
 
         }
+        Intent intent2 = new Intent(this, NoteWidget.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplication());
+
+        int[] ids = appWidgetManager
+                .getAppWidgetIds(new ComponentName(getApplication(), NoteWidget.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent2);
         ;
         super.onResume();
 
@@ -219,6 +241,14 @@ public class NotesActivity extends BaseActivity implements IUpdate {
     @Override
     public void onFinish() {
         initListNote();
+        Intent intent2 = new Intent(this, NoteWidget.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplication());
+
+        int[] ids = appWidgetManager
+                .getAppWidgetIds(new ComponentName(getApplication(), NoteWidget.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent2);
 
     }
 }

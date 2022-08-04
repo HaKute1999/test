@@ -181,7 +181,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             });
 
             TextView tv_ok = dialog.findViewById(R.id.tv_ok);
-            ConfigUtils.getConFigDark(itemView.getContext(),tv_rename,tvA_cancel,tv_ok,dialog_show);
+            ConfigUtils.getConFigDark1(itemView.getContext(),tv_rename,tvA_cancel,tv_ok,dialog_show);
 
             tv_ok.setOnClickListener(new View.OnClickListener() {
                 @Override

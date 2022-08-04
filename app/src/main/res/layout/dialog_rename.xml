@@ -24,6 +24,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:textColor="#000000"
+            android:textCursorDrawable="@drawable/cursor_drawble"
             android:textSize="@dimen/_13ssp" />
 
 

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.CheckItem;
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.ICheckList;
 import com.example.inote.view.drawingview.ICopy;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -37,6 +38,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -105,6 +107,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
             this.checklist_drag_handle = view.findViewById(R.id.checklist_drag_handle);
             this.checklist_delete = view.findViewById(R.id.checklist_delete);
             this.checklist_title = view.findViewById(R.id.checklist_title);
+            ConfigUtils.getConFigDark(context,checklist_title);
             checklist_holder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -134,6 +137,12 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
                     iUpdate.updateCheckList(data);
                 }
             });
+            ivRename.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogRename();
+                }
+            });
 
 
         }
@@ -142,7 +151,49 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
         public void onClick(View view) {
 
         }
+        private void dialogRename() {
+            final Dialog dialog = new Dialog(itemView.getContext(), androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog_rename);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            TextView tvA_cancel = dialog.findViewById(R.id.tvA_cancel);
+            EditText tv_rename = dialog.findViewById(R.id.tv_rename);
+            LinearLayout dialog_show = dialog.findViewById(R.id.dialog_show);
+            tv_rename.setText(data.get(getAdapterPosition()).getTitle());
+            tv_rename.getBackground().setColorFilter(itemView.getContext().getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_IN);
+            tv_rename.requestFocus();
+            InputMethodManager imm = (InputMethodManager) itemView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            tvA_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InputMethodManager imm = (InputMethodManager) itemView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv_rename.getWindowToken(), 0);
+                    dialog.dismiss();
+                }
+            });
 
+            TextView tv_ok = dialog.findViewById(R.id.tv_ok);
+            ConfigUtils.getConFigDark1(itemView.getContext(),tv_rename,tvA_cancel,tv_ok,dialog_show);
+
+            tv_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    data.get(getAdapterPosition()).setTitle(tv_rename.getText().toString());
+                    AppDatabase.noteDB.getNoteDAO().updateListCheckList(data,data.get(getAdapterPosition()).getId() );
+
+                    InputMethodManager imm = (InputMethodManager) itemView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv_rename.getWindowToken(), 0);
+                    dialog.dismiss();
+                    iUpdate.updateCheckList(data);
+
+
+                }
+            });
+
+            dialog.show();
+        }
     }
 
 }

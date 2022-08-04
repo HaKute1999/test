@@ -1,8 +1,10 @@
 package com.example.inote.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
+import androidx.core.widget.ImageViewCompat;
 
 import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
@@ -166,6 +169,7 @@ public class ConfigUtils {
         }
     }
     public static final  <T> void getConFigDark(Context context,T... arr) {
+
         for (T v : arr) {
 
                     if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) {
@@ -177,34 +181,37 @@ public class ConfigUtils {
                             ((TextView) v).setTextColor(Color.WHITE);
                         }else  if (v instanceof RelativeLayout ){
                             ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
+
                         }else  if (v instanceof LinearLayout){
                             ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
                         }else {
                             ((View) v).setBackgroundResource(R.color.md_grey_800_dark);
                         }
-                    }else {
-                        if (v instanceof EditText){
-                            ((EditText) v).setBackground(context.getDrawable(R.drawable.background_edt_dialog));
-                            ((EditText) v).setTextColor(Color.BLACK);
-                            ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
-
-                        }else if (v instanceof TextView){
-                            ((TextView) v).setTextColor(Color.BLACK);
-                        }else  if (v instanceof RelativeLayout ){
-                            ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius);
-                        }else  if (v instanceof LinearLayout){
-                            ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius);
-                        }else {
-                            ((View) v).setBackgroundResource(R.color.md_grey_300_dark);
-                        }
                     }
+//                    else {
+//                        if (v instanceof EditText){
+//                            ((EditText) v).setBackground(context.getDrawable(R.drawable.background_edt_dialog));
+//                            ((EditText) v).setTextColor(Color.BLACK);
+//                            ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
+//
+//                        }else if (v instanceof TextView){
+//                            ((TextView) v).setTextColor(Color.BLACK);
+//                        }else  if (v instanceof RelativeLayout ){
+//                            ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius);
+//                        }else  if (v instanceof LinearLayout){
+//                            ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius);
+//                        }else {
+//                            ((View) v).setBackgroundResource(R.color.md_grey_300_dark);
+//                        }
+//                    }
 
 
     }
 
 
     }
-    public static final  <T> void getConFigDark1(Context context,T... arr) {
+    @SuppressLint("ResourceType")
+    public static final  <T> void getConFigDark1(Context context, T... arr) {
         for (T v : arr) {
 
             if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) {
@@ -214,30 +221,64 @@ public class ConfigUtils {
                 } else if (v instanceof TextView) {
                     ((TextView) v).setTextColor(Color.WHITE);
                 } else if (v instanceof RelativeLayout) {
-                    ((RelativeLayout) v).setBackgroundResource(R.drawable.background_header_light);
+                        ((RelativeLayout) v).setBackground(context.getResources().getDrawable(R.drawable.background_white_radius_dark2));
                 } else if (v instanceof LinearLayout) {
-                    ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
+                    ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_top_dark);
                 } else {
-                    ((View) v).setBackgroundResource(R.color.md_grey_800_dark);
-                }
-            } else {
-                if (v instanceof EditText) {
-                    ((EditText) v).setTextColor(Color.BLACK);
-                    ((EditText) v).setHintTextColor(Color.parseColor("#959595"));
-
-                } else if (v instanceof TextView) {
-                    ((TextView) v).setTextColor(Color.BLACK);
-                } else if (v instanceof RelativeLayout) {
-                    ((RelativeLayout) v).setBackgroundResource(R.drawable.background_header_home);
-                } else if (v instanceof LinearLayout) {
-                    ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius);
-                } else {
-                    ((View) v).setBackgroundResource(R.color.md_grey_300_dark);
+                    ((View) v).setBackgroundResource(R.color.md_grey_600);
                 }
             }
+
         }
 
         }
+        public static void darkRelativeRadius(View v){
+            if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark2);
+        }
+    public static void darkRelativeGray(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((RelativeLayout) v).setBackgroundResource(R.drawable.background_header_light);
+    }
+    public static void darkRelativeTop(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius_top_dark);
+
+    }
+    public static void darkRelativeBottom(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((RelativeLayout) v).setBackgroundResource(R.drawable.background_white_radius_bottom_click);
+
+    }
+    public static void darkBlack(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((RelativeLayout) v).setBackgroundResource(R.color.black);
+
+    }
+
+    public static void darkLinearLayoutRadius(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark2);
+    }
+    public static void darkTextViewRadius(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((TextView) v).setBackgroundResource(R.drawable.background_white_radius_dark2);
+    }
+    public static void darkLinearLayoutGray(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((LinearLayout) v).setBackgroundResource(R.drawable.background_header_light);
+    }
+    public static void darkLinearLayoutTop(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true)((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_top_dark);
+
+    }
+    public static void darkLinearLayoutBottom(View v){
+        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_bottom_click);
+
+    }
+    public static void darkImage(View v){
+
+            if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true){
+                if (v instanceof  ImageView){
+                    ((ImageView)v).setColorFilter(R.color.md_grey_500);
+                }else v.setBackgroundColor(Color.BLACK);
+
+        }
+
+    }
+
     public static List<Note> convertImageBase64(){
         List<Note> notes = new ArrayList<>();
         List<Note> list =  AppDatabase.noteDB.getNoteDAO().getAllNotes();
@@ -268,6 +309,11 @@ public class ConfigUtils {
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         image.setImageBitmap(decodedImage);
 
+    }
+    public static Bitmap convertBase64toImage1( String imageString){
+        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+       return decodedImage;
     }
     private static  boolean isExternalStorageWritable(){
         if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){

@@ -8,6 +8,8 @@ import androidx.room.Room;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -117,10 +119,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setupListFolder();
         ConfigUtils.getConFigDark(getApplicationContext(),ids(R.id.view_main),ids(R.id.tv_rc),ids(R.id.tv_fv_exit),ids(R.id.tvRcDelete),ids(R.id.tv_stt),ids(R.id.ll_exit_menu),ids(R.id.viewExit),ids(R.id.viewExit2),ids(R.id.viewDelete),ids(R.id.viewExit3),ids(R.id.rl_pro2));
 
-        if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
-            root_final.setBackgroundColor(Color.BLACK);
-        }else  root_final.setBackgroundColor(getResources().getColor(R.color.color_main));
-;
+       ConfigUtils.darkBlack(root_final);
+
+         Intent intent2 = new Intent(this, NoteWidget.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplication());
+
+        int[] ids = appWidgetManager
+                .getAppWidgetIds(new ComponentName(getApplication(), NoteWidget.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent2);
         super.onResume();
     }
 

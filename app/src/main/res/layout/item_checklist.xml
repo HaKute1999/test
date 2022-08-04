@@ -44,6 +44,7 @@
         android:layout_toStartOf="@+id/checklist_delete"
         android:padding="@dimen/_8sdp"
         android:src="@drawable/ic_rename_new"
+        android:tint="@color/main_color"
         android:visibility="gone" />
 
     <ImageView

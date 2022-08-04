@@ -9,7 +9,7 @@
     <View
         android:id="@+id/viewLock"
         android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="@dimen/_70sdp"
         android:layout_alignParentEnd="true"
         android:background="@color/white"
         android:clickable="true"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_marginTop="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_56sdp"
         android:background="@color/white"
         android:clickable="true"
         android:focusable="true" />
@@ -31,14 +31,13 @@
         android:layout_above="@+id/tvNoti"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_lock"
-        app:tint="#88878c" />
+        app:tint="@color/md_grey_300_dark" />
 
     <TextView
         android:id="@+id/tvNoti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:fontFamily="@font/font"
         android:text="@string/this_note_is_locked"
         android:textColor="@color/black"

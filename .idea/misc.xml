@@ -9,16 +9,24 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_click_radius.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_edt_dialog_drak.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_header_home.xml" value="0.2295" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_header_light.xml" value="0.208" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius2.xml" value="0.196" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius4dp.xml" value="0.195" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius_bottom_click.xml" value="0.196" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius_dark.xml" value="0.2485" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius_dark2.xml" value="0.195" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius_top.xml" value="0.195" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius_top_click.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius_top_dark.xml" value="0.208" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/backround_button_rate1.xml" value="0.1985" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_draw_selecting.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_gray_radius.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_bottom_16.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_top_12.xml" value="0.196" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_top_22.xml" value="0.195" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/btn_checkbox_checked_to_unchecked_mtrl_animation.xml" value="0.1715" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/button_selector_light.xml" value="0.208" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/button_selector_light_top.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/cell_shape.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/circle_bg.xml" value="0.1935" />
@@ -60,13 +68,13 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_folder.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_image.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note.xml" value="0.3625" />
-        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note_widget.xml" value="0.190625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note_widget.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_table.xml" value="0.25" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_config_note.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_home_chooser.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_image_chooser.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_lock.xml" value="0.3625" />
-        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_option.xml" value="0.25" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_option.xml" value="0.5" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/note_app_widget.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/note_widget.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/search_layout.xml" value="0.3625" />

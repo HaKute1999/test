@@ -15,10 +15,12 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -68,14 +70,14 @@ import java.util.List;
 import java.util.UUID;
 
 public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
-    RelativeLayout ivMore;
+    RelativeLayout ivMore,rl_Pin ,rl_delete,rl_lock;
     RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search,search_root,main_note,rl_bottom,rl_top;
     View viewBackground;
     EditText edtTitle, text_note_view, text_note_view2, text_note_view3,search_query;
-    TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone,tvWordCount,tvSize;
+    TextView tvTime, tvViewNote, tvChoosePhoto, tvTakePhoto, tvDone,tvWordCount,tvSize,tvPin,tvLockNote;
     int idNote;
     int idFolder;
-    ImageView ivDraw, ivPhoto, ivCreate, ivChecklist,search_previous,search_next,search_clear;
+    ImageView ivDraw, ivPhoto, ivCreate, ivChecklist,search_previous,search_next,search_clear,imgPin;
     RecyclerView rv_image, checklist_list;
     ImageNoteAdapter imageNoteAdapter;
     CheckListAdapter checkListAdapter;
@@ -122,6 +124,18 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
                 @Override
                 public final void call(Animator animator) {
                     menuChooserContainer.setVisibility(View.VISIBLE);
+                    if (idNote != 0 ){
+                        if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).isPinned()){
+                            tvPin.setText(getString(R.string.unpin));
+                            imgPin.setImageDrawable(getDrawable(R.drawable.ic_unpin));
+                        }else{
+                            tvPin.setText(getString(R.string.pins));
+                            imgPin.setImageDrawable(getDrawable(R.drawable.ic_pin));
+
+                        }
+                    }
+
+
                 }
             }).playOn(findViewById(R.id.menuChooserContainer));
         });
@@ -230,14 +244,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             }
         });
         initSearch();
-        Intent intent2 = new Intent(this, NoteWidget.class);
-        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplication());
 
-        int[] ids = appWidgetManager
-                .getAppWidgetIds(new ComponentName(getApplication(), NoteWidget.class));
-        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        sendBroadcast(intent2);
         text_note_view.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -281,7 +288,53 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             @Override
             public void afterTextChanged(Editable editable) { }
         });
-        ConfigUtils.getConFigDark1(getApplicationContext(),edtTitle,text_note_view,text_note_view2,text_note_view3,tvTime,rl_top,rl_bottom);
+        rl_Pin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tvPin.getText().toString().contains(getString(R.string.unpin))) {
+                    tvPin.setText(getString(R.string.pins));
+                    imgPin.setImageDrawable(getDrawable(R.drawable.ic_pin));
+                } else {
+                    tvPin.setText(getString(R.string.unpin));
+                    imgPin.setImageDrawable(getDrawable(R.drawable.ic_unpin));
+
+                }
+            }
+        });
+        rl_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        rl_lock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ShareUtils.getStr(ShareUtils.PASSCODE, "").length() == 0 ) {
+                    showDialogCreatePassCode();
+                } else if (!tvLockNote.getText().toString().contains(getString(R.string.unlocks))){
+                        showDialogConfirmDialog();
+                    }else {
+                    tvLockNote.setText(getString(R.string.locks));
+                }
+
+
+            }
+        });
+        ConfigUtils.getConFigDark1(getApplicationContext(),edtTitle,text_note_view,text_note_view2,text_note_view3,tvTime);
+        ConfigUtils.getConFigDark1(getApplicationContext(),ids(R.id.viewOption),ids(R.id.viewOption1),ids(R.id.viewOption2),ids(R.id.tvChoosePhoto),ids(R.id.tvTakePhoto),ids(R.id.tvCancelPhoto));
+        ConfigUtils.getConFigDark1(getApplicationContext(),ids(R.id.tv_share),ids(R.id.tvSearch),ids(R.id.tvCount),ids(R.id.tvSize1),ids(R.id.tvWordCount),ids(R.id.tvSize),ids(R.id.tvNoti),ids(R.id.tvForgotPass));
+        ConfigUtils.darkLinearLayoutTop(ids(R.id.ln_option));
+        ConfigUtils.darkLinearLayoutRadius(ids(R.id.ln_option2));
+        ConfigUtils.darkLinearLayoutRadius(ids(R.id.ll_camera));
+        ConfigUtils.darkTextViewRadius(ids(R.id.tvCancelPhoto));
+        ConfigUtils.darkRelativeRadius(ids(R.id.rl_pin));
+        ConfigUtils.darkRelativeRadius(ids(R.id.rl_delete));
+        ConfigUtils.darkRelativeRadius(ids(R.id.rl_lock));
+        ConfigUtils.darkBlack(rl_bottom);
+        ConfigUtils.darkBlack(rl_top);
+        ConfigUtils.darkImage(ids(R.id.viewLock));
+        ConfigUtils.darkImage(ids(R.id.viewLock2));
 
     }
 
@@ -295,7 +348,9 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         dialog.setContentView(R.layout.dialog_new_checklist_item);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         TextView tvA_cancel = dialog.findViewById(R.id.tvA_cancel);
+        TextView tv_rename = dialog.findViewById(R.id.tv_rename);
         LinearLayout checklist_holder = dialog.findViewById(R.id.checklist_holder);
+        LinearLayout dialog_show = dialog.findViewById(R.id.dialog_show);
         ImageView add_item = dialog.findViewById(R.id.add_item);
         createViewCheckList(lisChild, checklist_holder);
         tvA_cancel.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +362,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
         TextView tv_ok = dialog.findViewById(R.id.tv_ok);
         List<CheckItem> checkItems = new ArrayList<>();
+        ConfigUtils.darkLinearLayoutRadius(dialog_show);
+        ConfigUtils.getConFigDark1(getApplicationContext(),tv_rename,tv_ok,tvA_cancel);
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -370,6 +427,12 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         main_note = findViewById(R.id.main_note);
         rl_bottom = findViewById(R.id.rl_bottom);
         rl_top = findViewById(R.id.rl_top);
+        rl_Pin = findViewById(R.id.rl_pin);
+        rl_delete = findViewById(R.id.rl_delete);
+        rl_lock = findViewById(R.id.rl_lock);
+        tvPin = findViewById(R.id.tvPin);
+        tvLockNote = findViewById(R.id.tvLockNote);
+        imgPin = findViewById(R.id.imgPin);
         listImage = new ArrayList<>();
 
     }
@@ -675,16 +738,27 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         }
 
     }
-
+   private boolean ispnin(){
+        if (tvPin.getText().toString().contains(getString(R.string.pins))){
+            return false;
+        }else return true;
+   }
+   private  int protectType(){
+       if (tvLockNote.getText().toString().contains(getString(R.string.locks))){
+           return 0;
+       }else return 1;
+   }
     @Override
     public void onBackPressed() {
         if (idNote != 0) {
             AppDatabase.noteDB.getNoteDAO().updateItem(edtTitle.getText().toString(), ConfigUtils.listValueCache, idNote);
+            AppDatabase.noteDB.getNoteDAO().updatePinned(ispnin(),idNote);
+            AppDatabase.noteDB.getNoteDAO().updateprotectionType(protectType(),idNote);
         } else if (edtTitle.getText().toString().length() != 0
                 || ConfigUtils.listValueCache.size() > 0
                 || ConfigUtils.listImageCache.size() > 0) {
             AppDatabase.noteDB.getNoteDAO().insert(
-                    new Note(idFolder, false, ConfigUtils.listImageCache,  0, System.currentTimeMillis(),
+                    new Note(idFolder, ispnin(), ConfigUtils.listImageCache,  protectType(), System.currentTimeMillis(),
                             edtTitle.getText().toString(), 0, ConfigUtils.listValueCache, ConfigUtils.listCheckList));
             ConfigUtils.listValueCache.clear();
             ConfigUtils.listImageCache.clear();
@@ -724,7 +798,12 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         EditText tv_rename = dialog.findViewById(R.id.edtFolder2);
         TextView tvCancelFolder2 = dialog.findViewById(R.id.tvCancelFolder2);
+        TextView tvTitleFolder2 = dialog.findViewById(R.id.tvTitleFolder2);
+        TextView tvTitleFolder22 = dialog.findViewById(R.id.tvTitleFolder22);
+        RelativeLayout root_dl2 = dialog.findViewById(R.id.root_dl2);
 
+        View view1_dl2 = dialog.findViewById(R.id.view1_dl2);
+        View view2_dl2 = dialog.findViewById(R.id.view2_dl2);
         tvCancelFolder2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -733,11 +812,15 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         });
 
         TextView tv_delete_note = dialog.findViewById(R.id.tvOkFolder2);
+        ConfigUtils.darkRelativeRadius(root_dl2);
+        ConfigUtils.getConFigDark(getApplicationContext(),tvCancelFolder2,tv_delete_note,tv_rename,tvTitleFolder2,tvTitleFolder22,view2_dl2,view1_dl2);
+
         tv_delete_note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (tv_rename.getText().toString().contains(ShareUtils.getStr(ShareUtils.PASSCODE, ""))) {
                     layoutLock.setVisibility(View.GONE);
+                    tvLockNote.setText(getString(R.string.unlocks));
                     dialog.dismiss();
 
                 } else {
@@ -759,6 +842,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     private void createViewCheckList(List<EditText> lisChild, LinearLayout checklist_holder) {
         View inflate = AddNoteActivity.this.getLayoutInflater().inflate(R.layout.item_add_checklist, null);
         EditText title = inflate.findViewById(R.id.title_edit_text);
+        ConfigUtils.getConFigDark1(getApplicationContext(),title);
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -796,6 +880,56 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             setTouchList(ConfigUtils.listCheckList);
 
         }
+
+    }
+    private void showDialogCreatePassCode() {
+        Context mContext = getApplicationContext();
+        final Dialog dialog = new Dialog(getApplicationContext(), androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_create_pass);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        EditText edtPasscode = dialog.findViewById(R.id.edtPasscode);
+        EditText edtRePasscode = dialog.findViewById(R.id.edtRePasscode);
+        EditText edtQuestion = dialog.findViewById(R.id.edtQuestion);
+        TextView tvOk = dialog.findViewById(R.id.tvOk);
+        TextView tvCancel = dialog.findViewById(R.id.tvCancel);
+        TextView tvTitle = dialog.findViewById(R.id.tvTitle);
+        RelativeLayout root_dl = dialog.findViewById(R.id.root_dl);
+        View view1_dl = dialog.findViewById(R.id.view1_dl);
+        View view2_dl = dialog.findViewById(R.id.view2_dl);
+        ConfigUtils.getConFigDark(mContext, root_dl,edtPasscode,edtRePasscode,edtQuestion,tvOk,tvCancel,view1_dl,view2_dl,tvTitle);
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtPasscode.getText().toString().length() < 6 && edtRePasscode.getText().toString().length() < 6) {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.must_6), Toast.LENGTH_LONG).show();
+
+                } else if (!edtPasscode.getText().toString().contains(edtRePasscode.getText().toString())) {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.no_match), Toast.LENGTH_LONG).show();
+                } else if (edtQuestion.getText().toString().length() == 0) {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.must_empty), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.locks), Toast.LENGTH_LONG).show();
+                    ShareUtils.setStr(ShareUtils.PASSCODE, edtPasscode.getText().toString());
+                    tvLockNote.setText(getString(R.string.unlocks));
+
+//                        data.get(getAdapterPosition()).setProtectionType(1);
+//                    AppDatabase.noteDB.getNoteDAO().updateprotectionType(1, idNote);
+
+                    dialog.dismiss();
+
+                }
+
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
 
     }
 }

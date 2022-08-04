@@ -212,7 +212,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:background="@drawable/background_header_home"
         android:clickable="true"
         android:focusable="true">
 
@@ -318,5 +317,6 @@
         android:visibility="gone" />
 
     <include layout="@layout/layout_home_chooser" />
-    <include layout="@layout/layout_config_note"/>
+
+    <include layout="@layout/layout_config_note" />
 </RelativeLayout>

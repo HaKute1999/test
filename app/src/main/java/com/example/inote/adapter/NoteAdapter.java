@@ -352,6 +352,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             TextView tvCancelFolder2 = dialog.findViewById(R.id.tvCancelFolder2);
             TextView tvTitleFolder2 = dialog.findViewById(R.id.tvTitleFolder2);
             TextView tvTitleFolder22 = dialog.findViewById(R.id.tvTitleFolder22);
+            RelativeLayout root_dl2 = dialog.findViewById(R.id.root_dl2);
             View view1_dl2 = dialog.findViewById(R.id.view1_dl2);
             View view2_dl2 = dialog.findViewById(R.id.view2_dl2);
 
@@ -363,7 +364,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             });
 
             TextView tv_delete_note = dialog.findViewById(R.id.tvOkFolder2);
-            ConfigUtils.getConFigDark(mContext,tvCancelFolder2,tv_delete_note,tv_rename,tvTitleFolder2,tvTitleFolder22,view2_dl2,view1_dl2);
+            ConfigUtils.getConFigDark(mContext,tvCancelFolder2,tv_delete_note,tv_rename,tvTitleFolder2,tvTitleFolder22,view2_dl2,view1_dl2,root_dl2);
             tv_delete_note.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

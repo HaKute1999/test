@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -16,6 +17,7 @@ import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Note;
 import com.example.inote.ui.NoteWidget;
+import com.example.inote.view.ConfigUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
-    private static final List<Note> items=new ArrayList<>();
+    private static List<Note> items=new ArrayList<>();
     private Context ctxt=null;
     private int appWidgetId;
 
@@ -59,17 +61,23 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
         row.setTextViewText(R.id.tvValueNote, items.get(position).getValue().get(0));
         if (items.get(position).getListImage().size() > 0) {
             Bitmap bitmap = null;
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (items.get(position).getListImage().get(0).contains("storage")){
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 
-                    bitmap =  ImageDecoder.decodeBitmap(ImageDecoder.createSource(ctxt.getContentResolver(), Uri.fromFile(new File(items.get(position).getListImage().get(0)))));
+                        bitmap =  ImageDecoder.decodeBitmap(ImageDecoder.createSource(ctxt.getContentResolver(), Uri.fromFile(new File(items.get(position).getListImage().get(0)))));
 
-            } else {
-                    bitmap =  MediaStore.Images.Media.getBitmap(ctxt.getContentResolver(), Uri.fromFile(new File(items.get(position).getListImage().get(0))));
+                    } else {
+                        bitmap =  MediaStore.Images.Media.getBitmap(ctxt.getContentResolver(), Uri.fromFile(new File(items.get(position).getListImage().get(0))));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                bitmap = ConfigUtils.convertBase64toImage1(items.get(position).getListImage().get(0));
+
             }
-            } catch (IOException e) {
-            e.printStackTrace();
-        }
+
             row.setImageViewBitmap(R.id.image_note2,bitmap);
 
 
@@ -107,6 +115,8 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
+        items = AppDatabase.noteDB.getNoteDAO().getAllNotes();
+        Log.d("cdcdccd", items.size() +"");
         // no-op
     }
 }

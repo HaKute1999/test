@@ -69,7 +69,6 @@
 
 
     <ImageView
-        android:src="@drawable/background_click_radius"
         android:id="@+id/image_note2"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_35sdp"
@@ -77,6 +76,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:scaleType="fitXY"
+        android:src="@drawable/background_click_radius"
         app:riv_border_color="#d5d5d5"
         app:riv_border_width="0.6dp"
         app:riv_corner_radius="@dimen/_4sdp" />

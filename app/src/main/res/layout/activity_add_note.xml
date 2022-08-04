@@ -252,7 +252,6 @@
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
-        android:background="@drawable/background_header"
         android:clickable="true"
         android:focusable="true">
 
