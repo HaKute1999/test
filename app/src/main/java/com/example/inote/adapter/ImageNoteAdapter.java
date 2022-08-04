@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.inote.R;
 
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.IUpdate;
 import com.example.inote.view.drawingview.ICopy;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -54,12 +55,19 @@ public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.View
 
     @Override
     public void onBindViewHolder(ImageNoteAdapter.ViewHolder holder, int position) {
-        File file = new File(data.get(position));
-        Uri uri = Uri.fromFile(file);
-        Glide.with(context)
-                .load(uri)
-                .placeholder(R.mipmap.ic_launcher)
-                .into(holder.image);
+        if (data.get(position).contains("storage")){
+            File file = new File(data.get(position));
+            Uri uri = Uri.fromFile(file);
+            Glide.with(context)
+                    .load(uri)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(holder.image);
+        }else {
+            ConfigUtils.convertBase64toImage(holder.image,data.get(position));
+
+        }
+
+
         holder.image.setBorderColor(Color.GRAY);
 
 

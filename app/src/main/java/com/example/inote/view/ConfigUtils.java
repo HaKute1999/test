@@ -4,31 +4,42 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
 import com.example.inote.R;
+import com.example.inote.database.AppDatabase;
 import com.example.inote.models.CheckItem;
+import com.example.inote.models.Note;
 import com.example.inote.ui.MainActivity;
 import com.example.inote.view.drawingview.ICopy;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -227,5 +238,90 @@ public class ConfigUtils {
         }
 
         }
+    public static List<Note> convertImageBase64(){
+        List<Note> notes = new ArrayList<>();
+        List<Note> list =  AppDatabase.noteDB.getNoteDAO().getAllNotes();
+        for (Note note1:list){
 
+            note1.setListImage(getListImage(note1));
+            notes.add(note1);
+        }
+        return notes;
+
+
+    }
+    private static  List<String> getListImage(Note note){
+        List<String> listImage =  new ArrayList<>();
+
+        for (String image : note.getListImage()){
+            Bitmap bm = BitmapFactory.decodeFile(image);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 100, baos); // bm is the bitmap object
+            byte[] b = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            listImage.add(encodedImage);
+        }
+        return listImage;
+    }
+    public static void convertBase64toImage(ImageView image, String imageString){
+        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        image.setImageBitmap(decodedImage);
+
+    }
+    private static  boolean isExternalStorageWritable(){
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+            System.out.println("Storage is writeable");
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static void wirteFile(Context context,String result){
+        if (isExternalStorageWritable()) {
+            File file = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)));
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("/BackUpINoteIos_");
+            sb.append(System.currentTimeMillis());
+            sb.append(".json");
+            File child = new File(file,sb.toString());
+
+            try {
+                FileWriter writer = new FileWriter(child,true);
+                writer.append(result);
+                writer.flush();
+                writer.close();
+                Toast.makeText(context, context.getResources().getString(R.string.exporting_successful), Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                Toast.makeText(context, context.getResources().getString(R.string.exporting_failed), Toast.LENGTH_SHORT).show();
+
+                e.printStackTrace();
+            }
+
+        }
+    }
+    public static String convertStreamToString(InputStream is) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        reader.close();
+        return sb.toString();
+    }
+
+    public static String getStringFromFile (String filePath) throws Exception {
+        File fl = new File(filePath);
+        FileInputStream fin = new FileInputStream(fl);
+        String ret = convertStreamToString(fin);
+        //Make sure you close all streams.
+        fin.close();
+        return ret;
+    }
 }

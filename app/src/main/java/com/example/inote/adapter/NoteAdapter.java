@@ -97,7 +97,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         }
 
         if (data.get(position).getListImage().size() > 0) {
-            holder.image_note2.setImageURI(Uri.fromFile(new File(data.get(position).getListImage().get(data.get(position).getListImage().size() - 1))));
+            if (data.get(position).getListImage().get(0).contains("storage")){
+                holder.image_note2.setImageURI(Uri.fromFile(new File(data.get(position).getListImage().get(data.get(position).getListImage().size() - 1))));
+            }else {
+                ConfigUtils.convertBase64toImage(holder.image_note2,data.get(position).getListImage().get(data.get(position).getListImage().size() - 1));
+            }
         }
         if (position == data.size()-1){
             holder.view_main.setVisibility(View.GONE);
