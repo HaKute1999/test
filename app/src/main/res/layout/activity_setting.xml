@@ -15,11 +15,11 @@
         android:scrollbars="vertical">
 
         <LinearLayout
-            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/ll_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_12sdp"
             android:orientation="vertical">
 
@@ -92,9 +92,9 @@
                             android:id="@+id/tv_dark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/font"
+                            android:paddingLeft="@dimen/_5sdp"
                             android:text="@string/dark"
                             android:textColor="#000000" />
 
@@ -109,9 +109,9 @@
                             android:id="@+id/tv_light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/font"
+                            android:paddingLeft="@dimen/_5sdp"
                             android:text="@string/light"
                             android:textColor="#000000" />
 
@@ -133,12 +133,6 @@
                         <!--                            android:textColor="#000000" />-->
                     </RadioGroup>
 
-                    <View
-                        android:id="@+id/view5xx"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:background="#c7c7c7" />
 
                     <View
                         android:id="@+id/view5x"
@@ -153,7 +147,8 @@
                     android:id="@+id/rl_checklist"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
-                    android:background="@drawable/button_selector_light">
+                    android:background="@drawable/button_selector_light"
+                    android:visibility="gone">
 
                     <com.suke.widget.SwitchButton
                         android:id="@+id/checklist_done_dark"
@@ -205,7 +200,8 @@
                     android:id="@+id/rl_checklist2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
-                    android:background="@drawable/button_selector_light">
+                    android:background="@drawable/button_selector_light"
+                    android:visibility="gone">
 
                     <com.suke.widget.SwitchButton
                         android:id="@+id/checklist_done_dark2"
@@ -894,7 +890,8 @@
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/button_selector_light"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/img_next3"

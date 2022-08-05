@@ -14,6 +14,7 @@ package com.example.inote.adapter;
         import android.view.Window;
         import android.widget.EditText;
         import android.widget.ImageView;
+        import android.widget.LinearLayout;
         import android.widget.RadioButton;
         import android.widget.RadioGroup;
         import android.widget.RelativeLayout;
@@ -30,6 +31,7 @@ package com.example.inote.adapter;
         import com.example.inote.models.Recent;
         import com.example.inote.ui.AddNoteActivity;
         import com.example.inote.ui.MainActivity;
+        import com.example.inote.view.ConfigUtils;
         import com.example.inote.view.IUpdate;
         import com.example.inote.view.ShareUtils;
         import com.makeramen.roundedimageview.RoundedDrawable;
@@ -101,6 +103,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         private TextView tvNoteSmall;
         private RoundedImageView image_note2;
         private ImageView ivLockHome;
+        private View view_main;
 
         public ViewHolder(View view) {
             super(view);
@@ -110,6 +113,9 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
             this.tvNoteSmall = view.findViewById(R.id.tvNoteSmall);
             this.image_note2 = view.findViewById(R.id.image_note2);
             this.ivLockHome = view.findViewById(R.id.ivLockHome);
+            this.view_main = view.findViewById(R.id.view_main);
+            ConfigUtils.getConFigDark(mContext,view_main,tvTitle);
+
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -132,10 +138,16 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             RelativeLayout rlDelete = dialog.findViewById(R.id.rlDelete);
+            RelativeLayout dialog2 = dialog.findViewById(R.id.dialog2);
+            LinearLayout dialog21 = dialog.findViewById(R.id.rl_bottom);
             RelativeLayout rlMove = dialog.findViewById(R.id.rlFolder);
             TextView tvName = dialog.findViewById(R.id.tvName);
+            TextView tvFolder = dialog.findViewById(R.id.tvFolder);
+            ImageView ivFolder = dialog.findViewById(R.id.ivFolder);
+            View viewM2 = dialog.findViewById(R.id.viewM2);
             tvName.setText(data.get(getAdapterPosition()).getTitle());
-
+             ConfigUtils.getConFigDark(mContext,tvName,tvFolder,dialog21,dialog2,viewM2);
+             ConfigUtils.darkImage(mContext,ivFolder);
             rlDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

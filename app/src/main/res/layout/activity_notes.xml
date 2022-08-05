@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_main"
+    android:paddingTop="@dimen/_20sdp"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -211,7 +212,7 @@
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/background_header_home"
         android:clickable="true"
         android:focusable="true">
 
@@ -317,6 +318,5 @@
         android:visibility="gone" />
 
     <include layout="@layout/layout_home_chooser" />
-
-    <include layout="@layout/layout_config_note" />
+    <include layout="@layout/layout_config_note"/>
 </RelativeLayout>

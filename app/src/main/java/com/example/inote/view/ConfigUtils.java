@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.widget.ImageViewCompat;
 
@@ -185,7 +187,7 @@ public class ConfigUtils {
                         }else  if (v instanceof LinearLayout){
                             ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_dark);
                         }else {
-                            ((View) v).setBackgroundResource(R.color.md_grey_800_dark);
+                            ((View) v).setBackgroundResource(R.color.md_grey_600_dark);
                         }
                     }
 //                    else {
@@ -268,11 +270,12 @@ public class ConfigUtils {
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) ((LinearLayout) v).setBackgroundResource(R.drawable.background_white_radius_bottom_click);
 
     }
-    public static void darkImage(View v){
+    public static void darkImage(Context context,View v){
 
             if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true){
                 if (v instanceof  ImageView){
-                    ((ImageView)v).setColorFilter(R.color.md_grey_500);
+                    ((ImageView) v).setColorFilter(ContextCompat.getColor(context, R.color.md_grey_400), PorterDuff.Mode.SRC_IN);
+
                 }else v.setBackgroundColor(Color.BLACK);
 
         }

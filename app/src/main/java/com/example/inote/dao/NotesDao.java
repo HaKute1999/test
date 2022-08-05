@@ -62,4 +62,10 @@ public interface NotesDao {
     @Query("UPDATE note SET valueChecklist=:valueChecklist WHERE id = :id")
     void updateListCheckList(List<CheckItem> valueChecklist, int id);
 
+    @Query("SELECT * FROM note ORDER BY LOWER(title) ASC")
+    List<Note> getNoteSortByAscLastName();
+    @Query("SELECT * FROM note ORDER BY LOWER(title) DESC")
+    List<Note> getNoteSortByDescLastName();
+    @Query("SELECT * FROM note ORDER BY timeEdit DESC")
+    List<Note> getNoteSortByDescTime();
 }

@@ -333,8 +333,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ConfigUtils.darkRelativeRadius(ids(R.id.rl_lock));
         ConfigUtils.darkBlack(rl_bottom);
         ConfigUtils.darkBlack(rl_top);
-        ConfigUtils.darkImage(ids(R.id.viewLock));
-        ConfigUtils.darkImage(ids(R.id.viewLock2));
+        ConfigUtils.darkImage(getApplicationContext(),ids(R.id.viewLock));
+        ConfigUtils.darkImage(getApplicationContext(),ids(R.id.viewLock2));
 
     }
 

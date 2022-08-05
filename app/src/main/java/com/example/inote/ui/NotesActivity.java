@@ -31,7 +31,10 @@ import com.github.florent37.expansionpanel.ExpansionHeader;
 import com.github.florent37.expansionpanel.ExpansionLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class NotesActivity extends BaseActivity implements IUpdate {
     NoteAdapter noteAdapter, noteAdapterPin;
@@ -136,9 +139,66 @@ public class NotesActivity extends BaseActivity implements IUpdate {
 
             }
         });
+        ll_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.hideKeyboard(NotesActivity.this);
+                viewBackgroundHome.setVisibility(View.VISIBLE);
+//                YoYo.with(Techniques.SlideInUp).duration(100L).playOn(viewBackground);
+                YoYo.with(Techniques.SlideInDown).duration(200L).onEnd(new YoYo.AnimatorCallback() {
+                    @Override
+                    public final void call(Animator animator) {
+                        homeChooserContainer.setVisibility(View.VISIBLE);
+                    }
+                }).playOn(findViewById(R.id.menu_config_note));
+            }
+        });
+        viewBackgroundHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewBackgroundHome.setVisibility(View.GONE);
+                homeChooserContainer.setVisibility(View.GONE);
+            }
+        });
         tvSortAZ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByAscLastName();
+                viewBackgroundHome.setVisibility(View.GONE);
+                homeChooserContainer.setVisibility(View.GONE);
+                AppDatabase.noteDB.getNoteDAO().update();
+                noteAdapter = new NoteAdapter(getApplicationContext(), noteList, NotesActivity.this);
+                rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+
+                rlNote.setAdapter(noteAdapter);
+
+            }
+        });
+        tvSortZA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescLastName();
+                viewBackgroundHome.setVisibility(View.GONE);
+                homeChooserContainer.setVisibility(View.GONE);
+                AppDatabase.noteDB.getNoteDAO().update();
+                noteAdapter = new NoteAdapter(getApplicationContext(), noteList, NotesActivity.this);
+                rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+
+                rlNote.setAdapter(noteAdapter);
+
+            }
+        });
+        tvSortDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescTime();
+                viewBackgroundHome.setVisibility(View.GONE);
+                homeChooserContainer.setVisibility(View.GONE);
+                AppDatabase.noteDB.getNoteDAO().update();
+                noteAdapter = new NoteAdapter(getApplicationContext(), noteList, NotesActivity.this);
+                rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+
+                rlNote.setAdapter(noteAdapter);
 
             }
         });
@@ -190,27 +250,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         rv_note_pin.setLayoutManager(new LinearLayoutManager(this));
 
         rv_note_pin.setAdapter(noteAdapterPin);
-       ll_menu.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               ConfigUtils.hideKeyboard(NotesActivity.this);
-               viewBackgroundHome.setVisibility(View.VISIBLE);
-//                YoYo.with(Techniques.SlideInUp).duration(100L).playOn(viewBackground);
-               YoYo.with(Techniques.SlideInDown).duration(200L).onEnd(new YoYo.AnimatorCallback() {
-                   @Override
-                   public final void call(Animator animator) {
-                       homeChooserContainer.setVisibility(View.VISIBLE);
-                   }
-               }).playOn(findViewById(R.id.menu_config_note));
-           }
-       });
-       viewBackgroundHome.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               viewBackgroundHome.setVisibility(View.GONE);
-               homeChooserContainer.setVisibility(View.GONE);
-           }
-       });
+
 
     }
 

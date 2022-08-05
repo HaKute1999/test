@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.inote.R;
+import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.ShareUtils;
 
 public class SettingActivity extends BaseActivity {
@@ -76,5 +77,24 @@ public class SettingActivity extends BaseActivity {
                 startActivity(inte);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SettingActivity.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConfigUtils.getConFigDark(getApplicationContext(),ids(R.id.tv_display),ids(R.id.tv_dark),ids(R.id.tv_light)
+                ,ids(R.id.tvTopCheckList),ids(R.id.tvChange),ids(R.id.tvChange2),ids(R.id.tvSync),
+                ids(R.id.tv_share_app),ids(R.id.tv_rate),ids(R.id.tv_rate_us),ids(R.id.tv_policy),ids(R.id.view5x),
+                ids(R.id.view9),ids(R.id.llSt1),ids(R.id.llSt2)
+                ,ids(R.id.viewChecklist),ids(R.id.viewPass),ids(R.id.viewPass2),ids(R.id.view8),ids(R.id.view10));
+        ConfigUtils.darkBlack(ids(R.id.root_setting));
+
     }
 }
