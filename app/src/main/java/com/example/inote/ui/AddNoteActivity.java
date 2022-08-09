@@ -98,10 +98,21 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ConfigUtils.listValueCache.clear();
 
         if (idNote != 0) {
+
             ConfigUtils.listValueCache.addAll(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue());
 
             if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getProtectionType() == 1) {
+                tvLockNote.setText(getResources().getString(R.string.unlocks));
                 layoutLock.setVisibility(View.VISIBLE);
+            }else {
+                tvLockNote.setText(getResources().getString(R.string.locks));
+
+            }
+            if (AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).isPinned()) {
+                tvPin.setText(getResources().getString(R.string.unpin));
+            }else {
+                tvPin.setText(getResources().getString(R.string.pins));
+
             }
             edtTitle.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getTitle());
             text_note_view.setText(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue().get(0));
@@ -884,7 +895,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     }
     private void showDialogCreatePassCode() {
         Context mContext = getApplicationContext();
-        final Dialog dialog = new Dialog(getApplicationContext(), androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+        final Dialog dialog = new Dialog(AddNoteActivity.this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.dialog_create_pass);

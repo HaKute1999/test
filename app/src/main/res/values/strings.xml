@@ -125,7 +125,7 @@
     <string name="checklist2">Checklist</string>
     <string name="chip_text">Chip text</string>
     <string name="choose_from_library">Choose from library</string>
-    <string name="choose_to_export_backup_file_then_it_will_be_saved_in_the_docmument_folder_at_the_internalstorage_documents_inote_backupnoteios_json_to_sync_you_can_either_send_this_file_to_another_device_or_when_reinstall_the_app_choose_to_import_the_sync_file_and_choose_where_you_save_the_backupnoteios_json_file_to_sync_currently_only_text_notes_and_checklists_can_be_synchronized">Choose to export backup file, then it will be saved in the docmument folder at the InternalStorage/Documents/BackUpNoteIos.json .To sync, you can either send this file to another device, or when reinstall the app choose to import the sync file and choose where you save the backupnoteios.json file to sync. Currently only text notes and checklists can be synchronized</string>
+    <string name="choose_to_export_backup">Choose to export backup file, then it will be saved in the docmument folder at the InternalStorage/Documents/BackUpINoteIos.json .To sync, you can either send this file to another device, or when reinstall the app choose to import the sync file and choose where you save the backupnoteios.json file to sync.</string>
     <string name="clear_text_end_icon_content_description">Clear text</string>
     <string name="click_select_destination">Click here to select destination</string>
     <string name="clock_short">Clock</string>

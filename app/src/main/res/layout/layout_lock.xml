@@ -11,7 +11,7 @@
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_70sdp"
         android:layout_alignParentEnd="true"
-        android:background="@color/white"
+        android:background="@color/color_main"
         android:clickable="true"
         android:focusable="true" />
 
@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:layout_marginTop="@dimen/_56sdp"
-        android:background="@color/white"
+        android:background="@color/color_main"
         android:clickable="true"
         android:focusable="true" />
 

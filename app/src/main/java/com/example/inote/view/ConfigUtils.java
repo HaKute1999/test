@@ -298,12 +298,17 @@ public class ConfigUtils {
         List<String> listImage =  new ArrayList<>();
 
         for (String image : note.getListImage()){
-            Bitmap bm = BitmapFactory.decodeFile(image);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.PNG, 100, baos); // bm is the bitmap object
-            byte[] b = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-            listImage.add(encodedImage);
+            if (image.contains("storage")){
+                Bitmap bm = BitmapFactory.decodeFile(image);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.PNG, 100, baos); // bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                listImage.add(encodedImage);
+            }else {
+                listImage.add(image);
+            }
+
         }
         return listImage;
     }
@@ -327,7 +332,7 @@ public class ConfigUtils {
             return false;
         }
     }
-    public static void wirteFile(Context context,String result){
+    public static void wirteFile(Context context,String result,IUpdate update){
         if (isExternalStorageWritable()) {
             File file = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)));
             if (!file.exists()) {
@@ -344,6 +349,7 @@ public class ConfigUtils {
                 writer.append(result);
                 writer.flush();
                 writer.close();
+                update.onFinish();
                 Toast.makeText(context, context.getResources().getString(R.string.exporting_successful), Toast.LENGTH_SHORT).show();
 
             } catch (IOException e) {

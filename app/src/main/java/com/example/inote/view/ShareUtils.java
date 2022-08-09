@@ -9,6 +9,11 @@ public class ShareUtils {
 
     public final static  String PASSCODE = "PASSCODE";
     public final static  String CONFIG_DARK = "CONFIG_DARK";
+    public final static  String CHECK_LIST = "CHECK_LIST" +
+            "" +
+            "" +
+            "" +
+            "";
     //direction
 
     public static boolean isPreferencesSet(Context context){

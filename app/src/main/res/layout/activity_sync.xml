@@ -6,6 +6,8 @@
     android:background="@color/white">
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/_20sdp"
+
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp">
@@ -19,7 +21,7 @@
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/tvBack_note"
+            android:id="@+id/tvBack"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="-2dp"
@@ -120,16 +122,17 @@
                 android:visibility="gone" />
 
             <RelativeLayout
+
                 android:id="@+id/rlFile"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginBottom="@dimen/_30sdp">
+                android:layout_height="@dimen/_58sdp"
+               >
 
                 <TextView
                     android:id="@+id/tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_toEndOf="@+id/iv1"
                     android:fontFamily="@font/font"
                     android:text="BackUpINoteIos.json"
@@ -140,23 +143,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/tv1"
-                    android:layout_marginTop="@dimen/_1sdp"
                     android:layout_toStartOf="@+id/ivShareBackup"
                     android:layout_toEndOf="@+id/iv1"
                     android:fontFamily="@font/font"
-                    android:maxLines="1"
-                    android:text="/storage/emulated/0/Documents/Backupnoteios.json"
+                    android:maxLines="2"
+                    android:text="/storage/emulated/0/Documents/BackUpINoteIos.json"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_9sdp" />
 
                 <ImageView
                     android:id="@+id/iv1"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:padding="@dimen/_5sdp"
-                    />
+                    android:padding="@dimen/_5sdp" />
 
                 <ImageView
                     android:id="@+id/ivShareBackup"
@@ -168,12 +169,12 @@
                     android:padding="@dimen/_6sdp"
                     android:src="@drawable/ic_share" />
 
-                <View
-                    android:id="@+id/viewImport3"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#c7c7c7" />
+<!--                <View-->
+<!--                    android:id="@+id/viewImport3"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0.5dp"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:background="#c7c7c7" />-->
 
                 <View
                     android:id="@+id/viewImport4"
@@ -246,7 +247,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:fontFamily="@font/font"
-                android:text="@string/choose_to_export_backup_file_then_it_will_be_saved_in_the_docmument_folder_at_the_internalstorage_documents_inote_backupnoteios_json_to_sync_you_can_either_send_this_file_to_another_device_or_when_reinstall_the_app_choose_to_import_the_sync_file_and_choose_where_you_save_the_backupnoteios_json_file_to_sync_currently_only_text_notes_and_checklists_can_be_synchronized"
+                android:text="@string/choose_to_export_backup"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11ssp" />
         </LinearLayout>

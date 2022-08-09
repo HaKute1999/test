@@ -2,7 +2,9 @@ package com.example.inote.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -15,7 +17,7 @@ import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.ShareUtils;
 
 public class SettingActivity extends BaseActivity {
-  TextView tv_dark,tv_light;
+  TextView tv_dark,tv_light,tv_share_app,tv_rate;
   RadioButton dark_on,light_on;
   RelativeLayout rlSync;
     @Override
@@ -28,7 +30,10 @@ public class SettingActivity extends BaseActivity {
         tv_light = findViewById(R.id.tv_light);
         light_on = findViewById(R.id.light_on);
         dark_on = findViewById(R.id.dark_on);
+        tv_share_app = findViewById(R.id.tv_share_app);
+        tv_rate = findViewById(R.id.tv_rate);
         rlSync = findViewById(R.id.rlSync);
+        new ShareUtils(getApplicationContext());
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==false){
             light_on.setChecked(true);
         }else dark_on.setChecked(true);
@@ -38,6 +43,9 @@ public class SettingActivity extends BaseActivity {
                 if (b){
                     ShareUtils.setBool(ShareUtils.CONFIG_DARK,false);
                     dark_on.setChecked(false);
+                    finish();
+                    startActivity(getIntent());
+
                 }
             }
         });
@@ -47,6 +55,8 @@ public class SettingActivity extends BaseActivity {
                 if (b){
                     ShareUtils.setBool(ShareUtils.CONFIG_DARK,true);
                     light_on.setChecked(false);
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
@@ -57,6 +67,8 @@ public class SettingActivity extends BaseActivity {
                     ShareUtils.setBool(ShareUtils.CONFIG_DARK,true);
                     light_on.setChecked(false);
                     dark_on.setChecked(true);
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
@@ -67,6 +79,8 @@ public class SettingActivity extends BaseActivity {
                     ShareUtils.setBool(ShareUtils.CONFIG_DARK,false);
                     light_on.setChecked(true);
                     dark_on.setChecked(false);
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
@@ -75,6 +89,23 @@ public class SettingActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent inte = new Intent(SettingActivity.this,SyncActivity.class);
                 startActivity(inte);
+            }
+        });
+        tv_share_app.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareApp(getApplicationContext());
+            }
+        });
+        tv_rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tv_rate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        rateapp();
+                    }
+                });
             }
         });
     }
@@ -95,6 +126,19 @@ public class SettingActivity extends BaseActivity {
                 ids(R.id.view9),ids(R.id.llSt1),ids(R.id.llSt2)
                 ,ids(R.id.viewChecklist),ids(R.id.viewPass),ids(R.id.viewPass2),ids(R.id.view8),ids(R.id.view10));
         ConfigUtils.darkBlack(ids(R.id.root_setting));
+
+    }
+    public static void shareApp(Context context)
+    {
+        final String appPackageName = context.getPackageName();
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out the App at: https://play.google.com/store/apps/details?id=" + appPackageName);
+        sendIntent.setType("text/plain");
+        context.startActivity(sendIntent);
+    }
+    private  void rateapp(){
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=PackageName")));
 
     }
 }

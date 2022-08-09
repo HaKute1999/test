@@ -601,7 +601,7 @@
     <string name="check_for_update">Kiểm tra cập nhật</string>
     <string name="checklist2">Checklist</string>
     <string name="choose_from_library">Chọn từ thư viện</string>
-    <string name="choose_to_export_backup_file_then_it_will_be_saved_in_the_docmument_folder_at_the_internalstorage_documents_inote_backupnoteios_json_to_sync_you_can_either_send_this_file_to_another_device_or_when_reinstall_the_app_choose_to_import_the_sync_file_and_choose_where_you_save_the_backupnoteios_json_file_to_sync_currently_only_text_notes_and_checklists_can_be_synchronized">Chọn để xuất khẩu tập tin sao lưu, sau đó nó sẽ được lưu trong thư mục docmument tại đường dẫn InternalStorage/Documents/backupnoteios.json. Để đồng bộ hóa, bạn có thể gửi tập tin này sang thiết bị khác, hoặc khi cài đặt lại ứng dụng chọn nhập tệp đồng bộ và chọn nơi bạn lưu tệp backupnoteios.json để đồng bộ hóa. Hiện tại, chỉ có ghi chú văn bản và danh sách kiểm tra có thể được đồng bộ hóa</string>
+    <string name="choose_to_export_backup">Chọn để xuất khẩu tập tin sao lưu, sau đó nó sẽ được lưu trong thư mục docmument tại đường dẫn InternalStorage/Documents/BackupInoteios.json. Để đồng bộ hóa, bạn có thể gửi tập tin này sang thiết bị khác, hoặc khi cài đặt lại ứng dụng chọn nhập tệp đồng bộ và chọn nơi bạn lưu tệp backupnoteios.json để đồng bộ hóa.</string>
     <string name="close_update">Đóng ứng dụng để cập nhật?</string>
     <string name="confirm_passcode">Nhập lại mật mã</string>
     <string name="content">Nội dung</string>
@@ -702,7 +702,7 @@
     <string name="tutorial">Hướng dẫn:</string>
     <string name="tyr_agin">Có lỗi xảy ra, hãy thử lại thêm 1 lần nữa</string>
     <string name="unlocks">Mở khóa</string>
-    <string name="unpin">Bỏ gim</string>
+    <string name="unpin">Bỏ ghim</string>
     <string name="upgrade_pro_version_donate_me_to_continue_to_develop_ios">Nâng cấp phiên bản pro</string>
     <string name="view_note">Xem ghi chú</string>
     <string name="voice_memos">Ghi âm</string>
