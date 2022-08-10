@@ -10,12 +10,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,6 +40,7 @@ import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.CheckItem;
 import com.example.inote.models.Note;
+import com.example.inote.models.NoteStyle;
 import com.example.inote.ui.MainActivity;
 import com.example.inote.view.drawingview.ICopy;
 
@@ -56,6 +64,7 @@ public class ConfigUtils {
     public final static List<String> listImageCache = new ArrayList<>();
     public final static List<String> listValueCache = new ArrayList<>();
     public final static List<CheckItem> listCheckList = new ArrayList<>();
+    public final static NoteStyle noteStyleCustom = new NoteStyle(false, false, false, false, false, false, false, 0);
     public static void hideKeyboard(Activity activity) {
 
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -175,6 +184,7 @@ public class ConfigUtils {
         for (T v : arr) {
 
                     if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) == true) {
+
                         if (v instanceof EditText){
                             ((EditText) v).setBackground(context.getDrawable(R.drawable.background_edt_dialog_drak));
                             ((EditText) v).setTextColor(Color.WHITE);
@@ -379,4 +389,93 @@ public class ConfigUtils {
         fin.close();
         return ret;
     }
+    public static void checkTextRight(boolean check, TextView textView) {
+
+                if (check) {
+                    textView.setBackgroundResource(R.drawable.bg_radius_end_yellow);
+                    textView.setTextColor(Color.WHITE);
+                } else if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                    textView.setTextColor(Color.WHITE);
+                    textView.setBackgroundResource(R.drawable.bg_radius_end_while2);
+                } else {
+                    textView.setBackgroundResource(R.drawable.bg_radius_end_while);
+                    textView.setTextColor(Color.BLACK);
+                }
+
+    }
+    public static void checkTextLeft(boolean check, TextView textView) {
+
+                if (check) {
+                    textView.setBackgroundResource(R.drawable.bg_radius_start_yellow);
+                    textView.setTextColor(Color.WHITE);
+                } else if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                    textView.setTextColor(Color.WHITE);
+                    textView.setBackgroundResource(R.drawable.bg_radius_start_while2);
+                } else {
+                    textView.setBackgroundResource(R.drawable.bg_radius_start_while);
+                    textView.setTextColor(Color.BLACK);
+                }
+
+    }
+    public static void checkText(boolean check, TextView textView) {
+
+                if (check) {
+                    textView.setBackgroundColor(Color.parseColor("#E4B645"));
+                    textView.setTextColor(Color.WHITE);
+                } else if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                    textView.setTextColor(Color.WHITE);
+                    textView.setBackgroundColor(Color.parseColor("#2c2c2e"));
+                } else {
+                    textView.setBackgroundColor(Color.parseColor("#f2f1f6"));
+                    textView.setTextColor(Color.BLACK);
+                }
+
+
+    }
+    public static void getStyleTitle(NoteStyle noteStyle, TextView textView){
+        SpannableString spanString = new SpannableString(textView.getText().toString());
+        if (noteStyle.isCheckITitle()){
+            spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spanString.length(), 0);
+        } if (noteStyle.isCheckUTitle()){
+            spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
+        } if (noteStyle.isCheckSTitle()){
+            spanString.setSpan(new StrikethroughSpan(), 0, spanString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+
+        textView.setText(spanString);
+    }
+    public static void getStyleContent(NoteStyle noteStyle, TextView textView){
+        SpannableString spanString = new SpannableString(textView.getText().toString());
+        if (noteStyle.isCheckIContent()){
+            spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spanString.length(), 0);
+        }
+        if (noteStyle.isCheckUContent()){
+            spanString.setSpan(new UnderlineSpan(), 0, spanString.length(), 0);
+        }
+        if (noteStyle.isCheckSContent()){
+            spanString.setSpan(new StrikethroughSpan(), 0, spanString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if (noteStyle.isCheckBContent()){
+            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+        }
+        textView.setText(spanString);
+    }
+    public static void getStyleGravity(NoteStyle noteStyle, TextView textView){
+        if (noteStyle.getGravityNote()==0){
+            textView.setGravity(Gravity.LEFT);
+            return;
+        }else  if (noteStyle.getGravityNote()==1){
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            return;
+
+        }else  if (noteStyle.getGravityNote()==2){
+            textView.setGravity(Gravity.RIGHT);
+            return;
+        }
+            textView.setGravity(Gravity.LEFT);
+
+    }
+
+
 }

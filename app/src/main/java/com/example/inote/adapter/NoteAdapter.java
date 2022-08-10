@@ -280,7 +280,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                             new Recent(data.get(getAdapterPosition()).getIdFolder(),false,data.get(getAdapterPosition()).getListImage(),0,
                                     System.currentTimeMillis(),
                             data.get(getAdapterPosition()).getTitle(),0,
-                            data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist()
+                            data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist(),data.get(getAdapterPosition()).getNoteStyle()
                             ));
                     AppDatabase.noteDB.getNoteDAO().deleteItemNote(data.get(getAdapterPosition()).getId());
                     dialog.dismiss();

@@ -4,7 +4,7 @@
     android:id="@+id/menuChooserContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:visibility="gone"
+    android:visibility="gone"
   >
 
     <LinearLayout
@@ -407,11 +407,11 @@
                     android:textSize="@dimen/_12ssp" />
             </RelativeLayout>
 
-            <!--            <View-->
-            <!--                android:id="@+id/viewOption5"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="0.4dp"-->
-            <!--                android:background="#c6c6c6" />-->
+            <View
+                android:id="@+id/viewOption5"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="#c6c6c6" />
 
             <RelativeLayout
                 android:id="@+id/rl_align"
@@ -419,8 +419,7 @@
                 android:layout_height="@dimen/_42sdp"
                 android:background="@drawable/button_selector_light_bottom"
                 android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone">
+                android:focusable="true">
 
                 <TextView
                     android:id="@+id/tvAlign1"

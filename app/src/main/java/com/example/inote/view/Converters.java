@@ -5,6 +5,7 @@ import androidx.room.TypeConverter;
 
 import com.example.inote.models.CheckItem;
 import com.example.inote.models.Note;
+import com.example.inote.models.NoteStyle;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,6 +48,24 @@ public class Converters {
         }
 
         Type listType = new TypeToken<List<CheckItem>>() {
+        }.getType();
+
+        Gson gson = new Gson();
+        return gson.fromJson(data, listType);
+    }
+    @TypeConverter
+    public static String itemToObject(NoteStyle list) {
+        Gson gson = new Gson();
+        return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static NoteStyle objectToItem(@Nullable String data) {
+        if (data == null) {
+            return null;
+        }
+
+        Type listType = new TypeToken<NoteStyle>() {
         }.getType();
 
         Gson gson = new Gson();

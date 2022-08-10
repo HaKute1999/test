@@ -17,7 +17,7 @@ public class Note {
     private int idFolder;
     private boolean isPinned;
     private List<String> listImage;
-
+    private NoteStyle noteStyle;
     private int protectionType;
     private long timeEdit;
     private String title;
@@ -25,7 +25,7 @@ public class Note {
     private List<String> value;
     private List<CheckItem> valueChecklist;
 
-    public Note(int idFolder, boolean isPinned, List<String> listImage,  int protectionType, long timeEdit, String title, int type, List<String> value, List<CheckItem> valueChecklist) {
+    public Note(int idFolder, boolean isPinned, List<String> listImage,  int protectionType, long timeEdit, String title, int type, List<String> value, List<CheckItem> valueChecklist,NoteStyle noteStyle) {
 
         this.idFolder = idFolder;
         this.isPinned = isPinned;
@@ -37,6 +37,15 @@ public class Note {
         this.type = type;
         this.value = value;
         this.valueChecklist = valueChecklist;
+        this.noteStyle = noteStyle;
+    }
+
+    public NoteStyle getNoteStyle() {
+        return noteStyle;
+    }
+
+    public void setNoteStyle(NoteStyle noteStyle) {
+        this.noteStyle = noteStyle;
     }
 
     public int getId() {

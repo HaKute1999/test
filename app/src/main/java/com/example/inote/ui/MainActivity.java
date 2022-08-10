@@ -65,6 +65,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         new ShareUtils(this);
         if (!ShareUtils.checkExist(ShareUtils.CONFIG_DARK)){
             ShareUtils.setBool(ShareUtils.CONFIG_DARK,false);
+            ShareUtils.setBool(ShareUtils.CONFIG_SIZE_IMAGE,true);
         }
         noteDb = AppDatabase.getInstance(this, DB_NAME);
         if (noteDb.getNoteDAO().getAllNotes().size() == 0) {
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             ConfigUtils.listValueCache.add(getString(R.string.thanks_all_app) + "\n\n" + getString(R.string.find_all_app) + " \n\nDefault Note");
             ConfigUtils.listValueCache.add("");
             ConfigUtils.listValueCache.add("");
-            Note note = new Note(0, false, new ArrayList<>(), 0, System.currentTimeMillis(), string, 0, ConfigUtils.listValueCache, new ArrayList<>());
+            Note note = new Note(0, false, new ArrayList<>(), 0, System.currentTimeMillis(), string, 0, ConfigUtils.listValueCache, new ArrayList<>(),ConfigUtils.noteStyleCustom);
             noteDb.getNoteDAO().insert(note);
         }
         setupListFolder();

@@ -165,8 +165,8 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
                             new Note(data.get(getAdapterPosition()).getIdFolder(),false,data.get(getAdapterPosition()).getListImage(),0,
                                     System.currentTimeMillis(),
                                     data.get(getAdapterPosition()).getTitle(),0,
-                                    data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist()
-                            ));                    AppDatabase.noteDB.getRecentDao().deleteItemRecent(data.get(getAdapterPosition()).getId());
+                                    data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist(), data.get(getAdapterPosition()).getNoteStyle()));
+                    AppDatabase.noteDB.getRecentDao().deleteItemRecent(data.get(getAdapterPosition()).getId());
                     dialog.dismiss();
                     iUpdate.onFinish();
 

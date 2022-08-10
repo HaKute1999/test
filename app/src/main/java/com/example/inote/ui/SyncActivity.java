@@ -122,7 +122,7 @@ public class SyncActivity extends BaseActivity implements IUpdate {
 
                 List<Note> list = new Gson().fromJson(content,listType );
                 for (Note note: list){
-                    AppDatabase.noteDB.getNoteDAO().insert(new Note(note.getIdFolder(),note.isPinned(),note.getListImage(),note.getProtectionType(),note.getTimeEdit(),note.getTitle(),note.getType(),note.getValue(),note.getValueChecklist()));
+                    AppDatabase.noteDB.getNoteDAO().insert(new Note(note.getIdFolder(),note.isPinned(),note.getListImage(),note.getProtectionType(),note.getTimeEdit(),note.getTitle(),note.getType(),note.getValue(),note.getValueChecklist(),note.getNoteStyle()));
                 }
                 numberSync.setText(getString(R.string.number_of_notes_synchronized) + " "+AppDatabase.noteDB.getNoteDAO().getAllNotes().size());
 

@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import com.example.inote.models.CheckItem;
 import com.example.inote.models.Note;
+import com.example.inote.models.NoteStyle;
 
 import java.util.List;
 
@@ -68,4 +69,10 @@ public interface NotesDao {
     List<Note> getNoteSortByDescLastName();
     @Query("SELECT * FROM note ORDER BY timeEdit DESC")
     List<Note> getNoteSortByDescTime();
+
+    @Query("SELECT * FROM note WHERE noteStyle = :noteStyle AND id = :id")
+    public List<Note> getNotePin(NoteStyle noteStyle, int id);
+
+    @Query("UPDATE note SET noteStyle=:noteStyle WHERE id = :id")
+    void updateListImage(NoteStyle noteStyle, int id);
 }

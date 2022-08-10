@@ -23,7 +23,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:background="@color/colorErase"
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:contentInsetEnd="0dp"
@@ -37,8 +36,7 @@
         <RelativeLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorErase">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/ivBack"

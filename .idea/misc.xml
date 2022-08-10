@@ -24,6 +24,9 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_draw_selecting.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_gray_radius.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_bottom_16.xml" value="0.196" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_end_while.xml" value="0.1925" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_end_while2.xml" value="0.1925" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_start_while2.xml" value="0.1925" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_top_12.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/bg_radius_top_22.xml" value="0.195" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/btn_checkbox_checked_to_unchecked_mtrl_animation.xml" value="0.1715" />
@@ -44,14 +47,16 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/seekbar_progress_drawable.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/seekbar_thumb.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/selector.xml" value="0.151" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/thumb.xml" value="0.1915" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/yesno_delete.xml" value="0.1935" />
-        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_add_note.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_add_note.xml" value="0.2" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_delete.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_draw_note.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_notes.xml" value="0.25" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_setting.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_sync.xml" value="0.33" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/bottom_select_sheet.xml" value="0.25" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/colorssss.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/custom.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_create_folder.xml" value="0.33" />

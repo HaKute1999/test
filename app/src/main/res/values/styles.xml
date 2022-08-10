@@ -60,4 +60,11 @@
         <item name="android:background">?android:attr/colorBackground</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+    <style name="CustomBottomSheetStyle" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

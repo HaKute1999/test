@@ -2,28 +2,21 @@ package com.example.inote.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
 import android.app.Dialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
@@ -31,11 +24,10 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,30 +39,23 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.inote.R;
 import com.example.inote.adapter.CheckListAdapter;
-import com.example.inote.adapter.FolderAdapter;
 import com.example.inote.adapter.ImageNoteAdapter;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.CheckItem;
 import com.example.inote.models.Note;
+import com.example.inote.models.NoteStyle;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.ICheckList;
-import com.example.inote.view.IUpdate;
 import com.example.inote.view.ShareUtils;
 import com.example.inote.view.drawingview.ICopy;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
-    RelativeLayout ivMore,rl_Pin ,rl_delete,rl_lock;
+    RelativeLayout ivMore,rl_Pin ,rl_delete,rl_lock,rl_align;
     RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search,search_root,main_note,rl_bottom,rl_top;
     View viewBackground;
     EditText edtTitle, text_note_view, text_note_view2, text_note_view3,search_query;
@@ -83,6 +68,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     CheckListAdapter checkListAdapter;
     List<String> listImage;
     NestedScrollView nestedScrollView;
+    ImageView close_bottom;
+    NoteStyle noteStyleCustom = ConfigUtils.noteStyleCustom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +77,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         setFullScreen();
 
         setContentView(R.layout.activity_add_note);
+        onBack();
         initView();
         Intent intent = getIntent();
         idNote = intent.getIntExtra("idNote", 0);
@@ -332,7 +320,17 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
             }
         });
-        ConfigUtils.getConFigDark1(getApplicationContext(),edtTitle,text_note_view,text_note_view2,text_note_view3,tvTime);
+        rl_align.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuChooserContainer.setVisibility(View.GONE);
+                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                viewBackground.setVisibility(View.GONE);
+                showDialogAlign();
+            }
+        });
+
+        ConfigUtils.getConFigDark1(getApplicationContext(),edtTitle,text_note_view,text_note_view2,text_note_view3,tvTime,ids(R.id.tvAlign1),ids(R.id.tvAlign));
         ConfigUtils.getConFigDark1(getApplicationContext(),ids(R.id.viewOption),ids(R.id.viewOption1),ids(R.id.viewOption2),ids(R.id.tvChoosePhoto),ids(R.id.tvTakePhoto),ids(R.id.tvCancelPhoto));
         ConfigUtils.getConFigDark1(getApplicationContext(),ids(R.id.tv_share),ids(R.id.tvSearch),ids(R.id.tvCount),ids(R.id.tvSize1),ids(R.id.tvWordCount),ids(R.id.tvSize),ids(R.id.tvNoti),ids(R.id.tvForgotPass));
         ConfigUtils.darkLinearLayoutTop(ids(R.id.ln_option));
@@ -444,6 +442,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         tvPin = findViewById(R.id.tvPin);
         tvLockNote = findViewById(R.id.tvLockNote);
         imgPin = findViewById(R.id.imgPin);
+        rl_align = findViewById(R.id.rl_align);
+
         listImage = new ArrayList<>();
 
     }
@@ -770,7 +770,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
                 || ConfigUtils.listImageCache.size() > 0) {
             AppDatabase.noteDB.getNoteDAO().insert(
                     new Note(idFolder, ispnin(), ConfigUtils.listImageCache,  protectType(), System.currentTimeMillis(),
-                            edtTitle.getText().toString(), 0, ConfigUtils.listValueCache, ConfigUtils.listCheckList));
+                            edtTitle.getText().toString(), 0, ConfigUtils.listValueCache, ConfigUtils.listCheckList,noteStyleCustom));
             ConfigUtils.listValueCache.clear();
             ConfigUtils.listImageCache.clear();
             ConfigUtils.listCheckList.clear();
@@ -941,6 +941,300 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             }
         });
         dialog.show();
+
+    }
+    private void showDialogAlign() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this,R.style.CustomBottomSheetDialogTheme);
+        Context mContext = getApplicationContext();
+        View dialog = LayoutInflater.from(mContext).inflate(R.layout.bottom_select_sheet, (ViewGroup) null);
+        bottomSheetDialog.setContentView(dialog);
+        TextView tvFormat = dialog.findViewById(R.id.tvFormat);
+        TextView tvFormat1 = dialog.findViewById(R.id.tvFormat1);
+        TextView tvFormat2 = dialog.findViewById(R.id.tvFormat2);
+        TextView tvFormat3 = dialog.findViewById(R.id.tvFormat3);
+        TextView tvFormat4 = dialog.findViewById(R.id.tvFormat4);
+        TextView tvScale = dialog.findViewById(R.id.tvScale);
+        TextView tvs1 = dialog.findViewById(R.id.tvs1);
+        TextView tvs2 = dialog.findViewById(R.id.tvs2);
+        TextView tvu1 = dialog.findViewById(R.id.tvu1);
+        TextView tvu2 = dialog.findViewById(R.id.tvu2);
+        TextView tvi1 = dialog.findViewById(R.id.tvi1);
+        TextView tvi2 = dialog.findViewById(R.id.tvi2);
+        TextView tvb2 = dialog.findViewById(R.id.tvb2);
+        TextView tvSmall = dialog.findViewById(R.id.tvSmall);
+        TextView tvlarge = dialog.findViewById(R.id.tvLarge);
+        ImageView tvLeft = dialog.findViewById(R.id.tvLeft);
+        ImageView tvCenter = dialog.findViewById(R.id.tvCenter);
+        ImageView tvRight = dialog.findViewById(R.id.tvRight);
+        tvs1.setPaintFlags(tvs1.getPaintFlags() | 16);
+        tvs2.setPaintFlags(tvs2.getPaintFlags() | 16);
+        tvu1.setPaintFlags(tvu1.getPaintFlags() | 8);
+        tvu2.setPaintFlags(tvu2.getPaintFlags() | 8);
+        close_bottom = dialog.findViewById(R.id.close_bottom2);
+        close_bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+        tvs1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckSTitle()){
+                    noteStyleCustom.setCheckSTitle(false);
+                }else{
+                    noteStyleCustom.setCheckSTitle(true);
+
+                }
+                ConfigUtils.getStyleTitle(noteStyleCustom,edtTitle);
+
+                ConfigUtils.checkTextRight(noteStyleCustom.isCheckSTitle(),tvs1);
+            }
+        });
+        ConfigUtils.checkTextRight(noteStyleCustom.isCheckSTitle(),tvs1);
+
+        tvs2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckSContent()){
+                    noteStyleCustom.setCheckSContent(false);
+                }else {
+                    noteStyleCustom.setCheckSContent(true);
+
+                } ConfigUtils.getStyleContent(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view3);
+                ConfigUtils.checkTextRight(noteStyleCustom.isCheckSContent(),tvs2);
+
+
+            }
+        });
+        ConfigUtils.checkTextRight(noteStyleCustom.isCheckSContent(),tvs2);
+
+        tvi1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckITitle()){
+                    noteStyleCustom.setCheckITitle(false);
+
+                }else{
+                    noteStyleCustom.setCheckITitle(true);
+
+                }
+                ConfigUtils.getStyleTitle(noteStyleCustom,edtTitle);
+                ConfigUtils.checkText(noteStyleCustom.isCheckITitle(),tvi1);
+            }
+        });
+        ConfigUtils.checkText(noteStyleCustom.isCheckITitle(),tvi1);
+
+        tvi2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckIContent()){
+                    noteStyleCustom.setCheckIContent(false);
+                }else {
+                    noteStyleCustom.setCheckIContent(true);
+
+                }  ConfigUtils.getStyleContent(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view3);
+                ConfigUtils.checkText(noteStyleCustom.isCheckIContent(),tvi2);
+
+            }
+        });
+        ConfigUtils.checkText(noteStyleCustom.isCheckIContent(),tvi2);
+
+        tvu1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckUTitle()){
+                    noteStyleCustom.setCheckUTitle(false);
+                }else{
+                    noteStyleCustom.setCheckUTitle(true);
+                }
+                ConfigUtils.getStyleTitle(noteStyleCustom,edtTitle);
+
+                ConfigUtils.checkText(noteStyleCustom.isCheckUTitle(),tvu1);
+            }
+        });
+        ConfigUtils.checkText(noteStyleCustom.isCheckUTitle(),tvu1);
+
+        tvu2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckUContent()){
+                    noteStyleCustom.setCheckUContent(false);
+                }else {
+                    noteStyleCustom.setCheckUContent(true);
+
+                }
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view3);
+                ConfigUtils.checkText(noteStyleCustom.isCheckUContent(),tvu2);
+
+            }
+        });
+        ConfigUtils.checkText(noteStyleCustom.isCheckUContent(),tvu2);
+
+        tvb2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (noteStyleCustom.isCheckBContent()){
+                    noteStyleCustom.setCheckBContent(false);
+                }else {
+                    noteStyleCustom.setCheckBContent(true);
+
+                }ConfigUtils.getStyleContent(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleContent(noteStyleCustom,text_note_view3);
+                ConfigUtils.checkTextLeft(noteStyleCustom.isCheckBContent(),tvb2);
+            }
+        });
+        ConfigUtils.checkTextLeft(noteStyleCustom.isCheckBContent(),tvb2);
+
+        tvLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteStyleCustom.setGravityNote(0);
+                tvLeft.setBackgroundResource(R.drawable.bg_radius_start_yellow);
+                if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                    tvCenter.setBackgroundColor(Color.parseColor("#2c2c2e"));
+                    tvRight.setBackgroundResource(R.drawable.bg_radius_end_while2);
+                }else {
+                    tvCenter.setBackgroundColor(Color.parseColor("#f2f1f6"));
+
+                    tvRight.setBackgroundResource(R.drawable.bg_radius_end_while);
+
+                }
+                ConfigUtils.getStyleGravity(noteStyleCustom,edtTitle);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view3);
+            }
+
+        });
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteStyleCustom.setGravityNote(2);
+
+                tvRight.setBackgroundResource(R.drawable.bg_radius_end_yellow);
+                if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                    tvCenter.setBackgroundColor(Color.parseColor("#2c2c2e"));
+                    tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while2);
+                }else {
+                    tvCenter.setBackgroundColor(Color.parseColor("#f2f1f6"));
+
+                    tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while);
+
+                }
+                ConfigUtils.getStyleGravity(noteStyleCustom,edtTitle);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view3);
+            }
+        });
+        tvCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteStyleCustom.setGravityNote(1);
+
+                tvCenter.setBackgroundColor(Color.parseColor("#E4B645"));
+                tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while2);
+                tvRight.setBackgroundResource(R.drawable.bg_radius_end_while2);
+                if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                    tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while2);
+
+                    tvRight.setBackgroundResource(R.drawable.bg_radius_end_while2);
+                }else {
+                    tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while);
+
+                    tvRight.setBackgroundResource(R.drawable.bg_radius_end_while);
+
+                }
+                ConfigUtils.getStyleGravity(noteStyleCustom,edtTitle);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view2);
+                ConfigUtils.getStyleGravity(noteStyleCustom,text_note_view3);
+            }
+        });
+        ConfigUtils.darkImage(mContext,tvLeft);
+        ConfigUtils.darkImage(mContext,tvCenter);
+        ConfigUtils.darkImage(mContext,tvRight);
+        if (noteStyleCustom.getGravityNote() ==0){
+            tvLeft.setBackgroundResource(R.drawable.bg_radius_start_yellow);
+            if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                tvCenter.setBackgroundColor(Color.parseColor("#2c2c2e"));
+                tvRight.setBackgroundResource(R.drawable.bg_radius_end_while2);
+            }else {
+                tvCenter.setBackgroundColor(Color.parseColor("#f2f1f6"));
+
+                tvRight.setBackgroundResource(R.drawable.bg_radius_end_while);
+
+            }
+
+        }
+        if (noteStyleCustom.getGravityNote() ==1){
+            tvCenter.setBackgroundColor(Color.parseColor("#E4B645"));
+            tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while2);
+            tvRight.setBackgroundResource(R.drawable.bg_radius_end_while2);
+            if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while2);
+
+                tvRight.setBackgroundResource(R.drawable.bg_radius_end_while2);
+            }else {
+                tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while);
+
+                tvRight.setBackgroundResource(R.drawable.bg_radius_end_while);
+
+            }
+        }
+        if (noteStyleCustom.getGravityNote() ==2){
+            tvRight.setBackgroundResource(R.drawable.bg_radius_end_yellow);
+            if (ShareUtils.getBool(ShareUtils.CONFIG_DARK)) {
+                tvCenter.setBackgroundColor(Color.parseColor("#2c2c2e"));
+                tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while2);
+            }else {
+                tvCenter.setBackgroundColor(Color.parseColor("#f2f1f6"));
+
+                tvLeft.setBackgroundResource(R.drawable.bg_radius_start_while);
+
+            }
+        }
+        tvSmall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.checkTextLeft(true,tvSmall);
+                ConfigUtils.checkTextRight(false,tvlarge);
+                ShareUtils.setBool(ShareUtils.CONFIG_SIZE_IMAGE,false);
+
+            }
+        });
+        tvlarge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigUtils.checkTextRight(true,tvlarge);
+                ConfigUtils.checkTextLeft(false,tvSmall);
+                ShareUtils.setBool(ShareUtils.CONFIG_SIZE_IMAGE,true);
+
+            }
+        });
+        if (ShareUtils.getBool(ShareUtils.CONFIG_SIZE_IMAGE)){
+            ConfigUtils.checkTextLeft(false,tvSmall);
+            ConfigUtils.checkTextRight(true,tvlarge);
+        }else {
+            ConfigUtils.checkTextLeft(true,tvSmall);
+            ConfigUtils.checkTextRight(false,tvlarge);
+        }
+
+
+        RelativeLayout root_dl = dialog.findViewById(R.id.rootBottomSheet);
+
+        ConfigUtils.getConFigDark(mContext,tvFormat,tvFormat1,tvFormat2,tvFormat3,tvFormat4,tvi1,tvi2,tvs1,tvs2,tvu1,tvu2,tvb2,tvlarge, tvSmall,tvScale);
+        ConfigUtils.darkRelativeTop(root_dl);
+        bottomSheetDialog.show();
 
     }
 }
