@@ -7,13 +7,13 @@
     android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom"
         android:overScrollMode="never"
         android:scrollbarSize="3dp"
-        android:scrollbarThumbVertical="@drawable/thumb"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -46,13 +46,17 @@
                 android:hint="@string/title"
                 android:inputType="textNoSuggestions"
                 android:maxLength="250"
-                android:padding="@dimen/activity_margin"
+                android:textSize="@dimen/_16ssp"
+                android:paddingTop="@dimen/activity_margin"
+                android:paddingStart="@dimen/activity_margin"
+                android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
                 android:textColor="#000000"
                 android:textColorHint="#959595"
                 android:textCursorDrawable="@drawable/cursor_drawble"
                 android:textStyle="bold"
-                android:theme="@style/Edittext" />
+                />
+
             <EditText
                 android:id="@+id/text_note_view"
                 android:layout_width="match_parent"
@@ -75,7 +79,7 @@
                 android:id="@+id/notes_relative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-25dp" />
+                 />
 
             <TextView
                 android:id="@+id/tvGoseting2"
@@ -97,8 +101,8 @@
                 android:layout_marginLeft="@dimen/_4sdp"
                 android:layout_marginRight="@dimen/_4sdp"
                 android:clipToPadding="false"
-                android:overScrollMode="never"
-                 />
+                android:overScrollMode="never" />
+
 
             <EditText
                 android:id="@+id/text_note_view2"
@@ -109,21 +113,20 @@
                 android:freezesText="true"
                 android:gravity="top"
                 android:hint=""
-                android:inputType="textNoSuggestions"
+                android:inputType="textMultiLine"
                 android:paddingLeft="16dp"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingRight="16dp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
+                android:textColor="@color/black"
                 android:textColorHint="#a3a2a2"
                 android:textCursorDrawable="@drawable/cursor_drawble"
-                android:theme="@style/Edittext"
                 android:visibility="gone" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,15 +141,15 @@
                         android:layout_marginRight="@dimen/_8sdp"
                         android:overScrollMode="never" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_record"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/rv_record"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_8sdp"-->
+<!--                        android:layout_marginTop="@dimen/_10sdp"-->
+<!--                        android:layout_marginRight="@dimen/_8sdp"-->
+<!--                        android:overScrollMode="never"-->
+<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
@@ -158,16 +161,15 @@
                 android:fontFamily="@font/font"
                 android:freezesText="true"
                 android:gravity="top"
-                android:inputType="textNoSuggestions"
+                android:inputType="textMultiLine"
                 android:paddingLeft="16dp"
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingRight="16dp"
                 android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
-                android:textColorHint="#a3a2a2"
-                android:textCursorDrawable="@drawable/cursor_drawble"
-                android:theme="@style/Edittext"
-                android:visibility="gone" />
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:textCursorDrawable="@drawable/cursor_drawble" />
 
             <View
                 android:id="@+id/viewClickBottom"
@@ -249,12 +251,12 @@
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
-        android:background="@color/color_main"
         android:clickable="true"
+        android:background="@color/color_main"
         android:focusable="true">
 
         <ImageView
-            android:id="@+id/tvBack_note"
+            android:id="@+id/img_back_note"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_18sdp"
             android:layout_centerVertical="true"
@@ -265,7 +267,7 @@
             android:id="@+id/tvBack"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="match_parent"
-            android:layout_toEndOf="@+id/tvBack"
+            android:layout_toEndOf="@+id/img_back_note"
             android:ellipsize="end"
             android:fontFamily="@font/font"
             android:gravity="center_vertical"
@@ -283,7 +285,7 @@
             android:fontFamily="@font/font"
             android:gravity="center"
             android:paddingLeft="@dimen/_2sdp"
-            android:paddingRight="@dimen/_2sdp"
+            android:paddingRight="@dimen/_10sdp"
             android:text="@string/done"
             android:textColor="@color/main_color"
             android:textSize="@dimen/_13sdp"
@@ -329,4 +331,5 @@
     <include layout="@layout/search_layout" />
 
     <include layout="@layout/layout_lock" />
+
 </RelativeLayout>

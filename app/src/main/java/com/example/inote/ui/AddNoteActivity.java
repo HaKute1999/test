@@ -604,7 +604,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         } else {
             text_note_view3.setVisibility(View.VISIBLE);
         }
-        rv_image.setLayoutManager(new GridLayoutManager(this, 2));
+        rv_image.setLayoutManager(new GridLayoutManager(this, 1));
         imageNoteAdapter = new ImageNoteAdapter(this, listImage, this);
         rv_image.setAdapter(imageNoteAdapter);
     }

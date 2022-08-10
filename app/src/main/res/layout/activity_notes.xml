@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_main"
-    android:paddingTop="@dimen/_20sdp"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -198,7 +197,7 @@
                     android:id="@+id/rv_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
                     android:overScrollMode="never" />
             </LinearLayout>
 

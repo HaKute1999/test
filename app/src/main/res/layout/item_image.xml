@@ -12,7 +12,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/avatarAlbum"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_180sdp"
+        android:layout_height="@dimen/_350sdp"
         android:scaleType="fitXY"
         app:riv_border_color="#d5d5d5"
         app:riv_border_width="0.5dp"
