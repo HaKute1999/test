@@ -100,6 +100,9 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/note_widget.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/search_layout.xml" value="0.3625" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/xml/file_paths.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/activity_add_note.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/activity_detail_note.xml" value="0.23708445231119793" />
+        <entry key="app/src/main/res/layout/dialog_group_folder.xml" value="0.21739130434782608" />
       </map>
     </option>
   </component>

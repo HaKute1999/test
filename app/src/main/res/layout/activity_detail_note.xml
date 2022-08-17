@@ -7,19 +7,19 @@
     android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_marginTop="@dimen/_20sdp"
-        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom"
+        android:layout_marginTop="@dimen/_20sdp"
         android:overScrollMode="never"
         android:scrollbarSize="3dp"
         android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_33sdp" />
@@ -45,18 +45,17 @@
                 android:hint="@string/title"
                 android:inputType="textNoSuggestions"
                 android:maxLength="250"
-                android:textSize="@dimen/_16ssp"
-                android:paddingTop="@dimen/activity_margin"
                 android:paddingStart="@dimen/activity_margin"
+                android:paddingTop="@dimen/activity_margin"
                 android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
                 android:textColor="#000000"
                 android:textColorHint="#959595"
                 android:textCursorDrawable="@drawable/cursor_drawble"
-                android:textStyle="bold"
-                />
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold" />
 
-            <EditText
+            <com.example.inote.view.CustomEditText
                 android:id="@+id/text_note_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -73,108 +72,6 @@
                 android:textColor="#000000"
                 android:textColorHint="#a3a2a2"
                 android:textCursorDrawable="@drawable/cursor_drawble" />
-
-            <RelativeLayout
-                android:id="@+id/notes_relative_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-            <TextView
-                android:id="@+id/tvGoseting2"
-                android:layout_width="@dimen/_140sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/backround_button_rate"
-                android:fontFamily="@font/font"
-                android:gravity="center"
-                android:text="@string/go_to_settings"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-
-                android:id="@+id/checklist_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_4sdp"
-                android:layout_marginRight="@dimen/_4sdp"
-                android:clipToPadding="false"
-                android:overScrollMode="never" />
-
-
-            <EditText
-                android:id="@+id/text_note_view2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:fontFamily="@font/font"
-                android:freezesText="true"
-                android:gravity="top"
-                android:hint=""
-                android:inputType="textMultiLine"
-                android:paddingLeft="16dp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingRight="16dp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:scrollbars="vertical"
-                android:textColor="@color/black"
-                android:textColorHint="#a3a2a2"
-                android:textCursorDrawable="@drawable/cursor_drawble"
-                android:visibility="gone" />
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:overScrollMode="never" />
-
-                    <!--                    <androidx.recyclerview.widget.RecyclerView-->
-                    <!--                        android:id="@+id/rv_record"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginLeft="@dimen/_8sdp"-->
-                    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
-                    <!--                        android:layout_marginRight="@dimen/_8sdp"-->
-                    <!--                        android:overScrollMode="never"-->
-                    <!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-
-            <EditText
-                android:id="@+id/text_note_view3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:fontFamily="@font/font"
-                android:freezesText="true"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:paddingLeft="16dp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingRight="16dp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:scrollbars="vertical"
-                android:textColor="@color/black"
-                android:visibility="gone"
-                android:textCursorDrawable="@drawable/cursor_drawble" />
-
-            <View
-                android:id="@+id/viewClickBottom"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

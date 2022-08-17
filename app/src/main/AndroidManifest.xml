@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
         <activity
-            android:name=".DetailNoteActivity"
+            android:name=".ui.DetailNoteActivity"
             android:exported="false" />
         <activity
             android:name=".ui.ImagePreviewActivity"

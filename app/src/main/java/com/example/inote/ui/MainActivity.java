@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             showDialog(MainActivity.this);
         }
         if (id == R.id.ivAddNote) {
-            Intent i = new Intent(MainActivity.this, AddNoteActivity.class);
+            Intent i = new Intent(MainActivity.this, DetailNoteActivity.class);
             startActivity(i);
         }
         if (id == R.id.rlDeleteNote) {
