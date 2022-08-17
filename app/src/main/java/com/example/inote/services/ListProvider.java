@@ -4,7 +4,10 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,6 +81,7 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
 
             }
 
+
             row.setImageViewBitmap(R.id.image_note2,bitmap);
 
 
@@ -86,9 +90,9 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
         Intent i=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(NoteWidget.EXTRA_WORD, items.get(position).getTitle());
+        extras.putString(NoteWidget.EXTRA_WORD, String.valueOf(items.get(position).getId()));
         i.putExtras(extras);
-        row.setOnClickFillInIntent(android.R.id.text1, i);
+        row.setOnClickFillInIntent(R.id.root_note, i);
 
         return(row);
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_note"
+    android:id="@+id/rl_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/button_selector_light"
@@ -84,6 +84,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:background="#c8c8c8" />
 
+
     <View
         android:id="@+id/view_bottom"
         android:layout_width="match_parent"
@@ -104,4 +105,33 @@
         app:riv_border_color="#d5d5d5"
         app:riv_border_width="0.6dp"
         app:riv_corner_radius="@dimen/_4sdp" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvTime"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_3ssp"
+        android:ellipsize="end"
+        android:fontFamily="@font/font"
+        android:maxLines="1"
+        android:gravity="center"
+        android:text="This is content note"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_8ssp" />
+    <TextView
+        android:id="@+id/tvTitleNote1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:layout_toStartOf="@+id/image_note2"
+        android:ellipsize="end"
+        android:fontFamily="@font/font"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:text="Title note"
+        android:textColor="#000000"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold" />
 </RelativeLayout>

@@ -1,28 +1,18 @@
 package com.example.inote.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -61,7 +51,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initView();
         ConfigUtils.listImageCache.clear();
         ConfigUtils.listValueCache.clear();
-
+        Intent intent = getIntent();
+        String t = intent.getStringExtra(NoteWidget.EXTRA_WORD);
         new ShareUtils(this);
         if (!ShareUtils.checkExist(ShareUtils.CONFIG_DARK)){
             ShareUtils.setBool(ShareUtils.CONFIG_DARK,false);
@@ -169,7 +160,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             startActivity(i);
         }
         if (id == R.id.rlDeleteNote) {
-            Intent i = new Intent(MainActivity.this, DeleteActivity.class);
+            Intent i = new Intent(MainActivity.this, RecentActivity.class);
             startActivity(i);
         }
         if (id == R.id.rl_go_st) {

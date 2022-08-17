@@ -48,6 +48,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -82,6 +83,47 @@ public class ConfigUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, HH:mm");
         Date resultdate = new Date(time);
         return sdf.format(resultdate);
+    }
+    private static String getImageUrlWithAuthority(Context context, Uri uri)
+    {
+        InputStream is = null;
+
+        if (uri.getAuthority() != null)
+        {
+            try
+            {
+                is = context.getContentResolver().openInputStream(uri);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                return writeToTempImageAndGetPathUri(context, bmp).toString();
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                try
+                {
+                    if (is != null)
+                    {
+                        is.close();
+                    }
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Uri writeToTempImageAndGetPathUri(Context inContext, Bitmap inImage)
+    {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
     public static String  copyFile(Context context, File sourceFilePath, ICopy iUpdate) {
         String path = context.getExternalFilesDir(null).getAbsolutePath()+"/" + UUID.randomUUID() + ".png";
@@ -118,6 +160,21 @@ public class ConfigUtils {
         return path;
 
     }
+    public static File createImageFile(Context context,ICopy iUpdate) throws IOException {
+        // Create an image file name
+        String path = context.getExternalFilesDir(null).getAbsolutePath()+"/" + UUID.randomUUID() + ".png";
+        File imageFile = new File(path);
+        try {
+            imageFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Save a file: path for use with ACTION_VIEW intents
+        imageFile.getAbsolutePath();
+        iUpdate.onProgress(imageFile.getAbsolutePath());
+
+        return imageFile;
+    }
     public static void storeBitmap(File file, Bitmap bitmap) throws Exception {
         if (!file.exists() && !file.createNewFile())
             throw new Exception("Not able to create " + file.getPath());
@@ -129,7 +186,7 @@ public class ConfigUtils {
     }
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }

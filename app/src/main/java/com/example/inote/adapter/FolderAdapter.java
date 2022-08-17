@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.inote.R;
 import com.example.inote.database.AppDatabase;
 import com.example.inote.models.Folder;
+import com.example.inote.models.Note;
+import com.example.inote.models.Recent;
 import com.example.inote.ui.NotesActivity;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.IUpdate;
@@ -147,6 +149,15 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     AppDatabase.noteDB.getFolderDAO().delete(data.get(getAdapterPosition()).getId());
+                    for (Note data :AppDatabase.noteDB.getNoteDAO().getAllNoteFolder(data.get(getAdapterPosition()).getId())){
+
+                        AppDatabase.noteDB.getRecentDao().insert(
+                                new Recent(0,false,data.getListImage(),0,
+                                        System.currentTimeMillis(),
+                                        data.getTitle(),0,
+                                        data.getValue(), data.getValueChecklist(),data.getNoteStyle()
+                                ));
+                    }
                     AppDatabase.noteDB.getNoteDAO().deleteAllNoteByFolder(data.get(getAdapterPosition()).getId());
                     dialog.dismiss();
                     iUpdate.onFinish();

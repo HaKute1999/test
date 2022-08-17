@@ -23,8 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.inote.R;
 
+import com.example.inote.ui.ImagePreviewActivity;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.IUpdate;
+import com.example.inote.view.ShareUtils;
 import com.example.inote.view.drawingview.ICopy;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -49,7 +51,12 @@ public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.View
 
     @Override
     public ImageNoteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
+        View rowItem;
+        if (ShareUtils.getBool(ShareUtils.CONFIG_SIZE_IMAGE)){
+             rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
+        }
+        else  rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_small, parent, false);
+
         return new ViewHolder(rowItem);
     }
 
@@ -101,9 +108,10 @@ public class ImageNoteAdapter extends RecyclerView.Adapter<ImageNoteAdapter.View
 
         @Override
         public void onClick(View view) {
-//            Intent intent = new Intent(itemView.getContext(), NotesActivity.class);
-//            intent.putExtra("idFolder",data.get(getAdapterPosition()).getId());
-//            itemView.getContext().startActivity(intent);
+
+            Intent intent = new Intent(itemView.getContext(), ImagePreviewActivity.class);
+            intent.putExtra("path",data.get(getAdapterPosition()));
+            itemView.getContext().startActivity(intent);
         }
 
     }

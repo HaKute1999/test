@@ -58,7 +58,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     @Override
     public NoteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
+        View rowItem;
+        if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+             rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_gallery, parent, false);
+        }else {
+            rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
+
+        }
         return new ViewHolder(rowItem);
     }
 
@@ -87,6 +93,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             holder.tvValueNote.setText(dateFormat.format(date) + ", " + mContext.getResources().getString(R.string.no_content));
 
         }
+        holder.tvTime.setText(dateFormat.format(date));
+        holder.tvTitleNote1.setText(note.getTitle());
         if (note.getProtectionType() == 1) {
             holder.ivLockHome.setVisibility(View.VISIBLE);
             holder.tvValueNote.setText(mContext.getResources().getString(R.string.locked_string));
@@ -114,12 +122,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView tvTitle;
+        private TextView tvTitle,tvTime,tvTitleNote1;
         private TextView tvValueNote;
         private TextView tvNoteSmall;
         private RoundedImageView image_note2;
         private ImageView ivLockHome;
         private View view_main;
+        RelativeLayout root_note;
 
         public ViewHolder(View view) {
             super(view);
@@ -130,7 +139,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             this.image_note2 = view.findViewById(R.id.image_note2);
             this.ivLockHome = view.findViewById(R.id.ivLockHome);
             this.view_main = view.findViewById(R.id.view_main);
-            ConfigUtils.getConFigDark(mContext,view_main,tvTitle);
+            this.tvTime = view.findViewById(R.id.tvTime);
+            this.tvTitleNote1 = view.findViewById(R.id.tvTitleNote1);
+            this.root_note = view.findViewById(R.id.rl_main);
+            ConfigUtils.getConFigDark(mContext,view_main,tvTitle,tvTime,tvTitleNote1,tvValueNote);
+            ConfigUtils.darkRelativeRadius(root_note);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -277,7 +290,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     AppDatabase.noteDB.getRecentDao().insert(
-                            new Recent(data.get(getAdapterPosition()).getIdFolder(),false,data.get(getAdapterPosition()).getListImage(),0,
+                            new Recent(data.get(getAdapterPosition()).getIdFolder(),false,data.get(getAdapterPosition()).getListImage(),data.get(getAdapterPosition()).getProtectionType(),
                                     System.currentTimeMillis(),
                             data.get(getAdapterPosition()).getTitle(),0,
                             data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist(),data.get(getAdapterPosition()).getNoteStyle()

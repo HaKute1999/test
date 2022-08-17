@@ -1,5 +1,6 @@
 package com.example.inote.ui;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,13 +42,13 @@ public class NotesActivity extends BaseActivity implements IUpdate {
     List<Note> noteList, noteListPin;
     RecyclerView rlNote, rv_note_pin;
     ImageView ivCreateNote, close_search;
-    TextView tvMain, tvNoteSize, tvEmptyNote, tv_note,tvSortAZ,tvSortZA,tvSortDate;
+    TextView tvMain, tvNoteSize, tvEmptyNote, tv_note,tvSortAZ,tv_viewlist,tvSortZA,tvSortDate;
     ExpansionHeader pinHeader;
     ExpansionLayout expansionLayout;
     EditText edit_result;
     int idFolder;
     String type;
-    LinearLayout ll_note;
+    LinearLayout ll_note,ln_pin;
     LinearLayout ll_menu;
     RelativeLayout homeChooserContainer,homeNote;
     View viewBackgroundHome;
@@ -61,8 +62,10 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         tv_note = findViewById(R.id.tvNote);
         tvSortAZ = findViewById(R.id.tvSortAZ);
         tvSortZA = findViewById(R.id.tvSortZA);
+        tv_viewlist = findViewById(R.id.tv_view_as_list);
         tvSortDate = findViewById(R.id.tvSortDate);
         ll_note = findViewById(R.id.ll_note);
+        ln_pin = findViewById(R.id.ln_pin);
         pinHeader = findViewById(R.id.pinHeader);
         expansionLayout = findViewById(R.id.pinExpansion);
         rv_note_pin = findViewById(R.id.rv_note_pin);
@@ -86,7 +89,6 @@ public class NotesActivity extends BaseActivity implements IUpdate {
             pinHeader.setVisibility(View.VISIBLE);
             expansionLayout.setVisibility(View.VISIBLE);
             tvMain.setText(getString(R.string.pinned));
-//             tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotePin(true).size()+ " "+getString(R.string.notes));
 
         }
         ivCreateNote.setOnClickListener(new View.OnClickListener() {
@@ -163,13 +165,22 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         tvSortAZ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByAscLastName();
+                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByAscLastNamePin(false);
+                noteListPin = AppDatabase.noteDB.getNoteDAO().getNoteSortByAscLastNamePin(true);
                 viewBackgroundHome.setVisibility(View.GONE);
                 homeChooserContainer.setVisibility(View.GONE);
                 AppDatabase.noteDB.getNoteDAO().update();
                 noteAdapter = new NoteAdapter(getApplicationContext(), noteList, NotesActivity.this);
-                rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+                noteAdapterPin = new NoteAdapter(getApplicationContext(), noteListPin, NotesActivity.this);
+                if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+                    rv_note_pin.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+                    rlNote.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+                }else {
+                    rv_note_pin.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+                    rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
 
+                }
+                rv_note_pin.setAdapter(noteAdapterPin);
                 rlNote.setAdapter(noteAdapter);
 
             }
@@ -177,13 +188,22 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         tvSortZA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescLastName();
+                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescLastNamePin(false);
+                noteListPin = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescLastNamePin(true);
                 viewBackgroundHome.setVisibility(View.GONE);
                 homeChooserContainer.setVisibility(View.GONE);
                 AppDatabase.noteDB.getNoteDAO().update();
                 noteAdapter = new NoteAdapter(getApplicationContext(), noteList, NotesActivity.this);
-                rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+                noteAdapterPin = new NoteAdapter(getApplicationContext(), noteListPin, NotesActivity.this);
+                if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+                    rv_note_pin.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+                    rlNote.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+                }else {
+                    rv_note_pin.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+                    rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
 
+                }
+                rv_note_pin.setAdapter(noteAdapterPin);
                 rlNote.setAdapter(noteAdapter);
 
             }
@@ -191,19 +211,61 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         tvSortDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescTime();
+                noteList = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescTimePin(false);
+                noteListPin = AppDatabase.noteDB.getNoteDAO().getNoteSortByDescTimePin(true);
                 viewBackgroundHome.setVisibility(View.GONE);
                 homeChooserContainer.setVisibility(View.GONE);
                 AppDatabase.noteDB.getNoteDAO().update();
                 noteAdapter = new NoteAdapter(getApplicationContext(), noteList, NotesActivity.this);
-                rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+                noteAdapterPin = new NoteAdapter(getApplicationContext(), noteListPin, NotesActivity.this);
+                if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+                    rv_note_pin.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+                    rlNote.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+                }else {
+                    rv_note_pin.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+                    rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
 
+                }
+                rv_note_pin.setAdapter(noteAdapterPin);
                 rlNote.setAdapter(noteAdapter);
 
             }
         });
-        ConfigUtils.getConFigDark(getApplicationContext(),ids(R.id.tvMain),ids(R.id.tvNote),ids(R.id.tvNoteSize),ids(R.id.tvPinHome),ids(R.id.tvEmptyNote),ids(R.id.tvNoteShow),ids(R.id.ll_note),
-                ids(R.id.ln_pin),ids(R.id.viewX),ids(R.id.search_ree),ids(R.id.tvSortAZ),ids(R.id.tvSortZA),ids(R.id.tvSortDate),ids(R.id.tvCancelHome),ids(R.id.ln_more),ids(R.id.viewhome1),ids(R.id.viewhome2));
+        if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+            ll_note.setBackgroundColor(Color.TRANSPARENT);
+            ln_pin.setBackgroundColor(Color.TRANSPARENT);
+            tv_viewlist.setText(getString(R.string.view_as_list));
+        }else {
+            tv_viewlist.setText(getString(R.string.view_as_gallery));
+            ConfigUtils.darkLinearLayoutRadius(ll_note);
+            ConfigUtils.darkLinearLayoutRadius(ln_pin);
+
+        }
+        tv_viewlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+                    ShareUtils.setBool(ShareUtils.VIEW_AS_GALLERY,false);
+                    tv_viewlist.setText(getString(R.string.view_as_gallery));
+                    ll_note.setBackground(getDrawable(R.drawable.background_white_radius));
+                    ln_pin.setBackground(getDrawable(R.drawable.background_white_radius));
+
+                }else {
+                    ShareUtils.setBool(ShareUtils.VIEW_AS_GALLERY, true);
+                    tv_viewlist.setText(getString(R.string.view_as_list));
+                    ll_note.setBackgroundColor(Color.TRANSPARENT);
+                    ln_pin.setBackgroundColor(Color.TRANSPARENT);
+
+
+                }
+                initListNote();
+                viewBackgroundHome.setVisibility(View.GONE);
+                homeChooserContainer.setVisibility(View.GONE);
+
+            }
+        });
+        ConfigUtils.getConFigDark(getApplicationContext(),ids(R.id.tvMain),ids(R.id.tvNote),ids(R.id.tvNoteSize),ids(R.id.tvPinHome),ids(R.id.tvEmptyNote),ids(R.id.tvNoteShow),
+                ids(R.id.ln_pin),ids(R.id.viewX),ids(R.id.search_ree),ids(R.id.tvSortAZ),ids(R.id.tvSortZA),ids(R.id.tv_view_as_list),ids(R.id.tvSortDate),ids(R.id.tvCancelHome),ids(R.id.ln_more),ids(R.id.viewhome),ids(R.id.viewhome1),ids(R.id.viewhome2));
         ConfigUtils.darkTextViewRadius(ids(R.id.tvCancelHome));
         ConfigUtils.darkBlack(ids(R.id.rl_top));
         ConfigUtils.darkBlack(ids(R.id.bottom));
@@ -222,6 +284,11 @@ public class NotesActivity extends BaseActivity implements IUpdate {
     }
 
     private void initListNote() {
+        if (!ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+            ConfigUtils.darkLinearLayoutRadius(ll_note);
+            ConfigUtils.darkLinearLayoutRadius(ln_pin);
+        }
+
         if (idFolder != 0) {
             tvMain.setText(AppDatabase.noteDB.getFolderDAO().getItemFolder(idFolder).getTitle() + "");
             tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNoteFolder(idFolder).size() + " " + getString(R.string.notes));
@@ -234,6 +301,10 @@ public class NotesActivity extends BaseActivity implements IUpdate {
             noteListPin = AppDatabase.noteDB.getNoteDAO().getAllNotePin(true);
 
         }
+        if (type != null && type.contains("pin")) {
+            tvNoteSize.setText(AppDatabase.noteDB.getNoteDAO().getAllNotePin(true).size()+ " "+getString(R.string.notes));
+
+        }
         if (noteListPin.size() > 0) {
             pinHeader.setVisibility(View.VISIBLE);
             expansionLayout.setVisibility(View.VISIBLE);
@@ -243,12 +314,21 @@ public class NotesActivity extends BaseActivity implements IUpdate {
         }
         tvEmptyNote.setVisibility(noteList.size() == 0 ? View.VISIBLE : View.GONE);
         noteAdapter = new NoteAdapter(getApplicationContext(), noteList, this);
-        rlNote.setLayoutManager(new LinearLayoutManager(this));
 
-        rlNote.setAdapter(noteAdapter);
+
+
+
         noteAdapterPin = new NoteAdapter(getApplicationContext(), noteListPin, this);
-        rv_note_pin.setLayoutManager(new LinearLayoutManager(this));
+        if (ShareUtils.getBool(ShareUtils.VIEW_AS_GALLERY)){
+            rlNote.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+            rv_note_pin.setLayoutManager(new GridLayoutManager(NotesActivity.this, 3));
+        }else {
+            rv_note_pin.setLayoutManager(new LinearLayoutManager(this));
 
+            rlNote.setLayoutManager(new LinearLayoutManager(NotesActivity.this));
+
+        }
+        rlNote.setAdapter(noteAdapter);
         rv_note_pin.setAdapter(noteAdapterPin);
 
 
@@ -256,6 +336,7 @@ public class NotesActivity extends BaseActivity implements IUpdate {
 
     @Override
     protected void onResume() {
+
         initListNote();
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
             homeNote.setBackgroundColor(Color.BLACK);

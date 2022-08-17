@@ -5,12 +5,18 @@
       <map>
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.18" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/back_ads.xml" value="0.1925" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/back_widget.xml" value="0.1925" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_button_passcode.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_click_radius.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_dialog.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_edt_dialog.xml" value="0.1925" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_edt_dialog_drak.xml" value="0.196" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_header.xml" value="0.1925" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_header_home.xml" value="0.2295" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_header_light.xml" value="0.208" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_rate.xml" value="0.1925" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_search_light.xml" value="0.2495" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius2.xml" value="0.196" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/background_white_radius4dp.xml" value="0.195" />
@@ -34,6 +40,7 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/button_selector_light_top.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/cell_shape.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/circle_bg.xml" value="0.1935" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/circle_bg3.xml" value="0.2495" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/circle_bg_note.xml" value="0.27" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/cursor_drawble.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/custom_background_button_passcode_click.xml" value="0.1935" />
@@ -41,6 +48,7 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.208" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.191" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_baseline_sort_24.xml" value="0.208" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_baseline_stop_circle_24.xml" value="0.1925" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_checked_true2.xml" value="0.27" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_redo_arrow.xml" value="0.1935" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/drawable/ic_undo_arrow.xml" value="0.1935" />
@@ -52,6 +60,7 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_add_note.xml" value="0.2" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_delete.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_draw_note.xml" value="0.33" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_image_preview.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_notes.xml" value="0.25" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/activity_setting.xml" value="0.33" />
@@ -70,10 +79,15 @@
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_recent_click.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/dialog_rename.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_add_checklist.xml" value="0.18541666666666667" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_checkcircle_ios.xml" value="0.19270833333333334" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_checklist.xml" value="0.5" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_checklist_ios.xml" value="0.19375" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_checknumber_ios.xml" value="0.19375" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_folder.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_image.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_image_small.xml" value="0.18541666666666667" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note.xml" value="0.3625" />
+        <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note_gallery.xml" value="0.5" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_note_widget.xml" value="0.33" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/item_table.xml" value="0.25" />
         <entry key="..\:/haAndroid/inote/app/src/main/res/layout/layout_config_note.xml" value="0.33" />

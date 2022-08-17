@@ -24,7 +24,7 @@ public interface NotesDao {
     @Delete
     public void delete(Note item);
 
-    @Query("SELECT * FROM note")
+    @Query("SELECT * FROM note ORDER BY timeEdit DESC")
     public List<Note> getAllNotes();
 
     @Query("SELECT * FROM note WHERE idFolder = :idFolder")
@@ -48,10 +48,10 @@ public interface NotesDao {
     @Query("DELETE FROM note WHERE id = :id")
     public void deleteItemNote(int id);
 
-    @Query("SELECT * FROM note WHERE isPinned = :ispin AND idFolder = :idFolder")
+    @Query("SELECT * FROM note WHERE isPinned = :ispin AND idFolder = :idFolder ORDER BY timeEdit DESC")
     public List<Note> getNotePin(boolean ispin, int idFolder);
 
-    @Query("SELECT * FROM note WHERE isPinned = :ispin")
+    @Query("SELECT * FROM note WHERE isPinned = :ispin ORDER BY timeEdit DESC" )
     public List<Note> getAllNotePin(boolean ispin);
 
     @Query("UPDATE note SET idFolder=:idFolder WHERE id = :id")
@@ -71,8 +71,14 @@ public interface NotesDao {
     List<Note> getNoteSortByDescTime();
 
     @Query("SELECT * FROM note WHERE noteStyle = :noteStyle AND id = :id")
-    public List<Note> getNotePin(NoteStyle noteStyle, int id);
+    public Note getNoteStyle(NoteStyle noteStyle, int id);
 
     @Query("UPDATE note SET noteStyle=:noteStyle WHERE id = :id")
-    void updateListImage(NoteStyle noteStyle, int id);
+    void updateNoteStyle(NoteStyle noteStyle, int id);
+    @Query("SELECT * FROM note WHERE isPinned = :ispin ORDER BY LOWER(title) ASC")
+    public List<Note> getNoteSortByAscLastNamePin(boolean ispin);
+    @Query("SELECT * FROM note WHERE isPinned = :ispin ORDER BY LOWER(title) DESC")
+    public List<Note> getNoteSortByDescLastNamePin(boolean ispin);
+    @Query("SELECT * FROM note WHERE isPinned = :ispin ORDER BY timeEdit DESC")
+    List<Note> getNoteSortByDescTimePin(boolean ispin);
 }

@@ -15,11 +15,13 @@ import android.widget.TextView;
 import com.example.inote.R;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.ShareUtils;
+import com.suke.widget.SwitchButton;
 
 public class SettingActivity extends BaseActivity {
   TextView tv_dark,tv_light,tv_share_app,tv_rate;
   RadioButton dark_on,light_on;
-  RelativeLayout rlSync;
+  RelativeLayout rlSync,share,rate_app;
+    SwitchButton switchButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,19 @@ public class SettingActivity extends BaseActivity {
         tv_light = findViewById(R.id.tv_light);
         light_on = findViewById(R.id.light_on);
         dark_on = findViewById(R.id.dark_on);
-        tv_share_app = findViewById(R.id.tv_share_app);
+        share = findViewById(R.id.share);
         tv_rate = findViewById(R.id.tv_rate);
+        rate_app = findViewById(R.id.rate_app);
         rlSync = findViewById(R.id.rlSync);
+        switchButton = findViewById(R.id.checklist_done_light3);
+        switchButton.setChecked(ShareUtils.getBool(ShareUtils.CHECK_LIST));
+        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                    ShareUtils.setBool(ShareUtils.CHECK_LIST,isChecked);
+
+            }
+        });
         new ShareUtils(getApplicationContext());
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==false){
             light_on.setChecked(true);
@@ -91,22 +103,19 @@ public class SettingActivity extends BaseActivity {
                 startActivity(inte);
             }
         });
-        tv_share_app.setOnClickListener(new View.OnClickListener() {
+        share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareApp(getApplicationContext());
             }
         });
-        tv_rate.setOnClickListener(new View.OnClickListener() {
+        rate_app.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                tv_rate.setOnClickListener(new View.OnClickListener() {
-                    @Override
+
                     public void onClick(View view) {
                         rateapp();
                     }
-                });
-            }
+
         });
     }
 
@@ -134,6 +143,8 @@ public class SettingActivity extends BaseActivity {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out the App at: https://play.google.com/store/apps/details?id=" + appPackageName);
+        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         sendIntent.setType("text/plain");
         context.startActivity(sendIntent);
     }

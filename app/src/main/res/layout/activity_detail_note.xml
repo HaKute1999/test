@@ -78,7 +78,7 @@
                 android:id="@+id/notes_relative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                 />
+                />
 
             <TextView
                 android:id="@+id/tvGoseting2"
@@ -94,6 +94,7 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
+
                 android:id="@+id/checklist_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,15 +141,15 @@
                         android:layout_marginRight="@dimen/_8sdp"
                         android:overScrollMode="never" />
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/rv_record"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginLeft="@dimen/_8sdp"-->
-<!--                        android:layout_marginTop="@dimen/_10sdp"-->
-<!--                        android:layout_marginRight="@dimen/_8sdp"-->
-<!--                        android:overScrollMode="never"-->
-<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+                    <!--                    <androidx.recyclerview.widget.RecyclerView-->
+                    <!--                        android:id="@+id/rv_record"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginLeft="@dimen/_8sdp"-->
+                    <!--                        android:layout_marginTop="@dimen/_10sdp"-->
+                    <!--                        android:layout_marginRight="@dimen/_8sdp"-->
+                    <!--                        android:overScrollMode="never"-->
+                    <!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_note"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginStart="@dimen/_5sdp"
+
+    android:focusable="true">
+    <RelativeLayout
+        android:background="@drawable/background_white_radius"
+        android:id="@+id/rl_main"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_60sdp"
+       >
+
+        <TextView
+            android:id="@+id/tvTitleNote1"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/font"
+            android:maxLines="1"
+            android:text="Title note"
+            android:textColor="#000000"
+            android:textSize="@dimen/_4ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvValueNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitleNote1"
+            android:layout_marginStart="@dimen/_3ssp"
+            android:ellipsize="end"
+            android:fontFamily="@font/font"
+            android:maxLines="1"
+            android:text="This is content note"
+            android:textColor="#88878c"
+            android:textSize="@dimen/_4ssp" />
+
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvTitleNote"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:fontFamily="@font/font"
+        android:maxLines="1"
+        android:text="Title note"
+        android:textColor="#000000"
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitleNote1"
+        android:ellipsize="end"
+        android:fontFamily="@font/font"
+        android:maxLines="1"
+        android:gravity="center"
+        android:text="This is content note"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_8ssp" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvNoteSmall"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvValueNote"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_toEndOf="@+id/img"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/app_name"
+        android:textColor="#88878c"
+        android:textSize="@dimen/_10sdp" />
+    <ImageView
+        android:id="@+id/ivLockHome"
+        android:layout_width="@dimen/_8sdp"
+        android:layout_height="@dimen/_9sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_11sdp"
+        android:src="@drawable/ic_lock"
+        android:visibility="gone"
+        app:tint="#88878c" />
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:visibility="gone"
+        android:id="@+id/image_note2"
+        android:layout_width="@dimen/_48sdp"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:scaleType="fitXY"
+        app:riv_border_color="#d5d5d5"
+        app:riv_border_width="0.6dp"
+        app:riv_corner_radius="@dimen/_4sdp" />
+    <View
+        android:visibility="gone"
+        android:id="@+id/view_main"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@+id/img"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="#c8c8c8" />
+</LinearLayout>

@@ -68,7 +68,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
+public class DetailNoteActivity extends BaseActivity implements TextWatcher, View.OnClickListener, ICopy, ICheckList {
     RelativeLayout ivMore,rl_Pin ,rl_delete,rl_lock,rl_align,rl_size;
     RelativeLayout menuChooserContainer, layoutLock, imageChooserContainer, rl_sharenote,rl_search,search_root,main_note,rl_bottom,rl_top;
     View viewBackground;
@@ -146,7 +146,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ivMore.setOnClickListener(view -> {
 
             tvWordCount.setText(checkCountWord()+ "");
-            ConfigUtils.hideKeyboard(AddNoteActivity.this);
+            ConfigUtils.hideKeyboard(DetailNoteActivity.this);
             viewBackground.setVisibility(View.VISIBLE);
 //                YoYo.with(Techniques.SlideInUp).duration(100L).playOn(viewBackground);
             YoYo.with(Techniques.SlideInDown).duration(200L).onEnd(new YoYo.AnimatorCallback() {
@@ -170,7 +170,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         });
 
         viewBackground.setOnClickListener(view -> {
-            ConfigUtils.hideKeyboard(AddNoteActivity.this);
+            ConfigUtils.hideKeyboard(DetailNoteActivity.this);
             viewBackground.setVisibility(View.GONE);
             imageChooserContainer.setVisibility(View.GONE);
 
@@ -189,7 +189,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ivDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(AddNoteActivity.this, DrawNoteActivity.class);
+                Intent intent1 = new Intent(DetailNoteActivity.this, DrawNoteActivity.class);
                 intent1.putExtra("idNote", idNote);
                 startActivity(intent1);
             }
@@ -203,7 +203,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                ConfigUtils.hideKeyboard(DetailNoteActivity.this);
                 viewBackground.setVisibility(View.VISIBLE);
 //                YoYo.with(Techniques.SlideInUp).duration(100L).playOn(viewBackground);
                 YoYo.with(Techniques.SlideInDown).duration(200L).onEnd(new YoYo.AnimatorCallback() {
@@ -223,7 +223,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         tvChoosePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (permission(AddNoteActivity.this)) {
+                if (permission(DetailNoteActivity.this)) {
                     viewBackground.setVisibility(View.GONE);
                     imageChooserContainer.setVisibility(View.GONE);
                     Intent intent = new Intent(Intent.ACTION_PICK,
@@ -239,26 +239,26 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (permission(AddNoteActivity.this)) {
+                if (permission(DetailNoteActivity.this)) {
                     viewBackground.setVisibility(View.GONE);
                     imageChooserContainer.setVisibility(View.GONE);
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                         File photoFile = null;
                         try {
-                            photoFile = ConfigUtils.createImageFile(getApplicationContext(),AddNoteActivity.this);
+                            photoFile = ConfigUtils.createImageFile(getApplicationContext(),DetailNoteActivity.this);
                         } catch (IOException ex) {
                         }
                         // Continue only if the File was successfully created
                         if (photoFile != null) {
-                            Uri photoURI = FileProvider.getUriForFile(AddNoteActivity.this,
+                            Uri photoURI = FileProvider.getUriForFile(DetailNoteActivity.this,
                                     "com.example.inote.provider",
                                     photoFile);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        }
                     }
                 }
-                    }
 
             }
         });
@@ -272,13 +272,13 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         rl_sharenote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigUtils.share_bitMap_to_Apps(nestedScrollView,AddNoteActivity.this);
+                ConfigUtils.share_bitMap_to_Apps(nestedScrollView,DetailNoteActivity.this);
             }
         });
         rl_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                ConfigUtils.hideKeyboard(DetailNoteActivity.this);
                 viewBackground.setVisibility(View.GONE);
                 imageChooserContainer.setVisibility(View.GONE);
 
@@ -372,8 +372,8 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
                 if (ShareUtils.getStr(ShareUtils.PASSCODE, "").length() == 0 ) {
                     showDialogCreatePassCode();
                 } else if (!tvLockNote.getText().toString().contains(getString(R.string.unlocks))){
-                        showDialogConfirmDialog();
-                    }else {
+                    showDialogConfirmDialog();
+                }else {
                     tvLockNote.setText(getString(R.string.locks));
                 }
 
@@ -384,7 +384,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
             @Override
             public void onClick(View view) {
                 menuChooserContainer.setVisibility(View.GONE);
-                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                ConfigUtils.hideKeyboard(DetailNoteActivity.this);
                 viewBackground.setVisibility(View.GONE);
                 showDialogAlign();
             }
@@ -398,13 +398,13 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         ivCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               idNote = 0;
-               edtTitle.setText("");
-               text_note_view.setText("");
+                idNote = 0;
+                edtTitle.setText("");
+                text_note_view.setText("");
                 text_note_view2.setText("");
                 text_note_view3.setText("");
-               ConfigUtils.listCheckList.clear();
-               ConfigUtils.listValueCache.clear();
+                ConfigUtils.listCheckList.clear();
+                ConfigUtils.listValueCache.clear();
                 ConfigUtils.listValueCache.add(0,"");
                 ConfigUtils.listValueCache.add(1,"");
                 ConfigUtils.listValueCache.add(2,"");
@@ -438,7 +438,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 
     private void dialogChecklist() {
         List<EditText> lisChild = new ArrayList<>();
-        final Dialog dialog = new Dialog(AddNoteActivity.this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+        final Dialog dialog = new Dialog(DetailNoteActivity.this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.dialog_new_checklist_item);
@@ -542,9 +542,9 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         search_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigUtils.hideKeyboard(AddNoteActivity.this);
+                ConfigUtils.hideKeyboard(DetailNoteActivity.this);
                 search_root.setVisibility(View.GONE);
-                                    String highlighted = "<span style=\"background-color:#ffffff;\">" + text_note_view.getText().toString() + "</span>";
+                String highlighted = "<span style=\"background-color:#ffffff;\">" + text_note_view.getText().toString() + "</span>";
 
                 text_note_view.setText(Html.fromHtml(highlighted));
 //                changeTextView("",false);
@@ -654,7 +654,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
 //                    selectedImagePath = selectedImageUri.getPath();
                     File photoFile = null;
                     try {
-                        photoFile = ConfigUtils.createImageFile(getApplicationContext(),AddNoteActivity.this);
+                        photoFile = ConfigUtils.createImageFile(getApplicationContext(),DetailNoteActivity.this);
                         InputStream is = getContentResolver().openInputStream(selectedImageUri);
                         Bitmap bmp = BitmapFactory.decodeStream(is);
                         ConfigUtils.storeBitmap(photoFile,bmp);
@@ -865,28 +865,28 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
         }
 
     }
-   private boolean ispnin(){
+    private boolean ispnin(){
         if (tvPin.getText().toString().contains(getString(R.string.pins))){
             return false;
         }else return true;
-   }
-   private  int protectType(){
-       if (tvLockNote.getText().toString().contains(getString(R.string.locks))){
-           return 0;
-       }else return 1;
-   }
-   private boolean checkvalue(){
+    }
+    private  int protectType(){
+        if (tvLockNote.getText().toString().contains(getString(R.string.locks))){
+            return 0;
+        }else return 1;
+    }
+    private boolean checkvalue(){
         if (ConfigUtils.listValueCache.get(0).length()>0){
             return true;
         }
-       if (ConfigUtils.listValueCache.get(1).length()>0){
-           return true;
-       }
-       if (ConfigUtils.listValueCache.get(2).length()>0){
-           return true;
-       }
-       return false;
-   }
+        if (ConfigUtils.listValueCache.get(1).length()>0){
+            return true;
+        }
+        if (ConfigUtils.listValueCache.get(2).length()>0){
+            return true;
+        }
+        return false;
+    }
     @Override
     public void onBackPressed() {
         if (idNote != 0) {
@@ -980,7 +980,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     }
 
     private void createViewCheckList(List<EditText> lisChild, LinearLayout checklist_holder) {
-        View inflate = AddNoteActivity.this.getLayoutInflater().inflate(R.layout.item_add_checklist, null);
+        View inflate = DetailNoteActivity.this.getLayoutInflater().inflate(R.layout.item_add_checklist, null);
         EditText title = inflate.findViewById(R.id.title_edit_text);
         ConfigUtils.getConFigDark1(getApplicationContext(),title);
         title.addTextChangedListener(new TextWatcher() {
@@ -1024,7 +1024,7 @@ public class AddNoteActivity extends BaseActivity implements TextWatcher, View.O
     }
     private void showDialogCreatePassCode() {
         Context mContext = getApplicationContext();
-        final Dialog dialog = new Dialog(AddNoteActivity.this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+        final Dialog dialog = new Dialog(DetailNoteActivity.this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.dialog_create_pass);

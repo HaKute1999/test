@@ -29,9 +29,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         new ShareUtils(getApplicationContext());
 
-
-
-
     }
 
     public void setFullScreen() {
@@ -46,7 +43,7 @@ public class BaseActivity extends AppCompatActivity {
                     window.setStatusBarColor(getColor(R.color.black));
                 }else {
                     window.setStatusBarColor(getColor(R.color.color_main));
-
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 }
             }
         }

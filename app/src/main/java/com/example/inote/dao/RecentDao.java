@@ -26,4 +26,7 @@ public interface RecentDao {
 
     @Query("SELECT * FROM recent WHERE id = :id")
     public Recent getItemRecent(int id);
+
+    @Query("DELETE FROM recent")
+    public void deleteAllRecent();
 }

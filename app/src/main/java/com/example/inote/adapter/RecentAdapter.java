@@ -90,6 +90,9 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         if (data.get(position).getListImage().size() > 0) {
             holder.image_note2.setImageURI(Uri.fromFile(new File(data.get(position).getListImage().get(data.get(position).getListImage().size() - 1))));
         }
+        if (data.get(position).getProtectionType()==1){
+            holder.ivLockHome.setVisibility(View.VISIBLE);
+        }else holder.ivLockHome.setVisibility(View.GONE);
     }
 
     @Override
@@ -162,7 +165,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     AppDatabase.noteDB.getNoteDAO().insert(
-                            new Note(data.get(getAdapterPosition()).getIdFolder(),false,data.get(getAdapterPosition()).getListImage(),0,
+                            new Note(0,false,data.get(getAdapterPosition()).getListImage(),data.get(getAdapterPosition()).getProtectionType(),
                                     System.currentTimeMillis(),
                                     data.get(getAdapterPosition()).getTitle(),0,
                                     data.get(getAdapterPosition()).getValue(), data.get(getAdapterPosition()).getValueChecklist(), data.get(getAdapterPosition()).getNoteStyle()));
@@ -177,4 +180,5 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 
         }
     }
+
 }
