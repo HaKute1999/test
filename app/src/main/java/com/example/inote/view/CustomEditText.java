@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /* loaded from: classes.dex */
 public class CustomEditText extends EditText {
@@ -34,7 +36,8 @@ public class CustomEditText extends EditText {
     @Override // android.widget.TextView, android.view.View
     public boolean onKeyPreIme(int i2, KeyEvent keyEvent) {
         keyPreIme aVar;
-        if (keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1 && (aVar = this.onkey) != null) {
+        if (keyEvent.getKeyCode() == 4 && keyEvent.getAction() == KeyEvent.ACTION_UP && (aVar = this.onkey) != null) {
+            Toast.makeText(getContext(),"cdjcndcjdc",Toast.LENGTH_SHORT).show();
             aVar.onKey();
         }
         return super.onKeyPreIme(i2, keyEvent);
@@ -44,6 +47,8 @@ public class CustomEditText extends EditText {
     protected void onSelectionChanged(int i2, int i3) {
         super.onSelectionChanged(i2, i3);
         selectChanged bVar = this.select;
+//        Toast.makeText(getContext(),"cdcdcdcdcdcn",Toast.LENGTH_SHORT).show();
+
         if (bVar != null) {
             bVar.onChange(i2, i3);
         }

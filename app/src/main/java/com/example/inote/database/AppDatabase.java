@@ -13,12 +13,13 @@ import com.example.inote.dao.NotesDao;
 import com.example.inote.dao.RecentDao;
 import com.example.inote.models.Folder;
 import com.example.inote.models.Note;
+import com.example.inote.models.Note1;
 import com.example.inote.models.Recent;
 import com.example.inote.view.Converters;
 
 import java.io.File;
 
-@Database(entities = {Note.class, Folder.class, Recent.class}, version = 2)
+@Database(entities = {Note.class, Folder.class, Recent.class, Note1.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase noteDB;
@@ -28,6 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecentDao getRecentDao();
 
     public abstract FolderDao getFolderDAO();
+    public abstract FolderDao getNote1Dao();
 
     public static AppDatabase getInstance(Context context, String dbName) {
         if (null == noteDB) {

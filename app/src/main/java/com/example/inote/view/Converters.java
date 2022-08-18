@@ -34,7 +34,6 @@ public class Converters {
         return gson.fromJson(data, listType);
     }
 
-
     @TypeConverter
     public static String MyListItemListToObject(List<CheckItem> list) {
         Gson gson = new Gson();

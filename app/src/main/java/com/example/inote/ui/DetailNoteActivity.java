@@ -1,29 +1,23 @@
 package com.example.inote.ui;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -33,15 +27,10 @@ import android.text.style.ImageSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,19 +42,15 @@ import com.example.inote.adapter.CheckListAdapter;
 import com.example.inote.adapter.CheckListIosAdapter;
 import com.example.inote.adapter.ImageNoteAdapter;
 import com.example.inote.database.AppDatabase;
-import com.example.inote.models.CheckItem;
-import com.example.inote.models.Note;
 import com.example.inote.models.NoteStyle;
-import com.example.inote.models.Recent;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.CustomEditText;
-import com.example.inote.view.ICheckList;
+import com.example.inote.view.ImageSpanView;
+import com.example.inote.view.NoteUtils;
 import com.example.inote.view.ShareUtils;
 import com.example.inote.view.drawingview.ICopy;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -91,8 +76,16 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     ImageView close_bottom;
     NoteStyle noteStyleCustom = ConfigUtils.noteStyleCustom;
     SpannableString spanString = new SpannableString("");
-    Map<CustomEditText, C7750c1> f23363K0;
-
+//    Map<CustomEditText, C7750c1> f23363K0;
+    List<CustomEditText> list;
+    Collection<ImageSpanView> spanViews;
+    Collection<StyleSpan> styleBody;
+    Collection<StyleSpan> styleItalic;
+    Collection<UnderlineSpan> styleUnder;
+    Collection<StrikethroughSpan> styleStrike;
+    CustomEditText.selectChanged selectChanged;
+    TextWatcher textWatcher;
+    NestedScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +100,7 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         idFolder = intent.getIntExtra("idFolder", 0);
         ConfigUtils.listCheckList.clear();
         ConfigUtils.listValueCache.clear();
-
+        spanViews = new ArrayList<>();
         if (idNote != 0) {
             noteStyleCustom = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getNoteStyle();
             ConfigUtils.listValueCache.addAll(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue());
@@ -148,6 +141,9 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         }
         findViewById(R.id.tvBack).setOnClickListener(view -> onBackPressed());
 
+        selectChanged = new OnChangeState();
+        text_note_view.setOnSelectionChangedListener(selectChanged);
+//        text_note_view.addTextChangedListener(textWatcher);
 
         ConfigUtils.getConFigDark1(getApplicationContext(),edtTitle,text_note_view,tvTime,ids(R.id.tvAlign1),ids(R.id.tvAlign));
         ConfigUtils.getConFigDark1(getApplicationContext(),ids(R.id.viewOption),ids(R.id.viewOption1),ids(R.id.viewOption2),ids(R.id.tvChoosePhoto),ids(R.id.tvTakePhoto),ids(R.id.tvCancelPhoto));
@@ -192,6 +188,24 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 
             }
         });
+        ivChecklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drawable myIcon = getApplicationContext().getResources().getDrawable(R.drawable.circle_bg_note);
+                myIcon.setBounds(0,0,60,60);
+
+                int selectionStart = text_note_view.getSelectionStart();
+                text_note_view.getText().insert(selectionStart, "\n");
+                int start = selectionStart + 1;
+                text_note_view.getText().insert(start, " ");
+                int end = selectionStart + 2;
+                text_note_view.getText().setSpan(new ImageSpan(myIcon, ImageSpan.ALIGN_CENTER), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                text_note_view.getText().insert(end, "   ");
+
+
+            }
+        });
+        N();
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -239,6 +253,7 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         imgPin = findViewById(R.id.imgPin);
         rl_align = findViewById(R.id.rl_align);
         rl_size = findViewById(R.id.rl_size);
+        scrollView = findViewById(R.id.scrollView);
 
         listImage = new ArrayList<>();
 
@@ -274,16 +289,16 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 //                    selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
 //                    File imageFile = new File(selectedImagePath);
 //                    String des = ConfigUtils.copyFile(getApplicationContext(), imageFile, this);
-                    ImageSpan imgSpan = new ImageSpan(this, selectedImageUri);
-                     if (spanString.length() ==0){
-                         spanString = new SpannableString(text_note_view.getText().toString());
-                     }else {
-                         text_note_view.setText(spanString);
-                     }
-                   int t = text_note_view.getSelectionStart();
-                    int h = text_note_view.getSelectionEnd();
-                    spanString.setSpan(imgSpan, text_note_view.getSelectionStart(), text_note_view.getSelectionEnd()+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    text_note_view.setText(spanString);
+                    byte[] bytes = NoteUtils.changeUriToByte(getApplicationContext(),selectedImageUri);
+                    Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    ImageSpanView imageSpan = NoteUtils.getImage(text_note_view,decodeByteArray);
+                    int selectionStart = this.text_note_view.getSelectionStart();
+                    this.text_note_view.getText().insert(selectionStart, "\n");
+                    int start = selectionStart + 1;
+                    this.text_note_view.getText().insert(start, " ");
+                    int end = selectionStart + 2;
+                    this.text_note_view.getText().setSpan(imageSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    this.text_note_view.getText().insert(end, "\n");
 
                 }
             }
@@ -299,7 +314,7 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
             return null;
         }
         String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = this.getContentResolver().query(uri, projection, null,
+        Cursor cursor = getContentResolver().query(uri, projection, null,
                 null, null);
         if (cursor != null) {
             int column_index =
@@ -315,7 +330,7 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     @Override
     protected void onResume() {
         super.onResume();
-
+       N();
 
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
             main_note.setBackgroundColor(Color.BLACK);
@@ -392,153 +407,253 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         END
     }
 
-    class C7750c1 implements TextWatcher {
-
-        /* renamed from: a */
-        CustomEditText f23439a;
-
-        /* renamed from: b */
-        public Collection<StyleSpan> f23440b;
-
-        /* renamed from: c */
-        public Collection<StyleSpan> f23441c;
-
-        /* renamed from: d */
-        public Collection<UnderlineSpan> f23442d;
-
-        /* renamed from: e */
-        public Collection<StrikethroughSpan> f23443e;
-
-        /* renamed from: f */
-        public Collection<BackgroundColorSpan> f23444f;
-
-        /* renamed from: g */
-        Map<Object, C7761e1> f23445g;
-
-        /* renamed from: h */
-        int f23446h;
-
-        /* renamed from: i */
-        int f23447i;
-
-        public C7750c1(CustomEditText customEditText) {
-            this.f23439a = customEditText;
-        }
-
-        /* renamed from: a */
-        private void m33935a(Object obj, C7761e1 e1Var, Spannable spannable) {
-            if (e1Var.equals(C7761e1.START)) {
-                if (spannable.getSpanEnd(obj) != -1) {
-                    spannable.setSpan(obj, this.f23446h, spannable.getSpanEnd(obj), 33);
-                }
-            } else if (e1Var.equals(C7761e1.END)) {
-                spannable.setSpan(obj, spannable.getSpanStart(obj), this.f23447i, 33);
-            }
-        }
-
-        /* renamed from: b */
-        private void m33936b() {
-            Iterator<Object> it;
-            if (this.f23447i > this.f23446h) {
-                Editable text = this.f23439a.getText();
-                boolean isChecked = DetailNoteActivity.this..isChecked();
-                boolean isChecked2 = DetailNoteActivity.this.f23351E0.isChecked();
-                boolean isChecked3 = DetailNoteActivity.this.f23353F0.isChecked();
-                boolean isChecked4 = DetailNoteActivity.this.f23355G0.isChecked();
-                boolean isChecked5 = DetailNoteActivity.this.f23357H0.isChecked();
-                Iterator<Object> it2 = this.f23445g.keySet().iterator();
-                boolean z = false;
-                boolean z2 = false;
-                boolean z3 = false;
-                boolean z4 = false;
-                boolean z5 = false;
-                while (it2.hasNext()) {
-                    Object next = it2.next();
-                    C7761e1 e1Var = this.f23445g.get(next);
-                    if (next instanceof StyleSpan) {
-                        StyleSpan styleSpan = (StyleSpan) next;
-                        it = it2;
-                        if (styleSpan.getStyle() == 1) {
-                            if (isChecked) {
-                                m33935a(styleSpan, e1Var, text);
-                            }
-                            z = true;
-                        } else if (styleSpan.getStyle() == 2) {
-                            if (isChecked2) {
-                                m33935a(styleSpan, e1Var, text);
-                            }
-                            z2 = true;
-                        }
-                    } else {
-                        it = it2;
-                        if (next instanceof UnderlineSpan) {
-                            UnderlineSpan underlineSpan = (UnderlineSpan) next;
-                            if (isChecked3) {
-                                m33935a(underlineSpan, e1Var, text);
-                            }
-                            z3 = true;
-                        } else if (next instanceof StrikethroughSpan) {
-                            StrikethroughSpan strikethroughSpan = (StrikethroughSpan) next;
-                            if (isChecked4) {
-                                m33935a(strikethroughSpan, e1Var, text);
-                            }
-                            z4 = true;
-                        } else if (next instanceof BackgroundColorSpan) {
-                            BackgroundColorSpan backgroundColorSpan = (BackgroundColorSpan) next;
-                            if (isChecked5) {
-                                m33935a(backgroundColorSpan, e1Var, text);
-                            }
-                            z5 = true;
-                        }
-                    }
-                    it2 = it;
-                }
-                if (!z && isChecked) {
-                    StyleSpan styleSpan2 = new StyleSpan(1);
-                    text.setSpan(styleSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    this.f23440b.add(styleSpan2);
-                }
-                if (!z2 && isChecked2) {
-                    StyleSpan styleSpan3 = new StyleSpan(2);
-                    text.setSpan(styleSpan3, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    this.f23441c.add(styleSpan3);
-                }
-                if (!z3 && isChecked3) {
-                    UnderlineSpan underlineSpan2 = new UnderlineSpan();
-                    text.setSpan(underlineSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    this.f23442d.add(underlineSpan2);
-                }
-                if (!z4 && isChecked4) {
-                    StrikethroughSpan strikethroughSpan2 = new StrikethroughSpan();
-                    text.setSpan(strikethroughSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    this.f23443e.add(strikethroughSpan2);
-                }
-                if (!z5 && isChecked5) {
-                    BackgroundColorSpan backgroundColorSpan2 = new BackgroundColorSpan(DetailNoteActivity.this.m33807E2());
-                    text.setSpan(backgroundColorSpan2, this.f23446h, this.f23447i, 33);
-                    this.f23444f.add(backgroundColorSpan2);
-                }
-            }
-        }
-
-        public void afterTextChanged(Editable editable) {
-            try {
-                m33936b();
-            } catch (Exception e) {
-                if (C6993b.m31720s()) {
-                    C8007c.m34246V(R.string.cz);
-                }
-                C8007c.f24061p.mo34034b("", e);
-            }
-        }
-
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            this.f23445g = DetailNoteActivity.this.m33929z2(i, this.f23439a);
-        }
-
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            this.f23446h = i;
-            this.f23447i = i + i3;
+//    class C7750c1 implements TextWatcher {
+//
+//        /* renamed from: a */
+//        CustomEditText f23439a;
+//
+//        /* renamed from: b */
+//        public Collection<StyleSpan> f23440b;
+//
+//        /* renamed from: c */
+//        public Collection<StyleSpan> f23441c;
+//
+//        /* renamed from: d */
+//        public Collection<UnderlineSpan> f23442d;
+//
+//        /* renamed from: e */
+//        public Collection<StrikethroughSpan> f23443e;
+//
+//        /* renamed from: f */
+//        public Collection<BackgroundColorSpan> f23444f;
+//
+//        /* renamed from: g */
+//        Map<Object, C7761e1> f23445g;
+//
+//        /* renamed from: h */
+//        int f23446h;
+//
+//        /* renamed from: i */
+//        int f23447i;
+//
+//        public C7750c1(CustomEditText customEditText) {
+//            this.f23439a = customEditText;
+//        }
+//
+//        /* renamed from: a */
+//        private void m33935a(Object obj, C7761e1 e1Var, Spannable spannable) {
+//            if (e1Var.equals(C7761e1.START)) {
+//                if (spannable.getSpanEnd(obj) != -1) {
+//                    spannable.setSpan(obj, this.f23446h, spannable.getSpanEnd(obj), 33);
+//                }
+//            } else if (e1Var.equals(C7761e1.END)) {
+//                spannable.setSpan(obj, spannable.getSpanStart(obj), this.f23447i, 33);
+//            }
+//        }
+//
+//        /* renamed from: b */
+//        private void m33936b() {
+//            Iterator<Object> it;
+//            if (this.f23447i > this.f23446h) {
+//                Editable text = this.f23439a.getText();
+//                boolean isChecked = DetailNoteActivity.this..isChecked();
+//                boolean isChecked2 = DetailNoteActivity.this.f23351E0.isChecked();
+//                boolean isChecked3 = DetailNoteActivity.this.f23353F0.isChecked();
+//                boolean isChecked4 = DetailNoteActivity.this.f23355G0.isChecked();
+//                boolean isChecked5 = DetailNoteActivity.this.f23357H0.isChecked();
+//                Iterator<Object> it2 = this.f23445g.keySet().iterator();
+//                boolean z = false;
+//                boolean z2 = false;
+//                boolean z3 = false;
+//                boolean z4 = false;
+//                boolean z5 = false;
+//                while (it2.hasNext()) {
+//                    Object next = it2.next();
+//                    C7761e1 e1Var = this.f23445g.get(next);
+//                    if (next instanceof StyleSpan) {
+//                        StyleSpan styleSpan = (StyleSpan) next;
+//                        it = it2;
+//                        if (styleSpan.getStyle() == 1) {
+//                            if (isChecked) {
+//                                m33935a(styleSpan, e1Var, text);
+//                            }
+//                            z = true;
+//                        } else if (styleSpan.getStyle() == 2) {
+//                            if (isChecked2) {
+//                                m33935a(styleSpan, e1Var, text);
+//                            }
+//                            z2 = true;
+//                        }
+//                    } else {
+//                        it = it2;
+//                        if (next instanceof UnderlineSpan) {
+//                            UnderlineSpan underlineSpan = (UnderlineSpan) next;
+//                            if (isChecked3) {
+//                                m33935a(underlineSpan, e1Var, text);
+//                            }
+//                            z3 = true;
+//                        } else if (next instanceof StrikethroughSpan) {
+//                            StrikethroughSpan strikethroughSpan = (StrikethroughSpan) next;
+//                            if (isChecked4) {
+//                                m33935a(strikethroughSpan, e1Var, text);
+//                            }
+//                            z4 = true;
+//                        } else if (next instanceof BackgroundColorSpan) {
+//                            BackgroundColorSpan backgroundColorSpan = (BackgroundColorSpan) next;
+//                            if (isChecked5) {
+//                                m33935a(backgroundColorSpan, e1Var, text);
+//                            }
+//                            z5 = true;
+//                        }
+//                    }
+//                    it2 = it;
+//                }
+//                if (!z && isChecked) {
+//                    StyleSpan styleSpan2 = new StyleSpan(1);
+//                    text.setSpan(styleSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    this.f23440b.add(styleSpan2);
+//                }
+//                if (!z2 && isChecked2) {
+//                    StyleSpan styleSpan3 = new StyleSpan(2);
+//                    text.setSpan(styleSpan3, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    this.f23441c.add(styleSpan3);
+//                }
+//                if (!z3 && isChecked3) {
+//                    UnderlineSpan underlineSpan2 = new UnderlineSpan();
+//                    text.setSpan(underlineSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    this.f23442d.add(underlineSpan2);
+//                }
+//                if (!z4 && isChecked4) {
+//                    StrikethroughSpan strikethroughSpan2 = new StrikethroughSpan();
+//                    text.setSpan(strikethroughSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    this.f23443e.add(strikethroughSpan2);
+//                }
+//                if (!z5 && isChecked5) {
+//                    BackgroundColorSpan backgroundColorSpan2 = new BackgroundColorSpan(DetailNoteActivity.this.m33807E2());
+//                    text.setSpan(backgroundColorSpan2, this.f23446h, this.f23447i, 33);
+//                    this.f23444f.add(backgroundColorSpan2);
+//                }
+//            }
+//        }
+//
+//        public void afterTextChanged(Editable editable) {
+//            try {
+//                m33936b();
+//            } catch (Exception e) {
+//                if (C6993b.m31720s()) {
+//                    C8007c.m34246V(R.string.cz);
+//                }
+//                C8007c.f24061p.mo34034b("", e);
+//            }
+//        }
+//
+//        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//            this.f23445g = DetailNoteActivity.this.m33929z2(i, this.f23439a);
+//        }
+//
+//        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+//            this.f23446h = i;
+//            this.f23447i = i + i3;
+//        }
+//    }
+    private void getListItemSpanView(){
+        this.spanViews = new ArrayList<>();
+        for (ImageSpanView imageSpanView : text_note_view.getText().getSpans(0, text_note_view.getText().length(),ImageSpanView.class)){
+            this.spanViews.add(imageSpanView);
         }
     }
+    public void getStypePan() {
+        Object[] spans;
+        this.styleBody = new ArrayList();
+        this.styleItalic = new ArrayList();
+        this.styleUnder = new ArrayList();
+        this.styleStrike = new ArrayList();
+        for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().toString().length(), Object.class)) {
+            if (obj instanceof StyleSpan) {
+                StyleSpan styleSpan = (StyleSpan) obj;
+                if (styleSpan.getStyle() == Typeface.BOLD) {
+                    this.styleBody.add(styleSpan);
+                }
+                if (styleSpan.getStyle() == Typeface.ITALIC) {
+                    this.styleItalic.add(styleSpan);
+                }
+            } else if (obj instanceof UnderlineSpan) {
+                this.styleUnder.add((UnderlineSpan) obj);
+            } else if (obj instanceof StrikethroughSpan) {
+                this.styleStrike.add((StrikethroughSpan) obj);
+            }
+        }
+    }
+    public  class OnChangeState implements CustomEditText.selectChanged{
+
+        @Override
+        public void onChange(int i2, int i3) {
+        }
+    }
+
+    public void N() {
+        int scrollY = this.scrollView.getScrollY();
+        int height = this.scrollView.getHeight() + scrollY;
+        int lineCount = text_note_view.getLineCount();
+        int i2 = -1;
+        int i3 = -1;
+        int i4 = -1;
+        for (int i5 = 0; i5 < lineCount; i5++) {
+            if (i3 == -1 && text_note_view.getLayout().getLineBottom(i5) >= scrollY) {
+                i3 = text_note_view.getLayout().getLineStart(i5);
+            }
+            if (text_note_view.getLayout().getLineTop(i5) <= height) {
+                i4 = text_note_view.getLayout().getLineEnd(i5);
+            }
+        }
+       ImageSpanView[] oVarArr = (ImageSpanView[]) text_note_view.getText().getSpans(i3, i4, ImageSpanView.class);
+        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList2 = new ArrayList();
+        for (ImageSpanView oVar : spanViews) {
+            if (!oVar.isCheck()) {
+                int length = oVarArr.length;
+                int i6 = 0;
+                while (true) {
+                    if (i6 >= length) {
+                        int spanStart = text_note_view.getText().getSpanStart(oVar);
+                        int spanEnd = text_note_view.getText().getSpanEnd(oVar);
+                        if (!(spanStart == i2 || spanEnd == i2)) {
+                            oVar.clear();
+                            ImageSpanView oVar2 = new ImageSpanView(oVar.b(), oVar.getWidth(), oVar.getHeight(), this);
+                            text_note_view.getText().setSpan(oVar2, spanStart, spanEnd, 33);
+                            arrayList2.add(oVar2);
+                            text_note_view.getText().removeSpan(oVar);
+                            arrayList.add(oVar);
+                            i2 = -1;
+                        }
+                    } else if (oVarArr[i6].b() == oVar.b()) {
+                        break;
+                    } else {
+                        i6++;
+                    }
+                }
+            }
+        }
+        spanViews.addAll(arrayList2);
+//        for (ImageSpanView oVar3 : oVarArr) {
+//            if (oVar3.isCheck()) {
+//                int spanStart2 = text_note_view.getText().getSpanStart(oVar3);
+//                int spanEnd2 = text_note_view.getText().getSpanEnd(oVar3);
+//                long b2 = oVar3.b();
+//                k.j.h hVar = new k.j.h();
+//                hVar.a = Long.valueOf(b2);
+//                Collection<k.i.q> a2 = k.d.h.e().a(hVar);
+//                if (!a2.isEmpty()) {
+//                    ImageSpanView a3 = a(a2.iterator().next());
+//                    text_note_view.getText().setSpan(a3, spanStart2, spanEnd2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    spanViews.add(a3);
+//                    text_note_view.getText().removeSpan(oVar3);
+//                    arrayList.add(oVar3);
+//                }
+//            }
+//        }
+        spanViews.removeAll(arrayList);
+    }
+
+
 }

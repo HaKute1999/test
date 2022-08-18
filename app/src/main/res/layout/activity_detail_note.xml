@@ -7,6 +7,7 @@
     android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom"
@@ -65,9 +66,9 @@
                 android:gravity="top"
                 android:hint="@string/insert_text_here"
                 android:inputType="textMultiLine"
+                android:lineSpacingMultiplier="1."
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingBottom="@dimen/_5sdp"
                 android:scrollbars="vertical"
                 android:textColor="#000000"
                 android:textColorHint="#a3a2a2"
