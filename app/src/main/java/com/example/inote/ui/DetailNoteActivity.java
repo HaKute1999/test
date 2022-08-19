@@ -12,17 +12,22 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.CharacterStyle;
 import android.text.style.ImageSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
@@ -30,6 +35,7 @@ import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -38,6 +44,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.inote.R;
@@ -56,7 +63,10 @@ import com.example.inote.view.drawingview.ICopy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -210,10 +220,14 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
             }
         });
 //        String t = ShareUtils.getStr("1234567", "");
+        String t = "/storage/emulated/0/Android/data/com.example.inote/files/b1c88aca-246f-47a7-ae7f-7ef4d0d6f305.png";
+        File file = new File(t);
+        String imagePath  = t;
+        String html = ShareUtils.getStr("aaaa", "");
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
-            text_note_view.setText(Html.fromHtml("zejxnzjexneddejsnjndeses \n" +
-                    " \n" +
-                    "<img src=\"file:///storage/emulated/0/Android/data/com.example.inote/files/8488504b-8c00-4803-876d-80b7f8a1a34d.png\">"), TextView.BufferType.SPANNABLE);
+            text_note_view.setText(Html.fromHtml(ShareUtils.getStr("aaaa", ""),new ImageGetter(),null));
         }else{
 
         }
@@ -429,82 +443,41 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 //        for (int i5 = 0; i5 < lineCount; i5++) {
 //           int start  =  text_note_view.getLayout().getLineStart(i5);
 //           int end =  text_note_view.getLayout().getLineEnd(i5);
-           Spanned[] spanned = this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Spanned.class);
-            for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Object.class)) {
-                if (obj instanceof ImageSpanView){
-                    ImageSpanView imageSpanView = (ImageSpanView) obj;
-                   String t =  "file://"+ imageSpanView.getId();
+        int i3 = 0;
+        CharacterStyle[] spanned = this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), CharacterStyle.class);
+        int i4 = 0;
+        while (true){
+
+            int nextSpanTransition = text_note_view.getText().nextSpanTransition(i3, text_note_view.getText().toString().length(), CharacterStyle.class);
+            if (i3 ==nextSpanTransition){
+                break;
+            }
+            sb.append(text_note_view.getText().toString().substring(i3,nextSpanTransition-1));
+            if (i4 < spanned.length) {
+                if (spanned[i4] instanceof ImageSpan){
+
+                    String t;
+                    if (spanned[i4] instanceof ImageSpanView){
+                        t =  ((ImageSpanView) spanned[i4]).getId();
+                    }else {
+                        t = Uri.parse(((ImageSpan) spanned[i4]).getSource()).getPath();
+                    }
                     sb.append("<img src=\"");
                     sb.append(t);
                     sb.append("\">");
                 }
-                if (obj instanceof UnderlineSpan) {
-                    sb.append("<u>");
-                }
-                if (obj instanceof StrikethroughSpan) {
-                    sb.append("<strike>");
-                }
-                if (obj instanceof SuperscriptSpan) {
-                    sb.append("<sup>");
-                }
-                if (obj instanceof SubscriptSpan) {
-                    sb.append("<sub>");
-                }
-
-                if (obj instanceof StyleSpan) {
-                    int style = ((StyleSpan) obj).getStyle();
-                    if ((style & 1) != 0) {
-                        sb.append("<b>");
-                    }
-                    if ((style & 2) != 0) {
-                        sb.append("<i>");
-                    }
-                }
-                if (obj instanceof AbsoluteSizeSpan) {
-                    sb.append("<font size =\"");
-                    sb.append(((AbsoluteSizeSpan) obj).getSize() / 6);
-                    sb.append("\">");
-                }
+                i4++;
             }
-        for (int length = spanned.length - 1; length >= 0; length--) {
-            if (spanned[length] instanceof AbsoluteSizeSpan) {
-                sb.append("</font>");
-            }
-
-            if (spanned[length] instanceof StrikethroughSpan) {
-                sb.append("</strike>");
-            }
-            if (spanned[length] instanceof UnderlineSpan) {
-                sb.append("</u>");
-            }
-
-            if ((spanned[length] instanceof TypefaceSpan) && ((TypefaceSpan) spanned[length]).getFamily().equals("monospace")) {
-                sb.append("</tt>");
-            }
-            if (spanned[length] instanceof StyleSpan) {
-                int style2 = ((StyleSpan) spanned[length]).getStyle();
-                if ((style2 & 1) != 0) {
-                    sb.append("</b>");
-                }
-                if ((style2 & 2) != 0) {
-                    sb.append("</i>");
-                }
-            }
-            if (spanned[length] instanceof SubscriptSpan) {
-                sb.append("</sub>");
-            }
-            if (spanned[length] instanceof SuperscriptSpan) {
-                sb.append("</sup>");
-            }
-
-            if (spanned[length] instanceof StrikethroughSpan) {
-                sb.append("</del>");
-            }
-
+            i3 = nextSpanTransition;
         }
+
+//            for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Object.class)) {
+//
+//            }
+
         String t= text_note_view.getText().toString();
         t.replaceAll("<br>","\n");
-        ShareUtils.setStr("1234567",sb.toString());
+        ShareUtils.setStr("aaaa",sb.toString());
 
 //            }
         Object[] spans;
@@ -602,14 +575,13 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     private class ImageGetter implements Html.ImageGetter {
 
         public Drawable getDrawable(String source) {
-            Uri uri = Uri.parse(source);
-            Drawable yourDrawable;
-            String selectedImagePath = getRealPathFromURIForGallery(uri);
-//                InputStream inputStream = getContentResolver().openInputStream(uri);
-            yourDrawable = Drawable.createFromPath(selectedImagePath);
-            return yourDrawable;
+                Drawable d = Drawable.createFromPath(source);
+                d.setBounds(0,0,ConfigUtils.getScreenWidth(),(d.getIntrinsicHeight()/d.getIntrinsicWidth())*ConfigUtils.getScreenWidth() );
+                return d;
 
         }
+
     }
+
 
 }
