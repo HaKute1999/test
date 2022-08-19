@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.example.inote.R;
 import com.example.inote.dao.FolderDao;
+import com.example.inote.dao.Note1Dao;
 import com.example.inote.dao.NotesDao;
 import com.example.inote.dao.RecentDao;
 import com.example.inote.models.Folder;
@@ -29,7 +30,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecentDao getRecentDao();
 
     public abstract FolderDao getFolderDAO();
-    public abstract FolderDao getNote1Dao();
+    public abstract Note1Dao getNote1Dao();
 
     public static AppDatabase getInstance(Context context, String dbName) {
         if (null == noteDB) {

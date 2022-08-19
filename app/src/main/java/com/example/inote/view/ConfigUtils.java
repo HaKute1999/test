@@ -2,6 +2,7 @@ package com.example.inote.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -25,6 +26,7 @@ import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -348,7 +350,21 @@ public class ConfigUtils {
         }
 
     }
+    public static String getMimeType(Context context, Uri uri) {
+        String extension;
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+        }
+        String base64 = "data:image/"+extension+";base64,"+"";
 
+        return base64;
+    }
     public static List<Note> convertImageBase64(){
         List<Note> notes = new ArrayList<>();
         List<Note> list =  AppDatabase.noteDB.getNoteDAO().getAllNotes();

@@ -19,7 +19,6 @@ public class Recent {
     private boolean isPinned;
     private List<String> listImage;
     private NoteStyle noteStyle;
-
     private int protectionType;
     private long timeEdit;
     private String title;

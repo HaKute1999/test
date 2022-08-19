@@ -15,17 +15,20 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.Spannable;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.style.BackgroundColorSpan;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
+import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.Window;
@@ -42,6 +45,7 @@ import com.example.inote.adapter.CheckListAdapter;
 import com.example.inote.adapter.CheckListIosAdapter;
 import com.example.inote.adapter.ImageNoteAdapter;
 import com.example.inote.database.AppDatabase;
+import com.example.inote.models.DetailNote;
 import com.example.inote.models.NoteStyle;
 import com.example.inote.view.ConfigUtils;
 import com.example.inote.view.CustomEditText;
@@ -51,12 +55,11 @@ import com.example.inote.view.ShareUtils;
 import com.example.inote.view.drawingview.ICopy;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class DetailNoteActivity extends BaseActivity implements  ICopy {
     RelativeLayout ivMore,rl_Pin ,rl_delete,rl_lock,rl_align,rl_size;
@@ -86,6 +89,7 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     CustomEditText.selectChanged selectChanged;
     TextWatcher textWatcher;
     NestedScrollView scrollView;
+    List<DetailNote> detailNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,9 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         ConfigUtils.listCheckList.clear();
         ConfigUtils.listValueCache.clear();
         spanViews = new ArrayList<>();
+        detailNotes = new ArrayList<>();
+        new ShareUtils(this);
+
         if (idNote != 0) {
             noteStyleCustom = AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getNoteStyle();
             ConfigUtils.listValueCache.addAll(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getValue());
@@ -124,9 +131,6 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
             tvTime.setText(ConfigUtils.formatDateTIme(AppDatabase.noteDB.getNoteDAO().getItemNote(idNote).getTimeEdit()));
             ConfigUtils.getStyleTitle(noteStyleCustom,edtTitle);
             ConfigUtils.getStyleContent(noteStyleCustom,
-
-
-
                     text_note_view);
 
             ConfigUtils.getStyleGravity(noteStyleCustom,edtTitle);
@@ -205,7 +209,12 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 
             }
         });
-        N();
+        String t = ShareUtils.getStr("1234567", "");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            text_note_view.setText(Html.fromHtml(t,new ImageGetter(),null), TextView.BufferType.SPANNABLE);
+        }else{
+
+        }
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -285,20 +294,24 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
                     }
 
 
+
+
                 }else {
-//                    selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
-//                    File imageFile = new File(selectedImagePath);
-//                    String des = ConfigUtils.copyFile(getApplicationContext(), imageFile, this);
+                    selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
+                    File imageFile = new File(selectedImagePath);
+                    String des = ConfigUtils.copyFile(getApplicationContext(), imageFile, this);
+
                     byte[] bytes = NoteUtils.changeUriToByte(getApplicationContext(),selectedImageUri);
                     Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    ImageSpanView imageSpan = NoteUtils.getImage(text_note_view,decodeByteArray);
+                    Bitmap imageSpan = NoteUtils.getImage(text_note_view,decodeByteArray);
                     int selectionStart = this.text_note_view.getSelectionStart();
                     this.text_note_view.getText().insert(selectionStart, "\n");
                     int start = selectionStart + 1;
                     this.text_note_view.getText().insert(start, " ");
                     int end = selectionStart + 2;
-                    this.text_note_view.getText().setSpan(imageSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    this.text_note_view.getText().setSpan(new ImageSpan(getApplicationContext(),selectedImageUri,ImageSpan.ALIGN_BASELINE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     this.text_note_view.getText().insert(end, "\n");
+
 
                 }
             }
@@ -330,12 +343,10 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     @Override
     protected void onResume() {
         super.onResume();
-       N();
-
+        getStypePan();
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
             main_note.setBackgroundColor(Color.BLACK);
         }else  main_note.setBackgroundColor(getResources().getColor(R.color.color_main));
-
     }
    // update add image
 
@@ -402,173 +413,107 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     public void onProgress(String path) {
 
     }
-    enum C7761e1 {
-        START,
-        END
-    }
 
-//    class C7750c1 implements TextWatcher {
-//
-//        /* renamed from: a */
-//        CustomEditText f23439a;
-//
-//        /* renamed from: b */
-//        public Collection<StyleSpan> f23440b;
-//
-//        /* renamed from: c */
-//        public Collection<StyleSpan> f23441c;
-//
-//        /* renamed from: d */
-//        public Collection<UnderlineSpan> f23442d;
-//
-//        /* renamed from: e */
-//        public Collection<StrikethroughSpan> f23443e;
-//
-//        /* renamed from: f */
-//        public Collection<BackgroundColorSpan> f23444f;
-//
-//        /* renamed from: g */
-//        Map<Object, C7761e1> f23445g;
-//
-//        /* renamed from: h */
-//        int f23446h;
-//
-//        /* renamed from: i */
-//        int f23447i;
-//
-//        public C7750c1(CustomEditText customEditText) {
-//            this.f23439a = customEditText;
-//        }
-//
-//        /* renamed from: a */
-//        private void m33935a(Object obj, C7761e1 e1Var, Spannable spannable) {
-//            if (e1Var.equals(C7761e1.START)) {
-//                if (spannable.getSpanEnd(obj) != -1) {
-//                    spannable.setSpan(obj, this.f23446h, spannable.getSpanEnd(obj), 33);
-//                }
-//            } else if (e1Var.equals(C7761e1.END)) {
-//                spannable.setSpan(obj, spannable.getSpanStart(obj), this.f23447i, 33);
-//            }
-//        }
-//
-//        /* renamed from: b */
-//        private void m33936b() {
-//            Iterator<Object> it;
-//            if (this.f23447i > this.f23446h) {
-//                Editable text = this.f23439a.getText();
-//                boolean isChecked = DetailNoteActivity.this..isChecked();
-//                boolean isChecked2 = DetailNoteActivity.this.f23351E0.isChecked();
-//                boolean isChecked3 = DetailNoteActivity.this.f23353F0.isChecked();
-//                boolean isChecked4 = DetailNoteActivity.this.f23355G0.isChecked();
-//                boolean isChecked5 = DetailNoteActivity.this.f23357H0.isChecked();
-//                Iterator<Object> it2 = this.f23445g.keySet().iterator();
-//                boolean z = false;
-//                boolean z2 = false;
-//                boolean z3 = false;
-//                boolean z4 = false;
-//                boolean z5 = false;
-//                while (it2.hasNext()) {
-//                    Object next = it2.next();
-//                    C7761e1 e1Var = this.f23445g.get(next);
-//                    if (next instanceof StyleSpan) {
-//                        StyleSpan styleSpan = (StyleSpan) next;
-//                        it = it2;
-//                        if (styleSpan.getStyle() == 1) {
-//                            if (isChecked) {
-//                                m33935a(styleSpan, e1Var, text);
-//                            }
-//                            z = true;
-//                        } else if (styleSpan.getStyle() == 2) {
-//                            if (isChecked2) {
-//                                m33935a(styleSpan, e1Var, text);
-//                            }
-//                            z2 = true;
-//                        }
-//                    } else {
-//                        it = it2;
-//                        if (next instanceof UnderlineSpan) {
-//                            UnderlineSpan underlineSpan = (UnderlineSpan) next;
-//                            if (isChecked3) {
-//                                m33935a(underlineSpan, e1Var, text);
-//                            }
-//                            z3 = true;
-//                        } else if (next instanceof StrikethroughSpan) {
-//                            StrikethroughSpan strikethroughSpan = (StrikethroughSpan) next;
-//                            if (isChecked4) {
-//                                m33935a(strikethroughSpan, e1Var, text);
-//                            }
-//                            z4 = true;
-//                        } else if (next instanceof BackgroundColorSpan) {
-//                            BackgroundColorSpan backgroundColorSpan = (BackgroundColorSpan) next;
-//                            if (isChecked5) {
-//                                m33935a(backgroundColorSpan, e1Var, text);
-//                            }
-//                            z5 = true;
-//                        }
-//                    }
-//                    it2 = it;
-//                }
-//                if (!z && isChecked) {
-//                    StyleSpan styleSpan2 = new StyleSpan(1);
-//                    text.setSpan(styleSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    this.f23440b.add(styleSpan2);
-//                }
-//                if (!z2 && isChecked2) {
-//                    StyleSpan styleSpan3 = new StyleSpan(2);
-//                    text.setSpan(styleSpan3, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    this.f23441c.add(styleSpan3);
-//                }
-//                if (!z3 && isChecked3) {
-//                    UnderlineSpan underlineSpan2 = new UnderlineSpan();
-//                    text.setSpan(underlineSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    this.f23442d.add(underlineSpan2);
-//                }
-//                if (!z4 && isChecked4) {
-//                    StrikethroughSpan strikethroughSpan2 = new StrikethroughSpan();
-//                    text.setSpan(strikethroughSpan2, this.f23446h, this.f23447i,  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    this.f23443e.add(strikethroughSpan2);
-//                }
-//                if (!z5 && isChecked5) {
-//                    BackgroundColorSpan backgroundColorSpan2 = new BackgroundColorSpan(DetailNoteActivity.this.m33807E2());
-//                    text.setSpan(backgroundColorSpan2, this.f23446h, this.f23447i, 33);
-//                    this.f23444f.add(backgroundColorSpan2);
-//                }
-//            }
-//        }
-//
-//        public void afterTextChanged(Editable editable) {
-//            try {
-//                m33936b();
-//            } catch (Exception e) {
-//                if (C6993b.m31720s()) {
-//                    C8007c.m34246V(R.string.cz);
-//                }
-//                C8007c.f24061p.mo34034b("", e);
-//            }
-//        }
-//
-//        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//            this.f23445g = DetailNoteActivity.this.m33929z2(i, this.f23439a);
-//        }
-//
-//        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//            this.f23446h = i;
-//            this.f23447i = i + i3;
-//        }
-//    }
     private void getListItemSpanView(){
         this.spanViews = new ArrayList<>();
-        for (ImageSpanView imageSpanView : text_note_view.getText().getSpans(0, text_note_view.getText().length(),ImageSpanView.class)){
-            this.spanViews.add(imageSpanView);
+        for ( Object imageSpanView : text_note_view.getText().getSpans(0, text_note_view.getText().length(),DetailNoteActivity.class)){
         }
     }
     public void getStypePan() {
+
+        int scrollY = this.scrollView.getScrollY();
+        int height = this.scrollView.getHeight() + scrollY;
+        int lineCount = text_note_view.getLineCount();
+        StringBuilder sb=  new StringBuilder();
+        sb.append(text_note_view.getText().toString());
+//        for (int i5 = 0; i5 < lineCount; i5++) {
+//           int start  =  text_note_view.getLayout().getLineStart(i5);
+//           int end =  text_note_view.getLayout().getLineEnd(i5);
+           Spanned[] spanned = this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Spanned.class);
+            for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Object.class)) {
+                if (obj instanceof ImageSpan){
+                    ImageSpan imageSpanView = (ImageSpan) obj;
+                   String t =  imageSpanView.getSource();
+                    sb.append("<img src=\"");
+                    sb.append(imageSpanView.getSource());
+                    sb.append("\">");
+                }
+                if (obj instanceof UnderlineSpan) {
+                    sb.append("<u>");
+                }
+                if (obj instanceof StrikethroughSpan) {
+                    sb.append("<strike>");
+                }
+                if (obj instanceof SuperscriptSpan) {
+                    sb.append("<sup>");
+                }
+                if (obj instanceof SubscriptSpan) {
+                    sb.append("<sub>");
+                }
+
+                if (obj instanceof StyleSpan) {
+                    int style = ((StyleSpan) obj).getStyle();
+                    if ((style & 1) != 0) {
+                        sb.append("<b>");
+                    }
+                    if ((style & 2) != 0) {
+                        sb.append("<i>");
+                    }
+                }
+                if (obj instanceof AbsoluteSizeSpan) {
+                    sb.append("<font size =\"");
+                    sb.append(((AbsoluteSizeSpan) obj).getSize() / 6);
+                    sb.append("\">");
+                }
+            }
+        for (int length = spanned.length - 1; length >= 0; length--) {
+            if (spanned[length] instanceof AbsoluteSizeSpan) {
+                sb.append("</font>");
+            }
+
+            if (spanned[length] instanceof StrikethroughSpan) {
+                sb.append("</strike>");
+            }
+            if (spanned[length] instanceof UnderlineSpan) {
+                sb.append("</u>");
+            }
+
+            if ((spanned[length] instanceof TypefaceSpan) && ((TypefaceSpan) spanned[length]).getFamily().equals("monospace")) {
+                sb.append("</tt>");
+            }
+            if (spanned[length] instanceof StyleSpan) {
+                int style2 = ((StyleSpan) spanned[length]).getStyle();
+                if ((style2 & 1) != 0) {
+                    sb.append("</b>");
+                }
+                if ((style2 & 2) != 0) {
+                    sb.append("</i>");
+                }
+            }
+            if (spanned[length] instanceof SubscriptSpan) {
+                sb.append("</sub>");
+            }
+            if (spanned[length] instanceof SuperscriptSpan) {
+                sb.append("</sup>");
+            }
+
+            if (spanned[length] instanceof StrikethroughSpan) {
+                sb.append("</del>");
+            }
+
+        }
+        String t= text_note_view.getText().toString();
+        t.replaceAll("<br>","\n");
+        ShareUtils.setStr("1234567",sb.toString());
+
+//            }
         Object[] spans;
         this.styleBody = new ArrayList();
         this.styleItalic = new ArrayList();
         this.styleUnder = new ArrayList();
         this.styleStrike = new ArrayList();
         for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().toString().length(), Object.class)) {
+
             if (obj instanceof StyleSpan) {
                 StyleSpan styleSpan = (StyleSpan) obj;
                 if (styleSpan.getStyle() == Typeface.BOLD) {
@@ -592,6 +537,7 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     }
 
     public void N() {
+        getListItemSpanView();
         int scrollY = this.scrollView.getScrollY();
         int height = this.scrollView.getHeight() + scrollY;
         int lineCount = text_note_view.getLineCount();
@@ -609,31 +555,30 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
        ImageSpanView[] oVarArr = (ImageSpanView[]) text_note_view.getText().getSpans(i3, i4, ImageSpanView.class);
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
-        for (ImageSpanView oVar : spanViews) {
-            if (!oVar.isCheck()) {
-                int length = oVarArr.length;
-                int i6 = 0;
-                while (true) {
-                    if (i6 >= length) {
-                        int spanStart = text_note_view.getText().getSpanStart(oVar);
-                        int spanEnd = text_note_view.getText().getSpanEnd(oVar);
-                        if (!(spanStart == i2 || spanEnd == i2)) {
-                            oVar.clear();
-                            ImageSpanView oVar2 = new ImageSpanView(oVar.b(), oVar.getWidth(), oVar.getHeight(), this);
-                            text_note_view.getText().setSpan(oVar2, spanStart, spanEnd, 33);
-                            arrayList2.add(oVar2);
-                            text_note_view.getText().removeSpan(oVar);
-                            arrayList.add(oVar);
-                            i2 = -1;
-                        }
-                    } else if (oVarArr[i6].b() == oVar.b()) {
-                        break;
-                    } else {
-                        i6++;
-                    }
-                }
-            }
-        }
+//        for (ImageSpanView oVar : spanViews) {
+//                int length = oVarArr.length;
+//                int i6 = 0;
+//                while (true) {
+//                    if (i6 >= length) {
+//                        int spanStart = text_note_view.getText().getSpanStart(oVar);
+//                        int spanEnd = text_note_view.getText().getSpanEnd(oVar);
+//                        if (!(spanStart == i2 || spanEnd == i2)) {
+//                            oVar.clear();
+//                            ImageSpanView oVar2 = new ImageSpanView(oVar.b(), oVar.getWidth(), oVar.getHeight(), this);
+//                            text_note_view.getText().setSpan(oVar2, spanStart, spanEnd, 33);
+//                            arrayList2.add(oVar2);
+//                            text_note_view.getText().removeSpan(oVar);
+//                            arrayList.add(oVar);
+//                            i2 = -1;
+//                        }
+//                    } else if (oVarArr[i6].b() == oVar.b()) {
+//                        break;
+//                    } else {
+//                        i6++;
+//                    }
+//                }
+//
+//        }
         spanViews.addAll(arrayList2);
 //        for (ImageSpanView oVar3 : oVarArr) {
 //            if (oVar3.isCheck()) {
@@ -654,6 +599,20 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 //        }
         spanViews.removeAll(arrayList);
     }
+    private class ImageGetter implements Html.ImageGetter {
 
+        public Drawable getDrawable(String source) {
+            Uri uri = Uri.parse(source);
+            Drawable yourDrawable;
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                yourDrawable = Drawable.createFromStream(inputStream, source);
+            } catch (FileNotFoundException e) {
+                yourDrawable = getResources().getDrawable(R.drawable.ic_add_checklist);
+            }
+            return yourDrawable;
+
+        }
+    }
 
 }

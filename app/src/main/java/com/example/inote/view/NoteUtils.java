@@ -61,7 +61,7 @@ public class NoteUtils {
         }
         return bArr;
     };
-    public static ImageSpanView getImage(EditText editText,Bitmap bitmap) {
+    public static Bitmap getImage(EditText editText,Bitmap bitmap) {
         int width = bitmap.getWidth();
         double width2 = editText.getWidth();
         Double.isNaN(width2);
@@ -73,7 +73,7 @@ public class NoteUtils {
             bitmap.recycle();
             bitmap = createScaledBitmap;
         }
-        return new ImageSpanView( bitmap, editText.getContext());
+        return bitmap;
     }
 
 
