@@ -209,9 +209,11 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 
             }
         });
-        String t = ShareUtils.getStr("1234567", "");
+//        String t = ShareUtils.getStr("1234567", "");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
-            text_note_view.setText(Html.fromHtml(t,new ImageGetter(),null), TextView.BufferType.SPANNABLE);
+            text_note_view.setText(Html.fromHtml("zejxnzjexneddejsnjndeses \n" +
+                    " \n" +
+                    "<img src=\"file:///storage/emulated/0/Android/data/com.example.inote/files/8488504b-8c00-4803-876d-80b7f8a1a34d.png\">"), TextView.BufferType.SPANNABLE);
         }else{
 
         }
@@ -293,9 +295,6 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
                         e.printStackTrace();
                     }
 
-
-
-
                 }else {
                     selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
                     File imageFile = new File(selectedImagePath);
@@ -304,12 +303,13 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
                     byte[] bytes = NoteUtils.changeUriToByte(getApplicationContext(),selectedImageUri);
                     Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     Bitmap imageSpan = NoteUtils.getImage(text_note_view,decodeByteArray);
+                    ImageSpanView imageSpanView = new ImageSpanView(des,imageSpan,getApplicationContext());
                     int selectionStart = this.text_note_view.getSelectionStart();
                     this.text_note_view.getText().insert(selectionStart, "\n");
                     int start = selectionStart + 1;
                     this.text_note_view.getText().insert(start, " ");
                     int end = selectionStart + 2;
-                    this.text_note_view.getText().setSpan(new ImageSpan(getApplicationContext(),selectedImageUri,ImageSpan.ALIGN_BASELINE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    this.text_note_view.getText().setSpan(imageSpanView, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     this.text_note_view.getText().insert(end, "\n");
 
 
@@ -431,11 +431,11 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
 //           int end =  text_note_view.getLayout().getLineEnd(i5);
            Spanned[] spanned = this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Spanned.class);
             for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Object.class)) {
-                if (obj instanceof ImageSpan){
-                    ImageSpan imageSpanView = (ImageSpan) obj;
-                   String t =  imageSpanView.getSource();
+                if (obj instanceof ImageSpanView){
+                    ImageSpanView imageSpanView = (ImageSpanView) obj;
+                   String t =  "file://"+ imageSpanView.getId();
                     sb.append("<img src=\"");
-                    sb.append(imageSpanView.getSource());
+                    sb.append(t);
                     sb.append("\">");
                 }
                 if (obj instanceof UnderlineSpan) {
@@ -604,12 +604,9 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         public Drawable getDrawable(String source) {
             Uri uri = Uri.parse(source);
             Drawable yourDrawable;
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(uri);
-                yourDrawable = Drawable.createFromStream(inputStream, source);
-            } catch (FileNotFoundException e) {
-                yourDrawable = getResources().getDrawable(R.drawable.ic_add_checklist);
-            }
+            String selectedImagePath = getRealPathFromURIForGallery(uri);
+//                InputStream inputStream = getContentResolver().openInputStream(uri);
+            yourDrawable = Drawable.createFromPath(selectedImagePath);
             return yourDrawable;
 
         }

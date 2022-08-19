@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.text.style.ImageSpan;
 
 public class ImageSpanView extends ImageSpan {
-    private long a;
+    private String id;
     private boolean check;
     int width;
     int height;
@@ -14,9 +14,9 @@ public class ImageSpanView extends ImageSpan {
     /* renamed from: e  reason: collision with root package name */
     Bitmap bitmap;
 
-    public ImageSpanView(long j2, int width, int height, Context context) {
+    public ImageSpanView(String id, int width, int height, Context context) {
         super(context, create(width, height));
-        this.a = j2;
+        this.id = id;
         this.bitmap = ((BitmapDrawable) getDrawable()).getBitmap();
         this.width = width;
         this.height = height;
@@ -27,8 +27,8 @@ public class ImageSpanView extends ImageSpan {
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
     }
 
-    public long b() {
-        return this.a;
+    public String getId() {
+        return this.id;
     }
 
     public boolean isCheck() {
@@ -50,8 +50,9 @@ public class ImageSpanView extends ImageSpan {
         return this.height;
     }
 
-    public ImageSpanView( Bitmap bitmap, Context context) {
+    public ImageSpanView(String id, Bitmap bitmap, Context context) {
         super(context, bitmap);
+        this.id = id;
         this.width = bitmap.getWidth();
         this.height = bitmap.getHeight();
         this.bitmap = bitmap;
