@@ -29,6 +29,7 @@ import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ImageSpan;
+import android.text.style.ParagraphStyle;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
@@ -59,6 +60,7 @@ import com.example.inote.view.CustomEditText;
 import com.example.inote.view.ImageSpanView;
 import com.example.inote.view.NoteUtils;
 import com.example.inote.view.ShareUtils;
+import com.example.inote.view.SpanUtils;
 import com.example.inote.view.drawingview.ICopy;
 
 import java.io.File;
@@ -288,6 +290,14 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     public static final int PICK_IMAGE = 1;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        getStypePan();
+        SpanUtils.m32643f(text_note_view.getText());
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Uri selectedImageUri = null;
@@ -357,7 +367,6 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
     @Override
     protected void onResume() {
         super.onResume();
-        getStypePan();
         if (ShareUtils.getBool(ShareUtils.CONFIG_DARK) ==true){
             main_note.setBackgroundColor(Color.BLACK);
         }else  main_note.setBackgroundColor(getResources().getColor(R.color.color_main));
@@ -439,69 +448,41 @@ public class DetailNoteActivity extends BaseActivity implements  ICopy {
         int height = this.scrollView.getHeight() + scrollY;
         int lineCount = text_note_view.getLineCount();
         StringBuilder sb=  new StringBuilder();
-        sb.append(text_note_view.getText().toString());
+//        sb.append(text_note_view.getText().toString());
 //        for (int i5 = 0; i5 < lineCount; i5++) {
 //           int start  =  text_note_view.getLayout().getLineStart(i5);
 //           int end =  text_note_view.getLayout().getLineEnd(i5);
-        int i3 = 0;
-        CharacterStyle[] spanned = this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), CharacterStyle.class);
-        int i4 = 0;
-        while (true){
+//        CharacterStyle[] spanned = this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), CharacterStyle.class);
+        int nextSpanTransition ;
+        for (int i = 0; i< text_note_view.getText().length();i= nextSpanTransition){
 
-            int nextSpanTransition = text_note_view.getText().nextSpanTransition(i3, text_note_view.getText().toString().length(), CharacterStyle.class);
-            if (i3 ==nextSpanTransition){
-                break;
-            }
-            sb.append(text_note_view.getText().toString().substring(i3,nextSpanTransition-1));
-            if (i4 < spanned.length) {
-                if (spanned[i4] instanceof ImageSpan){
-
-                    String t;
-                    if (spanned[i4] instanceof ImageSpanView){
-                        t =  ((ImageSpanView) spanned[i4]).getId();
-                    }else {
-                        t = Uri.parse(((ImageSpan) spanned[i4]).getSource()).getPath();
-                    }
-                    sb.append("<img src=\"");
-                    sb.append(t);
-                    sb.append("\">");
+             nextSpanTransition = text_note_view.getText().nextSpanTransition(i, text_note_view.getText().toString().length(), CharacterStyle.class);
+             String t;
+            CharacterStyle[] spanned = this.text_note_view.getText().getSpans(i, nextSpanTransition, CharacterStyle.class);
+            for (int i4 =0; i4< spanned.length; i4++){
+                if (spanned[i4] instanceof ImageSpanView){
+                    t =  ((ImageSpanView) spanned[i4]).getId();
+                }else {
+                    t = Uri.parse(((ImageSpan) spanned[i4]).getSource()).getPath();
                 }
-                i4++;
+                sb.append("<img src=\"");
+                sb.append(t);
+                sb.append("\">");
             }
-            i3 = nextSpanTransition;
+
         }
 
 //            for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().length(), Object.class)) {
 //
 //            }
 
-        String t= text_note_view.getText().toString();
-        t.replaceAll("<br>","\n");
+//        String t= text_note_view.getText().toString();
+//        t.replaceAll("<br>","\n");
         ShareUtils.setStr("aaaa",sb.toString());
 
 //            }
-        Object[] spans;
-        this.styleBody = new ArrayList();
-        this.styleItalic = new ArrayList();
-        this.styleUnder = new ArrayList();
-        this.styleStrike = new ArrayList();
-        for (Object obj : this.text_note_view.getText().getSpans(0, this.text_note_view.getText().toString().length(), Object.class)) {
-
-            if (obj instanceof StyleSpan) {
-                StyleSpan styleSpan = (StyleSpan) obj;
-                if (styleSpan.getStyle() == Typeface.BOLD) {
-                    this.styleBody.add(styleSpan);
-                }
-                if (styleSpan.getStyle() == Typeface.ITALIC) {
-                    this.styleItalic.add(styleSpan);
-                }
-            } else if (obj instanceof UnderlineSpan) {
-                this.styleUnder.add((UnderlineSpan) obj);
-            } else if (obj instanceof StrikethroughSpan) {
-                this.styleStrike.add((StrikethroughSpan) obj);
-            }
-        }
     }
+
     public  class OnChangeState implements CustomEditText.selectChanged{
 
         @Override
